@@ -1,0 +1,33 @@
+[project]
+name = "opendayton"
+version = "0.1.0"
+description = "MCP server for curated City of Dayton and Montgomery County open data"
+readme = "README.md"
+authors = [
+    { name = "Dave Best", email = "dave.e.best@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "duckdb>=1.5.5",
+    "httpx>=0.28.1",
+    "mcp[cli]>=2.2.0",
+    "pyyaml>=6.0.3",
+    "uvicorn>=0.30",
+]
+
+[project.urls]
+Homepage = "https://github.com/codefordayton/opendayton"
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+asyncio_mode = "auto"
+testpaths = ["tests"]

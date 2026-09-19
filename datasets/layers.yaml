@@ -1,0 +1,589 @@
+# OpenDayton curated ArcGIS layers.
+#
+# This file IS the catalog. The server only knows about what's listed here.
+# Every layer must be one the publisher intentionally surfaces to the public
+# (a Hub site, an "OpenData" folder, a public dashboard/StoryMap, or a
+# `_public` service). See docs/DATASETS.md for the inclusion criteria.
+#
+# `fields` is an ALLOWLIST. Anything not listed is invisible: stripped from
+# results, rejected in where clauses, out_fields, group_by, and stat_field.
+# Field types and coded-value domains are read live from the service, so only
+# the human meaning goes here. Write the description a resident would need.
+#
+# Schema per layer:
+#   id            short snake_case identifier used in tool calls
+#   title         human title
+#   theme         one of: reference, public_safety, housing, infrastructure,
+#                 capital, community, environment, regional
+#   publisher     who publishes it
+#   public_via    where the public is meant to find it (the reason it's in here)
+#   source_page   URL of that public page
+#   url           full ArcGIS layer URL (…/FeatureServer/0 or …/MapServer/3)
+#   geometry      point | polygon | line | table
+#   approx_records rough count at time of curation (describe_dataset fetches live)
+#   time_field    (optional) the field to use for date filtering
+#   base_where    (optional) always AND-ed into every query
+#   description   what it is, in plain language
+#   fields        {FIELD_NAME: description}
+#   caveats       list of traps
+#   example_questions  list of things this layer can answer
+
+layers:
+
+  # ── Reference ────────────────────────────────────────────────────────────
+
+  - id: neighborhoods
+    title: Dayton Neighborhoods
+    theme: reference
+    publisher: City of Dayton Planning, Neighborhoods & Development
+    public_via: City neighborhood maps and every City Hub site
+    source_page: https://www.daytonohio.gov/1029/Neighborhoods
+    url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/Planning_Districts_Neighborhood/FeatureServer/0
+    geometry: polygon
+    approx_records: 65
+    description: >
+      Boundaries of Dayton's 65 official neighborhoods and the Priority Board
+      (planning district) each belongs to. The join key for almost every other
+      City dataset, which carry a Neighborhood name column.
+    fields:
+      HOOD: Neighborhood name, upper case (e.g. "FIVE OAKS"). Matches the Neighborhood column in the police layers.
+      LC_Hood: Neighborhood name, title case (e.g. "Five Oaks").
+      PRI_BOARD: Priority Board code (e.g. "NE-2").
+      PriBdName: Priority Board short name (NE, NW, SE, SW, FROC…).
+      LUB: Land Use Board / planning district name.
+      PLC_DISTR: Police district number.
+      ACRES: Area in acres.
+    caveats:
+      - Neighborhood spellings differ slightly across City datasets (case, hyphens, "Old North Dayton" vs "OLD NORTH DAYTON"). Use UPPER() on both sides when joining by name.
+    example_questions:
+      - Which neighborhoods are in the Northeast Priority Board?
+      - How big is Five Oaks in acres?
+
+  - id: public_facilities
+    title: Public Facilities
+    theme: reference
+    publisher: City of Dayton
+    public_via: Dayton Transparency Portal
+    source_page: https://dayton-transparency-portal-1-DaytonOhio.hub.arcgis.com
+    url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/Public_Facilities/FeatureServer/0
+    geometry: point
+    approx_records: 171
+    description: >
+      Schools, colleges, libraries, recreation centers, fire stations, and
+      other public facilities in Dayton, with type and address.
+    fields:
+      Facility: Facility name.
+      Institutio: Facility type (Elementary School, High School, College, Library, Fire Station, …).
+      FacilityTy: Numeric facility type code.
+      StreetNumb: Street number.
+      StreetPreD: Street prefix direction.
+      StreetName: Street name.
+      StreetSuff: Street suffix.
+      CityName: City.
+      ZipCode: ZIP code.
+      Phone: Public phone number of the facility.
+    example_questions:
+      - List the public high schools in Dayton.
+      - What recreation centers are in the 45417 ZIP code?
+
+  # ── Public safety (Dayton Police open data) ──────────────────────────────
+
+  - id: crimes
+    title: Police Crime Incidents (NIBRS)
+    theme: public_safety
+    publisher: Dayton Police Department
+    public_via: Dayton Police open data layers (published as *_OpenData)
+    source_page: https://www.daytonohio.gov/462/Police
+    url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/Crimes_OpenData_HOSTED/FeatureServer/0
+    geometry: table
+    approx_records: 52000
+    time_field: Commit_Date
+    description: >
+      Reported crime incidents in Dayton coded to the FBI NIBRS standard, with
+      offense category, Ohio Revised Code section, neighborhood, police
+      district, weapon, and victim characteristics (as age bands). One row per
+      offense. Roughly the last three to four years.
+    fields:
+      NIBRS_Code: NIBRS offense code (e.g. 13A aggravated assault, 220 burglary, 23F theft from vehicle).
+      NIBRS_Category: NIBRS offense category name (ASSAULT OFFENSES, BURGLARY/BREAKING AND ENTERING, LARCENY/THEFT OFFENSES, …).
+      Crime_Description: Local description of the offense (RESIDENTIAL BURGLARY, AGGRAVATED ASSAULT, …).
+      ORC_Description: Ohio Revised Code offense name.
+      ORC_Number: Ohio Revised Code section.
+      ORC_Part: UCR grouping (PART I VIOLENT, PART I PROPERTY, PART II VIOLENT, PART II PROPERTY, …). Use this for "violent vs property crime".
+      Offense_Category: FELONY or MISDEMEANOR.
+      Attempted_Completed: ATTEMPTED or COMPLETED.
+      Commit_Date: Date the offense was committed.
+      YEAR: Year committed.
+      MONTH: Month committed (1-12).
+      DAY: Day of month committed.
+      Disposition_Description: Case disposition (CLOSED, OPEN, …).
+      District: Police district (EPOD east, WPOD west, CPOD central).
+      Neighborhood: Neighborhood name, UPPER CASE.
+      Priority_Board: Priority Board name.
+      Weapon_Description: Weapon(s) involved, comma-separated.
+      Victim_Injury_Description: Victim injuries, comma-separated.
+      Victim_Type: INDIVIDUAL, BUSINESS, SOCIETY/PUBLIC, …
+      Victim_Age: Victim age band (e.g. "26-35", "> 55").
+      Victim_Sex: Victim sex.
+      Victim_Race: Victim race.
+      Relationship_To_Victim: Offender's relationship to the victim.
+    caveats:
+      - Neighborhood is UPPER CASE here but Title Case in the arrests and calls-for-service layers. Compare with UPPER(Neighborhood).
+      - One row per offense, not per incident; an incident with two offenses appears twice.
+      - Check the YEAR range with a count-by-YEAR before describing trends; the layer is a rolling window, not full history.
+    example_questions:
+      - How many burglaries were reported in each neighborhood last year?
+      - Which neighborhoods had the most violent crime (ORC_Part = 'PART I VIOLENT') in 2025?
+      - How do crimes involving a firearm break down by month?
+
+  - id: arrests
+    title: Police Arrests
+    theme: public_safety
+    publisher: Dayton Police Department
+    public_via: Dayton Police open data layers (published as *_OpenData)
+    source_page: https://www.daytonohio.gov/462/Police
+    url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/Arrests_OpenData_HOSTED/FeatureServer/0
+    geometry: table
+    approx_records: 50000
+    time_field: Arrest_Date
+    description: >
+      Arrests by Dayton Police with charge, charge level, neighborhood, and
+      arrestee demographics as categories. Intended for aggregate analysis
+      (arrests by charge, by year, by neighborhood, by demographic group).
+      Identifying fields are not exposed.
+    fields:
+      Arrest_Date: Date of arrest.
+      Year: Year of arrest.
+      Category: Charge level (Felony, Misdemeanor, Charge Level Not Listed).
+      Charge: Ohio Revised Code section charged.
+      Charge_Description: Charge description (Domestic Violence, Theft, …).
+      Primary_Charge: Primary charge description when several were filed.
+      Primary_Charge_Disposition: Disposition of the primary charge.
+      Crime_Description: Related NIBRS offense description.
+      NIBRS_Code: Related NIBRS offense code.
+      ORC_Part: PART I / PART II grouping.
+      Jurisdiction: Jurisdiction of the arrest (mostly Dayton).
+      Neighborhood: Neighborhood name, Title Case.
+      Priority_Board: Priority Board name.
+      Adult_Juvenile: ADULT or JUVENILE.
+      Sex: Arrestee sex.
+      Age: Arrestee age in years.
+      Race: Arrestee race.
+      Ethnicity: Arrestee ethnicity.
+      Armed_With1_Desc: Whether/how the arrestee was armed.
+    caveats:
+      - One row per charge, not per person; a single arrest with three charges appears three times.
+      - Do not attempt to identify individuals; the layer is exposed for aggregate questions only.
+    example_questions:
+      - How many felony arrests were there each year?
+      - What are the ten most common arrest charges in 2025?
+      - How do arrests break down by age group and neighborhood?
+
+  - id: calls_for_service
+    title: Police Calls for Service
+    theme: public_safety
+    publisher: Dayton Police Department
+    public_via: Dayton Police open data layers (published as *_OpenData)
+    source_page: https://www.daytonohio.gov/462/Police
+    url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/CallsForService_OpenData_HOSTED/FeatureServer/0
+    geometry: table
+    approx_records: 26000
+    time_field: Call_Date
+    description: >
+      911 and officer-initiated calls for police service: dispatch type,
+      priority, response time, day/hour, district, and neighborhood.
+    fields:
+      Call_Date: Date and time of the call.
+      Year: Year.
+      Month: Month (1-12).
+      Day_Of_Week: Day of week, e.g. "5 - Thursday".
+      Hour: Hour of day (0-23) as text.
+      Dispatch_Type: Nature of the call (MISC TRAFFIC CALLS, PERSON UNRESPONSIVE, GTA, …).
+      Priority: Call priority 1 (highest) to 5.
+      Self_Initiated: yes/no — yes if officer-initiated rather than a 911 call.
+      Time_Response: Response time in minutes (null when not applicable).
+      IncDisp: Incident disposition code.
+      District: Police district (EPOD, WPOD, CPOD).
+      Neighborhood: Neighborhood name, Title Case.
+      Priority_Board: Priority Board name.
+      City: City (nearly all DAYTON).
+    caveats:
+      - Self_Initiated values carry trailing spaces ("no  "); use LIKE 'no%' rather than equality.
+      - Hour is stored as text; cast mentally, and order results numerically yourself.
+      - Rolling window; check the Year/Month range before describing trends.
+    example_questions:
+      - Which neighborhoods had the most calls for service last month?
+      - What is the average response time for priority 1 calls by district?
+      - What hours of the day are busiest for calls?
+
+  - id: use_of_force
+    title: Police Use of Force Incidents
+    theme: public_safety
+    publisher: Dayton Police Department (Professional Standards Bureau)
+    public_via: Dayton Police open data layers and the Police Reform dashboards
+    source_page: https://www.daytonohio.gov/462/Police
+    url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/UseOfForce_Type_OpenData_HOSTED/FeatureServer/0
+    geometry: table
+    approx_records: 1260
+    time_field: Date_Occurred
+    description: >
+      Internal-affairs records of police use-of-force incidents: type of force,
+      reason, injuries, investigation status and disposition, and citizen
+      demographics as categories. One row per force type used, so an incident
+      with two force types appears twice (join on File_Number).
+    fields:
+      File_Number: Internal affairs file number; groups rows from one incident.
+      Incident_Type: Incident type (Use of force, …).
+      Date_Occurred: Date the incident occurred.
+      Date_Received: Date the report was received.
+      Year: Year occurred.
+      Force_Used: Type of force (Physical Force, Taser, Firearm, …).
+      UseOfForce_Reason: Reason force was used (Fleeing, Resisting, …).
+      Report_Type: How the report originated (Complainant, Officer, …).
+      Investigation_Status: Investigation status.
+      Disposition: Finding (Exonerated, Sustained, Not Sustained, …).
+      Citizen_Arrested: Yes/No.
+      Citizen_Injured: Yes/No.
+      Officer_Injured: Yes/No.
+      Cit_Infl_Assmt: Citizen impairment assessment (Drugs, Alcohol, Unknown, …).
+      Sex: Citizen sex.
+      Race: Citizen race.
+      Citizen_Age: Citizen age band.
+    caveats:
+      - Count DISTINCT File_Number for "how many incidents"; a plain row count over-counts.
+    example_questions:
+      - How many use-of-force incidents were there each year, and how many were sustained?
+      - What types of force are used most often?
+
+  # ── Housing ──────────────────────────────────────────────────────────────
+
+  - id: housing_condition_2025
+    title: Housing Condition Survey 2025 (with 2023 grades)
+    theme: housing
+    publisher: City of Dayton Planning, Neighborhoods & Development
+    public_via: Dayton Housing Condition Survey Hub site
+    source_page: https://dayton-housing-condition-survey-DaytonOhio.hub.arcgis.com
+    url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/Dayton_Housing_Condition_Survey_Parcels_2025/FeatureServer/0
+    geometry: polygon
+    approx_records: 88922
+    description: >
+      Every parcel in Dayton with the exterior condition grade from the City's
+      2025 windshield survey, the 2023 grade in the same row, occupancy status,
+      and per-defect flags (roof, siding, porch, …). The most complete picture
+      of housing condition in the city. Grade scale: 0 vacant lot, 1 sound,
+      2 minor repair, 3 major repair, 4 rehabilitation, 5 dilapidated; null
+      means not surveyed.
+    fields:
+      PARCELID: County parcel ID (e.g. "R72 08702 0039"). Joins to County data.
+      PARLOC: Parcel street address.
+      NEIGHBORHOOD: Neighborhood name, UPPER CASE.
+      CLASS: Property class (R residential, C commercial, E exempt, A agricultural, I industrial).
+      LUC: Land use code.
+      LUC_DESC: Land use description (SINGLE FAMILY DWELLING, …).
+      FPU_DESC: Structure type (1 FAMILY, 2 FAMILY, 3 to 6 UNIT APARTMENT, …).
+      STRUCTURES: Number of structures on the parcel.
+      GRADE: 2025 condition grade 0-5 (see description). Null = not surveyed.
+      GRADE_DESC: 2025 grade as words (SOUND, MINOR REPAIR, MAJOR REPAIR, REHABILITATION, DILAPIDATED, VACANT LOT).
+      GRADE_2023: 2023 condition grade 0-5.
+      HCS_DIFF: GRADE minus GRADE_2023. Negative = worse in 2025 than 2023; positive = improved. Only meaningful where both grades exist.
+      STATUS: Occupancy status code (OCC occupied, VS vacant & secure, VB vacant & boarded, VTO vacant/too damaged to board, DEMO, NA).
+      STATUS_DESC: Occupancy status as words.
+      ISSUE_ROOF: YES if a roof defect was noted.
+      ISSUE_FOUNDATION: YES if a foundation defect was noted.
+      ISSUE_PORCH: YES if a porch defect was noted.
+      ISSUE_SIDING: YES if a siding defect was noted.
+      ISSUE_SOFFIT: YES if a soffit defect was noted.
+      ISSUE_FASCIA: YES if a fascia defect was noted.
+      ISSUE_GUTTER: YES if a gutter defect was noted.
+      ISSUE_CHIMNEY: YES if a chimney defect was noted.
+      ISSUE_PAINT: YES if a paint defect was noted.
+      ISSUE_WINDOW: YES if a window defect was noted.
+      ISSUE_OTHER: Free-text other issue.
+      SURVEY_DATE: Date surveyed.
+      APPRLAND: County appraised land value (text with commas).
+      APPRBLDG: County appraised building value (text with commas).
+    caveats:
+      - HCS_DIFF sign is counter-intuitive; GRADE 1 → 3 gives HCS_DIFF = -2 (got worse). Say "worse" or "improved", not "increased".
+      - About 13,500 parcels have a null GRADE (not surveyed, mostly non-residential). Exclude nulls from rates.
+      - GRADE 0 is a vacant lot, not a condition; exclude it when computing average condition of housing.
+      - APPRLAND/APPRBLDG are text with thousands separators; they cannot be summed in a query.
+      - Owner names exist on the source layer but are deliberately not exposed here.
+    example_questions:
+      - Which neighborhoods have the most houses graded major repair or worse?
+      - How many parcels got worse between 2023 and 2025, by neighborhood?
+      - What share of surveyed houses have a roof issue?
+      - How many vacant and boarded structures are there?
+
+  - id: housing_projects
+    title: City-Supported Housing Projects
+    theme: housing
+    publisher: City of Dayton Planning, Neighborhoods & Development
+    public_via: Dayton Housing Dashboard StoryMap
+    source_page: https://storymaps.arcgis.com/stories/f3895069ef3c41b6a2585e2a3dcde3a8
+    url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/HousingRequest_ExportFeature1/FeatureServer/0
+    geometry: point
+    approx_records: 376
+    description: >
+      Housing projects the City funded or supported: program, funding source,
+      affordability level, tenure, project type, number of units, and location.
+      A one-time export behind the City's housing dashboard (not continuously
+      maintained).
+    fields:
+      USER_Proje: Project name.
+      USER_Progr: City program (Dayton Recovery Plan, Welcome Home Ohio, CDBG, …).
+      USER_Fundi: Funding source(s).
+      USER_Unit_: Affordability (Affordable, Subsidized - 0-80%, Market-Rate, Homelessness Assistance, Demolition).
+      USER_Unit1: Tenure (Owner, Rental, …).
+      USER_Pro_1: Project type (New Construction, Rehabilitation, Repair, Infill, …).
+      USER__Unit: Number of units.
+      USER_City_: City funding amount (text).
+      USER_Lever: Leveraged (non-City) dollars (text).
+      USER_PID: County parcel ID.
+      USER_Addit: Additional notes.
+      StAddr: Street address.
+      Nbrhd: Neighborhood.
+      Postal: ZIP code.
+    caveats:
+      - Snapshot export from 2025; do not treat as the current pipeline.
+      - Dollar fields are text and often "N/A".
+    example_questions:
+      - How many affordable units has the City supported, by program?
+      - Which neighborhoods have the most City-supported new construction?
+
+  - id: city_owned_parcels
+    title: City of Dayton Owned Parcels
+    theme: housing
+    publisher: City of Dayton
+    public_via: City-owned property public map
+    source_page: https://daytonohio.maps.arcgis.com/home/item.html?id=City_of_Dayton_Owned_Parcel
+    url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/City_of_Dayton_Owned_Parcel/FeatureServer/0
+    geometry: polygon
+    approx_records: 1926
+    description: >
+      Parcels owned by the City of Dayton with the responsible department,
+      intended use, whether there is a structure, and whether it is for sale
+      or in the vacant lot program.
+    fields:
+      PARCELID: County parcel ID.
+      NEIGHBORHOOD: Neighborhood.
+      DEPARTMENT: Responsible City department.
+      INTENDEDUSE: Intended use.
+      ACTIVESTATUS: Active/inactive.
+      STRUCTURE: 1 if a structure is on the parcel, 0 if vacant land.
+      SALE: 1 if available for sale.
+      LEASE: 1 if leased.
+      VLM: 1 if in the Vacant Lot Management program.
+      APPRLAND: County appraised land value (text).
+      APPRBLDG: County appraised building value (text).
+      APPRTOTAL: County appraised total value (text).
+      NOTES: Notes.
+    caveats:
+      - Last updated 2021; the County record is more current for ownership. Treat as "was City-owned as of 2021".
+    example_questions:
+      - How many vacant City-owned lots are in each neighborhood?
+      - Which City-owned parcels are marked for sale?
+
+  # ── Infrastructure ───────────────────────────────────────────────────────
+
+  - id: lead_service_lines
+    title: Lead Service Line Inventory
+    theme: infrastructure
+    publisher: City of Dayton Department of Water
+    public_via: City lead service line public inventory (federal LCRR requirement)
+    source_page: https://www.daytonohio.gov/1516/Lead-Service-Line-Inventory
+    url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/Dayton_ServiceLineInventory_public/FeatureServer/0
+    geometry: point
+    approx_records: 64493
+    description: >
+      The water service line at each address: material on the utility side and
+      the customer side, whether it is or was ever lead, verification status,
+      replacement status and priority tier, building type, and whether the
+      address is a sensitive population (school, day care) or in a
+      disadvantaged area.
+    fields:
+      address: Service address.
+      zip: ZIP code.
+      quadrant: City quadrant (NE, NW, SE, SW).
+      buildingtype: Building type (Single Family Structure, Multi-Family Residence, …).
+      dwel_yrblt: Year the dwelling was built.
+      utilmaterial: Utility-side service line material.
+      utilstatus: Utility side — Lead, Non-Lead, or Unknown.
+      custmaterial: Customer-side service line material.
+      custstatus: Customer side — Lead, Non-Lead, Galvanized Requiring Replacement, or Unknown.
+      bothsidesstatus: Overall status considering both sides.
+      predbothsidesstatus: Overall status including model predictions for unknowns.
+      everlead: Whether the line was ever lead.
+      connectorstatus: Status of the gooseneck/connector.
+      utilverified: Whether the utility side was physically verified.
+      custverified: Whether the customer side was physically verified.
+      replacestatus: Which side(s) need replacement.
+      utilreplacestatus: Utility-side replacement status.
+      custreplacestatus: Customer-side replacement status.
+      utilreplacedate: Date the utility side was replaced.
+      custreplacedate: Date the customer side was replaced.
+      tier: Replacement priority tier (Tier 1 highest).
+      replpriorityrank: Replacement priority rank.
+      sensitivepop: Sensitive population at the address (school, day care, …).
+      disadvantaged: Whether the address is in a disadvantaged area.
+      filter: Whether a water filter is required.
+      servicestatus: Active/Inactive service.
+      serviceuse: Drinking / Non-Drinking / Combination.
+      svi: CDC Social Vulnerability Index of the area (0-1).
+      latitude: Latitude.
+      longitude: Longitude.
+    caveats:
+      - Address text is UPPER CASE with the street type abbreviated (e.g. "200 W NORMAN AVE"); use LIKE for lookups.
+      - Unknown is a real and common status; do not fold it into non-lead.
+      - Water account numbers exist on the source layer and are deliberately not exposed.
+    example_questions:
+      - Does 275 Linden Ave have a lead service line?
+      - How many addresses in each ZIP code still have lead on the utility side?
+      - How many lead lines have been replaced each year?
+
+  - id: trash_pickup
+    title: Trash Pickup Days
+    theme: infrastructure
+    publisher: City of Dayton Public Works
+    public_via: City waste collection pickup map
+    source_page: https://www.daytonohio.gov/318/Waste-Collection
+    url: https://maps.daytonohio.gov/gisservices/rest/services/PublicWorks/Waste_Collection_Pickup_Map_Public/MapServer/0
+    geometry: polygon
+    approx_records: 232
+    description: >
+      Trash collection route areas with the pickup day. Use with the geocode
+      tool and a `near` filter to answer "what day is trash pickup at this
+      address".
+    fields:
+      NHBHD_NAME: Neighborhood name.
+      PRIORTY_BD: Priority Board.
+      Day: Pickup day of the week.
+      DAY_: Pickup day as a number (1 = Monday).
+      RT: Route number.
+      Cal_Link: Link to the City collection calendar.
+    caveats:
+      - Served from the City's on-premise map server, which is slower and occasionally returns errors; retry once.
+    example_questions:
+      - What day is trash pickup at 123 Main St?
+      - Which neighborhoods have Monday pickup?
+
+  - id: storm_drains
+    title: Storm Drains (Adopt-A-Drain)
+    theme: infrastructure
+    publisher: City of Dayton Department of Water
+    public_via: Adopt-A-Drain Hub site
+    source_page: https://adopt-a-storm-drain-daytonohio.hub.arcgis.com
+    url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/Updated_Storm_Drain_Data_USE/FeatureServer/0
+    geometry: point
+    approx_records: 22496
+    base_where: publicview = 'Yes'
+    description: >
+      City storm drain inlets with their address, lifecycle status, and
+      Adopt-A-Drain adoption status. Adopter contact details are not exposed.
+    fields:
+      assetid: Storm drain asset ID.
+      fulladdr: Nearest street address.
+      lifecyclestatus: Lifecycle status (In Service, Proposed, …).
+      ownedby: Owner (City, Private, Other).
+      adoptionstatus: Available or Adopted.
+      adoptedon: Date adopted.
+      nickname: Adopter-given nickname for the drain.
+      trashtotal: Trash collected (reported by adopters).
+    example_questions:
+      - How many storm drains have been adopted?
+      - Are there unadopted storm drains near 100 Salem Ave?
+
+  # ── Capital investment ───────────────────────────────────────────────────
+
+  - id: cip_active
+    title: Active Capital Improvement Projects
+    theme: capital
+    publisher: City of Dayton Department of Public Works
+    public_via: City Capital Improvement Projects public map
+    source_page: https://www.daytonohio.gov/1130/Capital-Improvement-Projects
+    url: https://maps.daytonohio.gov/gisservices/rest/services/CapitalPlanning/Active_Capital_Improvement_Projects/MapServer/0
+    geometry: point
+    approx_records: 41
+    description: >
+      City capital projects currently in design or construction: name,
+      description, type (Water, Sewer, Street, Facility, …), fiscal year,
+      funding source, planned dates, phase, and construction cost.
+    fields:
+      PROJNAME: Project name.
+      PROJDESC: Project description.
+      PROJTYPE: Project type (Water, Sewer, Storm, Street, Facility, Bridge, …).
+      FISCALYR: Fiscal year.
+      PRIMARYFUND: Primary funding source.
+      SECONDFUND: Secondary funding source.
+      FUNDED: Y/N.
+      PROJPHASE: Phase (Design, Construction, …).
+      PLANSTART: Planned start date.
+      PLANEND: Planned end date.
+      EstConstructionCost: Estimated construction cost.
+      AwdConstructionCost: Awarded construction cost.
+      CONTRACTOR: Contractor company.
+      DESIGNER: Design firm or City division.
+      ActivityCode: City activity code.
+    caveats:
+      - Served from the City's on-premise map server; retry once on error.
+      - Staff and contractor contact details exist on the source and are not exposed.
+    example_questions:
+      - What capital projects are under construction right now, and what do they cost?
+      - Are there any water or sewer projects planned near 200 W Norman Ave?
+
+  - id: cip_completed
+    title: Completed Capital Improvement Projects
+    theme: capital
+    publisher: City of Dayton Department of Public Works
+    public_via: City Capital Improvement Projects public map
+    source_page: https://www.daytonohio.gov/1130/Capital-Improvement-Projects
+    url: https://maps.daytonohio.gov/gisservices/rest/services/CapitalPlanning/Completed_Capital_Improvement_Projects/FeatureServer/0
+    geometry: point
+    approx_records: 295
+    description: >
+      Completed City capital projects with type, fiscal year, funding, and
+      cost. Same schema as the active projects layer.
+    fields:
+      PROJNAME: Project name.
+      PROJDESC: Project description.
+      PROJTYPE: Project type.
+      FISCALYR: Fiscal year.
+      PRIMARYFUND: Primary funding source.
+      PROJPHASE: Phase (Complete).
+      PLANSTART: Planned start date.
+      PLANEND: Planned end date.
+      EstConstructionCost: Estimated construction cost.
+      AwdConstructionCost: Awarded construction cost.
+      ActualCnstrctnCost: Actual construction cost.
+      CONTRACTOR: Contractor company.
+    caveats:
+      - Served from the City's on-premise map server; retry once on error.
+    example_questions:
+      - How much did the City spend on street projects by fiscal year?
+      - What were the largest completed projects?
+
+  - id: arpa_projects
+    title: ARPA Community Project Applications
+    theme: capital
+    publisher: City of Dayton
+    public_via: Dayton Recovery Plan Hub site
+    source_page: https://dayton-recovery-plan-daytonohio.hub.arcgis.com
+    url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/ARPA_Community_Project_Points/FeatureServer/0
+    geometry: point
+    approx_records: 329
+    description: >
+      Community project applications to the City's American Rescue Plan Act
+      (Dayton Recovery Plan) funding, with applicant organization, location,
+      total project cost, and funding requested.
+    fields:
+      Project_Name: Project name.
+      Applicant_Organization: Applicant organization.
+      Project_Address: Project address.
+      Location: Location description.
+      Zip: ZIP code.
+      Project_Cost: Total project cost.
+      Funding_Requested: ARPA funding requested.
+    caveats:
+      - These are applications (2021), not awards. Awarded projects are on the Dayton Recovery Plan site.
+    example_questions:
+      - How much ARPA funding was requested in total, and by ZIP code?
+      - Which organizations requested the most?
