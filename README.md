@@ -15,10 +15,10 @@ It's meant to be small enough to read in an afternoon and to spin up for your ow
 
 ## Connect
 
-The public endpoint is `https://<railway-url>/mcp` (see the landing page at the root URL).
+The public endpoint is `https://opendayton.org/mcp` (landing page at https://opendayton.org).
 
 - **Claude.ai / Claude Desktop:** Settings → Connectors → *Add custom connector* → paste the endpoint.
-- **Claude Code:** `claude mcp add --transport http opendayton https://<railway-url>/mcp`
+- **Claude Code:** `claude mcp add --transport http opendayton https://opendayton.org/mcp`
 - **Anything else that speaks MCP over Streamable HTTP:** point it at the endpoint.
 
 Then ask a question. The server's instructions tell the model to call `list_datasets`,
