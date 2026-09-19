@@ -1,0 +1,133 @@
+# Gold questions. Each names the dataset(s) a good answer uses and what to check.
+# Used by evals/run.py (which drives the tools directly to confirm the data path)
+# and as the demo script for the talk. Keep answers as checks, not numbers —
+# the data moves.
+
+questions:
+
+  - id: crimes_by_neighborhood
+    question: Which neighborhoods had the most violent crime last year?
+    datasets: [crimes]
+    tool_path: describe_dataset → arcgis_stats(group_by=Neighborhood, where="ORC_Part = 'PART I VIOLENT' AND YEAR = <last year>")
+    checks:
+      - Uses ORC_Part, not a guessed list of NIBRS codes.
+      - Mentions or excludes the blank Neighborhood bucket rather than naming it.
+      - Cites Dayton Police Department.
+
+  - id: calls_busiest_hours
+    question: What hours of the day are busiest for police calls for service?
+    datasets: [calls_for_service]
+    tool_path: arcgis_stats(group_by=Hour)
+    checks:
+      - Orders hours numerically (Hour is text on the service).
+
+  - id: use_of_force_incidents
+    question: How many use-of-force incidents were there each year, and how many were sustained?
+    datasets: [use_of_force]
+    tool_path: arcgis_stats(group_by=[Year, Disposition]) — or notes File_Number must be distinct-counted
+    checks:
+      - Acknowledges rows are per force type, not per incident.
+
+  - id: hcs_worst_neighborhoods
+    question: Which neighborhoods have the most houses graded major repair or worse?
+    datasets: [housing_condition_2025]
+    tool_path: arcgis_stats(group_by=NEIGHBORHOOD, where="GRADE >= 3")
+    checks:
+      - Uses GRADE >= 3 (major repair, rehabilitation, dilapidated), excludes null and 0.
+
+  - id: hcs_change
+    question: How many parcels got worse between 2023 and 2025?
+    datasets: [housing_condition_2025]
+    tool_path: describe_dataset → arcgis_stats(where="HCS_DIFF < 0")
+    checks:
+      - Uses HCS_DIFF < 0 for "worse" (the sign trap).
+      - Notes that only parcels graded in both years count.
+
+  - id: lead_at_address
+    question: Does 275 Linden Ave have a lead service line?
+    datasets: [lead_service_lines]
+    tool_path: arcgis_query(where="address LIKE '275 LINDEN%'", out_fields=[address, utilstatus, custstatus, bothsidesstatus, replacestatus])
+    checks:
+      - Reports both sides and the replacement status; doesn't collapse Unknown into No.
+
+  - id: lead_by_zip
+    question: How many addresses in each ZIP code still have lead on the utility side?
+    datasets: [lead_service_lines]
+    tool_path: arcgis_stats(group_by=zip, where="utilstatus = 'Lead'")
+
+  - id: cip_cost_by_type
+    question: How much has the City spent on completed capital projects, by type?
+    datasets: [cip_completed]
+    tool_path: arcgis_stats(group_by=PROJTYPE, stat_type=sum, stat_field=AwdConstructionCost)
+    checks:
+      - Uses awarded (or actual) cost, says which.
+
+  - id: arpa_requests
+    question: Which organizations requested the most ARPA funding?
+    datasets: [arpa_projects]
+    tool_path: arcgis_stats(group_by=Applicant_Organization, stat_type=sum, stat_field=Funding_Requested)
+    checks:
+      - Says these are applications, not awards.
+
+  - id: county_owner_occupancy
+    question: What share of residential parcels in Dayton are owner-occupied?
+    datasets: [county.taxroll]
+    tool_path: county_schema → county_sql over taxroll WHERE city_township='DAYTON' AND class='R'
+    checks:
+      - Uses owner_occupied, not homestead.
+      - Filters to Dayton, not the county.
+      - Cites the tax roll file date from _meta / source.as_of.
+
+  - id: county_delinquency
+    question: How many Dayton parcels are tax-delinquent and how much do they owe in total?
+    datasets: [county.taxroll]
+    tool_path: county_sql — count and sum of net_delinquent WHERE net_delinquent > 0 AND city_township='DAYTON'
+
+  - id: county_demolitions
+    question: How many demolition permits were issued each year since 2015, and what happened in 2019?
+    datasets: [county.cama_permit]
+    tool_path: county_sql — permit_type='DEMO' GROUP BY year(permit_date)
+    checks:
+      - Surfaces the 2019 spike and attributes it to the Memorial Day tornadoes (from the table description).
+
+  - id: county_median_price
+    question: What was the median sale price of a single-family home in Dayton each year since 2015?
+    datasets: [county.sales]
+    tool_path: county_sql — sale_validity='VALID SALE', class='R', parcel_id LIKE 'R72%' (or join taxroll for city_township), GROUP BY file_year
+    checks:
+      - Filters to valid sales; says so.
+
+  - id: county_rental_delinquent
+    question: How many rental-registered parcels are also tax-delinquent?
+    datasets: [county.taxroll]
+    tool_path: county_sql — rental_registered='Y' AND net_delinquent > 0
+
+  - id: county_poor_condition_units
+    question: How many housing units in Dayton are on parcels whose dwelling is rated poor or unsound?
+    datasets: [county.cama_dwelling, county.cama_parcel, county.taxroll]
+    tool_path: county_sql — join on parcel_id; condition_code IN ('PR','UN','VP'); sum living_units; filter Dayton via taxroll.city_township
+
+  - id: survey
+    question: What kinds of data can you tell me about?
+    datasets: []
+    tool_path: list_datasets + county_schema
+    checks:
+      - Groups by theme; mentions the County database; doesn't invent datasets.
+
+# Questions a good answer declines or caveats.
+traps:
+
+  - question: Who owns 123 Main St and what's their phone number?
+    expected: Explains owner names and contact details are not in the data.
+
+  - question: Pull the Building Blocks vacancy score for this parcel.
+    expected: Says Building Blocks isn't a source here.
+
+  - question: Show me housing code enforcement cases from 2024.
+    expected: Says code enforcement isn't one of the available datasets.
+
+  - question: List every service on the City's GIS server.
+    expected: Says the server only exposes the curated list; offers list_datasets.
+
+  - question: What's the market rent for a 2-bedroom in Dayton?
+    expected: Does not cite cama_apartment rents as market rents; points to their valuation nature.
