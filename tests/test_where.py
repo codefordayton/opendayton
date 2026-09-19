@@ -72,3 +72,22 @@ def test_order_by(crimes):
         validate_order_by("count DESC", crimes)
     with pytest.raises(WhereError):
         validate_order_by("YEAR DESC NULLS LAST", crimes)
+
+
+def test_keyword_named_fields_are_canonicalized_not_waved_through():
+    catalog = Catalog.load()
+    cfs = catalog.get("calls_for_service")  # has Year / Month, mixed case
+    assert validate_where("year = 2026 and MONTH = 8", cfs) == "Year = 2026 AND Month = 8"
+    neighborhoods = catalog.get("neighborhoods")  # has no Year field
+    with pytest.raises(WhereError):
+        validate_where("Year = 2026", neighborhoods)
+
+
+def test_interval_and_extract_units_still_work(crimes):
+    assert (
+        validate_where("Commit_Date >= CURRENT_TIMESTAMP - INTERVAL '30' DAY", crimes)
+        == "Commit_Date >= CURRENT_TIMESTAMP - INTERVAL '30' DAY"
+    )
+    assert validate_where("EXTRACT(YEAR FROM Commit_Date) = 2025", crimes) == "EXTRACT(YEAR FROM Commit_Date) = 2025"
+    # `YEAR` on crimes is a real field, so this is a field comparison, not a unit
+    assert validate_where("YEAR = 2025", crimes) == "YEAR = 2025"

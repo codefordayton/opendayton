@@ -131,6 +131,7 @@ layers:
       - Neighborhood is UPPER CASE here but Title Case in the arrests and calls-for-service layers. Compare with UPPER(Neighborhood).
       - One row per offense, not per incident; an incident with two offenses appears twice.
       - Check the YEAR range with a count-by-YEAR before describing trends; the layer is a rolling window, not full history.
+      - Some incidents have a blank Neighborhood. Report that bucket as "no neighborhood recorded", not as a place, or exclude it with Neighborhood <> ''.
     example_questions:
       - How many burglaries were reported in each neighborhood last year?
       - Which neighborhoods had the most violent crime (ORC_Part = 'PART I VIOLENT') in 2025?

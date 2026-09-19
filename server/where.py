@@ -23,9 +23,11 @@ MAX_WHERE_LENGTH = 1500
 KEYWORDS = {
     "AND", "OR", "NOT", "IN", "IS", "NULL", "LIKE", "BETWEEN",
     "DATE", "TIMESTAMP", "CURRENT_DATE", "CURRENT_TIMESTAMP",
-    "INTERVAL", "DAY", "MONTH", "YEAR", "HOUR",
-    "TRUE", "FALSE",
+    "INTERVAL", "FROM", "TRUE", "FALSE",
 }
+# Only valid directly after `INTERVAL '<n>'` or `EXTRACT(`; otherwise they look
+# like (and would be mistaken for) field names.
+UNIT_KEYWORDS = {"DAY", "MONTH", "YEAR", "HOUR", "MINUTE", "SECOND"}
 FUNCTIONS = {"UPPER", "LOWER", "EXTRACT"}
 
 _TOKEN_RE = re.compile(
@@ -62,13 +64,15 @@ def validate_where(where: str | None, layer: Layer) -> str:
         return where
 
     out: list[str] = []
+    sig: list[tuple[str, str]] = []  # significant (kind, text) tokens, for context checks
     depth = 0
     for m in _TOKEN_RE.finditer(where):
         kind = m.lastgroup
         text = m.group()
         if kind == "ws":
             out.append(" ")
-        elif kind == "string" or kind == "number":
+            continue
+        if kind == "string" or kind == "number":
             out.append(text)
         elif kind == "op":
             if text == "(":
@@ -79,23 +83,32 @@ def validate_where(where: str | None, layer: Layer) -> str:
                     raise WhereError("unbalanced parentheses in where clause")
             out.append(text)
         elif kind == "ident":
-            upper = text.upper()
-            if upper in KEYWORDS or upper in FUNCTIONS:
-                out.append(upper)
-                continue
+            # Field names win over keywords: layers commonly have YEAR / MONTH /
+            # DAY columns that collide with INTERVAL units, and a field must be
+            # checked against the allowlist, never waved through as a keyword.
             canonical = layer.canonical_field(text)
-            if canonical is None:
+            if canonical is not None:
+                out.append(canonical)
+                sig.append(("field", canonical))
+                continue
+            upper = text.upper()
+            if upper in UNIT_KEYWORDS and _unit_context_ok(sig):
+                out.append(upper)
+            elif upper in KEYWORDS or upper in FUNCTIONS:
+                out.append(upper)
+            else:
                 raise WhereError(
                     f"'{text}' is not a queryable field on dataset '{layer.id}'. "
                     f"Allowed fields: {', '.join(layer.field_names)}"
                 )
-            out.append(canonical)
+            text = upper
         else:  # bad
             raise WhereError(
                 f"unsupported character {text!r} in where clause. "
                 "Use field comparisons, AND/OR/NOT, IN, LIKE, BETWEEN, IS NULL, "
                 "and DATE 'YYYY-MM-DD' literals."
             )
+        sig.append((kind, text))
     if depth != 0:
         raise WhereError("unbalanced parentheses in where clause")
 
@@ -103,6 +116,15 @@ def validate_where(where: str | None, layer: Layer) -> str:
     if not result:
         return "1=1"
     return result
+
+
+def _unit_context_ok(sig: list[tuple[str, str]]) -> bool:
+    """True if a DAY/MONTH/YEAR unit word is in a legitimate position."""
+    if len(sig) >= 2 and sig[-1][0] == "string" and sig[-2] == ("ident", "INTERVAL"):
+        return True  # INTERVAL '30' DAY
+    if len(sig) >= 2 and sig[-1] == ("op", "(") and sig[-2] == ("ident", "EXTRACT"):
+        return True  # EXTRACT(YEAR FROM field)
+    return False
 
 
 def validate_field_list(names: list[str] | str | None, layer: Layer, *, what: str) -> list[str]:
