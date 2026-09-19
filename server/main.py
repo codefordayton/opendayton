@@ -25,6 +25,7 @@ from starlette.responses import HTMLResponse, JSONResponse
 
 from .arcgis import DEFAULT_LIMIT, MAX_LIMIT, STATS_MAX_LIMIT, ArcGISClient, ArcGISError
 from .catalog import Catalog, CatalogError
+from .county import DEFAULT_LIMIT as COUNTY_DEFAULT_LIMIT, CountyDB, CountySQLError
 from .where import WhereError
 
 VERSION = "0.1.0"
@@ -32,11 +33,13 @@ PUBLIC_URL = os.environ.get("OPENDAYTON_PUBLIC_URL", "http://localhost:8000")
 
 catalog = Catalog.load()
 arcgis = ArcGISClient()
+county = CountyDB()
 
 INSTRUCTIONS = f"""\
 OpenDayton gives you read-only access to {len(catalog)} curated public datasets
 about the City of Dayton and Montgomery County, Ohio, published by the City,
-County, and regional agencies.
+County, and regional agencies, plus a SQL database of the Montgomery County
+tax roll, sales, delinquency, and assessment (CAMA) records.
 
 How to work:
 1. Call list_datasets to see what exists (optionally filtered by theme).
@@ -45,7 +48,11 @@ How to work:
    Queries can only use fields that appear there.
 3. Prefer arcgis_stats (group-by counts/sums) for "how many / which most"
    questions; use arcgis_query for row-level detail.
-4. Use geocode_hint / the `near` parameter for "at this address" questions.
+4. For parcel-level County questions (values, tenure, delinquency, sales
+   history, permits, dwelling characteristics) call county_schema, then
+   county_sql with a single SELECT. The County data is countywide: filter
+   city_township = 'DAYTON' for City of Dayton figures.
+5. Use the `near` parameters for "at this address" questions.
 
 Rules: cite the dataset title and publisher in answers; report the as-of
 information returned with results; never claim a dataset covers something
@@ -61,6 +68,7 @@ async def lifespan(_server: MCPServer):
         yield {}
     finally:
         await arcgis.aclose()
+        county.close()
 
 
 server = MCPServer(
@@ -266,6 +274,45 @@ async def arcgis_stats(
     return result
 
 
+@server.tool(annotations=READ_ONLY)
+async def county_schema(table: str | None = None) -> dict[str, Any]:
+    """Describe the Montgomery County SQL database: tables, columns with
+    meanings, join keys, caveats, and the as-of date of each source file.
+
+    Call with no arguments for the overview and table list; call with a
+    table name for its columns. Read this before writing county_sql.
+    """
+    try:
+        return county.describe(table)
+    except CountySQLError as e:
+        return _err("unknown_table", str(e))
+
+
+@server.tool(annotations=READ_ONLY)
+async def county_sql(sql: str, limit: int = COUNTY_DEFAULT_LIMIT) -> dict[str, Any]:
+    """Run one read-only SELECT against the Montgomery County database
+    (DuckDB SQL; PostgreSQL-like). Tables: taxroll, delinquent, sales,
+    cama_parcel, cama_dwelling, cama_permit, cama_apartment, cama_codes,
+    nbhd_codes, _meta. Join on parcel_id.
+
+    Aggregate rather than dumping rows; results are capped at `limit`
+    (default 200, max 2000) and 30 seconds. Filter city_township = 'DAYTON'
+    for City of Dayton. Owner names are not in the database.
+    """
+    try:
+        result = county.query(sql, limit=limit)
+    except CountySQLError as e:
+        return _err("invalid_sql", str(e))
+    result["source"] = {
+        "dataset": "Montgomery County tax roll, sales, delinquency, and CAMA bulk files",
+        "publisher": county.schema.publisher,
+        "source_page": county.schema.source_page,
+        "as_of": {m["table"]: m["file_date"] for m in county.meta()},
+        "note": "Cite the publisher and the as-of file date when using these results.",
+    }
+    return result
+
+
 def _source(layer) -> dict[str, Any]:
     return {
         "dataset": layer.title,
@@ -304,7 +351,9 @@ City of Boston's <a href="https://github.com/CityOfBoston/OpenContext">OpenConte
 <h2>Datasets</h2>
 <table><tr><th>id</th><th>Title</th><th>Theme</th><th>Publisher</th><th></th></tr>{rows}</table>
 <h2>Tools</h2>
-<p><code>list_datasets</code> · <code>describe_dataset</code> · <code>arcgis_query</code> · <code>arcgis_stats</code></p>
+<p><code>list_datasets</code> · <code>describe_dataset</code> · <code>arcgis_query</code> · <code>arcgis_stats</code> · <code>county_schema</code> · <code>county_sql</code></p>
+<h2>County database</h2>
+<p>{"Loaded: " + ", ".join(f"{m['table']} ({m['row_count']:,} rows, {m['file_date']})" for m in county.meta()) if county.available else "Not loaded on this server."}</p>
 <p>Source: <a href="https://github.com/codefordayton/opendayton">github.com/codefordayton/opendayton</a></p>
 </body></html>"""
     return HTMLResponse(html)
@@ -312,7 +361,7 @@ City of Boston's <a href="https://github.com/CityOfBoston/OpenContext">OpenConte
 
 @server.custom_route("/health", methods=["GET"])
 async def health(_request: Request) -> JSONResponse:
-    return JSONResponse({"status": "ok", "version": VERSION, "datasets": len(catalog)})
+    return JSONResponse({"status": "ok", "version": VERSION, "datasets": len(catalog), "county_db": county.available})
 
 
 @server.custom_route("/datasets.json", methods=["GET"])

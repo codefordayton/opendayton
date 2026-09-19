@@ -1,0 +1,5318 @@
+{
+  "OWNDATL": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 3,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 34,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "SEQ",
+      "start": 39,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Sequence Number"
+    },
+    {
+      "column": "OWN1",
+      "start": 43,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Owner Name1"
+    },
+    {
+      "column": "OWN2",
+      "start": 83,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Owner Name 2"
+    },
+    {
+      "column": "OWNUM",
+      "start": 447,
+      "length": 6,
+      "type": "Alpha",
+      "description": "Owner Number"
+    },
+    {
+      "column": "PARTIAL",
+      "start": 453,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Partial Ownership Indicator"
+    },
+    {
+      "column": "ADDRTYPE",
+      "start": 454,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Address Type"
+    },
+    {
+      "column": "POSTAL_IND",
+      "start": 455,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Postal Index Number"
+    },
+    {
+      "column": "PCTOWN",
+      "start": 465,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Percent of Ownership for Primary"
+    },
+    {
+      "column": "SALEKEY",
+      "start": 474,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Key Pointing to the sale"
+    },
+    {
+      "column": "OWNTYPE1",
+      "start": 483,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Type of owner (individual,"
+    },
+    {
+      "column": "OWNTYPE2",
+      "start": 486,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Type of owner (individual,"
+    },
+    {
+      "column": "OWNTYPE3",
+      "start": 489,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Type of owner (individual,"
+    },
+    {
+      "column": "OWNTYPE4",
+      "start": 492,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Type of owner (individual,"
+    },
+    {
+      "column": "FEDID",
+      "start": 495,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Federal Tax ID Number"
+    },
+    {
+      "column": "STATEID",
+      "start": 505,
+      "length": 15,
+      "type": "Alpha",
+      "description": "State Tax ID Number"
+    },
+    {
+      "column": "GRPFLAG",
+      "start": 520,
+      "length": 6,
+      "type": "Alpha",
+      "description": "Grouping Code for Multiple"
+    },
+    {
+      "column": "NOTECD",
+      "start": 526,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Code for Predefined Note"
+    },
+    {
+      "column": "NOTE1",
+      "start": 528,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Notes 1"
+    },
+    {
+      "column": "NOTE2",
+      "start": 568,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Notes 2"
+    },
+    {
+      "column": "LINK",
+      "start": 608,
+      "length": 15,
+      "type": "Alpha",
+      "description": "Owner Link Number"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 623,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 632,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Date record Updated"
+    }
+  ],
+  "CNAMEL": [
+    {
+      "column": "PADDR1",
+      "start": 123,
+      "length": 121,
+      "type": "Alpha",
+      "description": "Address 1"
+    },
+    {
+      "column": "PADDR2",
+      "start": 244,
+      "length": 80,
+      "type": "Alpha",
+      "description": "Address 2"
+    },
+    {
+      "column": "PADDR3",
+      "start": 324,
+      "length": 123,
+      "type": "Alpha",
+      "description": "City/State/Zip"
+    }
+  ],
+  "MAILDATL": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 37,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "SEQ",
+      "start": 42,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Sequence Number"
+    },
+    {
+      "column": "ADDRTYPE",
+      "start": 46,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Address Type"
+    },
+    {
+      "column": "MAIL1",
+      "start": 47,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Mail Information 1"
+    },
+    {
+      "column": "MAIL2",
+      "start": 87,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Mail Information 2"
+    },
+    {
+      "column": "MOWNNUM",
+      "start": 451,
+      "length": 6,
+      "type": "Alpha",
+      "description": "Owner Number"
+    },
+    {
+      "column": "CARRIER_RT",
+      "start": 457,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Carrier Route - 4 digit suffix"
+    },
+    {
+      "column": "PARLINK",
+      "start": 461,
+      "length": 15,
+      "type": "Alpha",
+      "description": "Linkage ID"
+    },
+    {
+      "column": "POSTAL_IND",
+      "start": 476,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Postal Index Number"
+    },
+    {
+      "column": "REASMAIL",
+      "start": 486,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Reason for Change"
+    },
+    {
+      "column": "LANDCONTR",
+      "start": 487,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Land Contract"
+    },
+    {
+      "column": "PAYCODE",
+      "start": 488,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Collector Code"
+    },
+    {
+      "column": "MORTCO",
+      "start": 492,
+      "length": 6,
+      "type": "Alpha",
+      "description": "Mortgage Code"
+    },
+    {
+      "column": "MORTNO",
+      "start": 498,
+      "length": 20,
+      "type": "Alpha",
+      "description": "Mortgage Number"
+    },
+    {
+      "column": "LTRCODE",
+      "start": 518,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Letter Code"
+    },
+    {
+      "column": "CHGDATE",
+      "start": 519,
+      "length": 9,
+      "type": "Date",
+      "description": "Effective Change Date"
+    },
+    {
+      "column": "NOTE1",
+      "start": 528,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Notes 1"
+    },
+    {
+      "column": "NOTE2",
+      "start": 568,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Notes 2"
+    },
+    {
+      "column": "STATUS",
+      "start": 608,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Status"
+    },
+    {
+      "column": "WHO",
+      "start": 609,
+      "length": 10,
+      "type": "Alpha",
+      "description": "User ID of Last Maintenance"
+    },
+    {
+      "column": "WEN",
+      "start": 619,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Maintenance Date"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 628,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    }
+  ],
+  "MNAMEL": [
+    {
+      "column": "PADDR1",
+      "start": 127,
+      "length": 121,
+      "type": "Alpha",
+      "description": "Address 1"
+    },
+    {
+      "column": "PADDR2",
+      "start": 248,
+      "length": 80,
+      "type": "Alpha",
+      "description": "Address 2"
+    },
+    {
+      "column": "PADDR3",
+      "start": 328,
+      "length": 123,
+      "type": "Alpha",
+      "description": "Address 3"
+    }
+  ],
+  "LEGDAT": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 37,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "SEQ",
+      "start": 42,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Sequence Number"
+    },
+    {
+      "column": "ADRPRE",
+      "start": 46,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Street Prefix"
+    },
+    {
+      "column": "ADRNO",
+      "start": 48,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Street Number"
+    },
+    {
+      "column": "ADRADD",
+      "start": 59,
+      "length": 6,
+      "type": "Alpha",
+      "description": "Address number suffix"
+    },
+    {
+      "column": "ADRSUF",
+      "start": 65,
+      "length": 8,
+      "type": "Alpha",
+      "description": "Street Suffix"
+    },
+    {
+      "column": "ADRDIR",
+      "start": 73,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Street Direction"
+    },
+    {
+      "column": "ADRSTR",
+      "start": 75,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Address Street Name"
+    },
+    {
+      "column": "ADRSUF2",
+      "start": 105,
+      "length": 8,
+      "type": "Alpha",
+      "description": "Street Suffix 2"
+    },
+    {
+      "column": "CITYNAME",
+      "start": 113,
+      "length": 40,
+      "type": "Alpha",
+      "description": "City Name"
+    },
+    {
+      "column": "ZIP1",
+      "start": 153,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Zip Code, First 5-digits"
+    },
+    {
+      "column": "ZIP2",
+      "start": 158,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Zip Code, Last 4-digits"
+    },
+    {
+      "column": "UNITDESC",
+      "start": 162,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Address Unit Description"
+    },
+    {
+      "column": "UNITNO",
+      "start": 172,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Address Unit Number"
+    },
+    {
+      "column": "LOC2",
+      "start": 182,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Address Location Line 2"
+    },
+    {
+      "column": "TAXDIST",
+      "start": 222,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Tax District"
+    },
+    {
+      "column": "ACRES",
+      "start": 227,
+      "length": 14,
+      "type": "Numeric",
+      "description": "Acres"
+    },
+    {
+      "column": "COMPCT",
+      "start": 241,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Common Interest"
+    },
+    {
+      "column": "CONVYN",
+      "start": 252,
+      "length": 10,
+      "type": "Numeric",
+      "description": "Convenyance Number"
+    },
+    {
+      "column": "XCOORD",
+      "start": 262,
+      "length": 11,
+      "type": "Numeric",
+      "description": "X Coordinate"
+    },
+    {
+      "column": "YCOORD",
+      "start": 273,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Y Coordinate"
+    },
+    {
+      "column": "ZCOORD",
+      "start": 284,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Z Coordinate"
+    },
+    {
+      "column": "LOTDIM",
+      "start": 295,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Lot Dimensions"
+    },
+    {
+      "column": "SUBDIV",
+      "start": 335,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Subdivision Name"
+    },
+    {
+      "column": "SUBDNUM",
+      "start": 375,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Subdivision Number"
+    },
+    {
+      "column": "SUBLOT",
+      "start": 385,
+      "length": 8,
+      "type": "Alpha",
+      "description": "Subdivision Lot Number"
+    },
+    {
+      "column": "SUBBLCK",
+      "start": 393,
+      "length": 8,
+      "type": "Alpha",
+      "description": "Subdivision block number"
+    },
+    {
+      "column": "SUBCODE",
+      "start": 401,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Subdivison Code"
+    },
+    {
+      "column": "CONDBDG",
+      "start": 402,
+      "length": 8,
+      "type": "Alpha",
+      "description": "Condominium Building Number"
+    },
+    {
+      "column": "CONDUNT",
+      "start": 410,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Condominium Unit Number"
+    },
+    {
+      "column": "LEGAL1",
+      "start": 420,
+      "length": 60,
+      "type": "Alpha",
+      "description": "Legal Description 1"
+    },
+    {
+      "column": "LEGAL2",
+      "start": 480,
+      "length": 60,
+      "type": "Alpha",
+      "description": "Legal Description 2"
+    },
+    {
+      "column": "LEGAL3",
+      "start": 540,
+      "length": 60,
+      "type": "Alpha",
+      "description": "Legal Description 3"
+    },
+    {
+      "column": "NOTE1",
+      "start": 600,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Notes Field 1"
+    },
+    {
+      "column": "NOTE2",
+      "start": 640,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Notes Field 2"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 680,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 689,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Maintenance Date"
+    }
+  ],
+  "ASMTUS3V": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 37,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "SEQ",
+      "start": 42,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Sequence Number"
+    },
+    {
+      "column": "APRLAND",
+      "start": 46,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Appraised Land Value"
+    },
+    {
+      "column": "APRBLDG",
+      "start": 57,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Appraised building value"
+    },
+    {
+      "column": "ASMTLAND",
+      "start": 68,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Assessed Land Value"
+    },
+    {
+      "column": "ASMTBLDG",
+      "start": 79,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Assessed Building Value"
+    },
+    {
+      "column": "FARMLAND",
+      "start": 90,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Agricultural use land value"
+    },
+    {
+      "column": "FORLAND",
+      "start": 101,
+      "length": 11,
+      "type": "Numeric",
+      "description": "100% Forest Land Value"
+    },
+    {
+      "column": "HMSDLAND",
+      "start": 112,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Homestead land value"
+    },
+    {
+      "column": "HMSDBLDG",
+      "start": 123,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Homestead building value"
+    },
+    {
+      "column": "PPVAL",
+      "start": 134,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Personal property value (utility)"
+    },
+    {
+      "column": "ABATE",
+      "start": 145,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Abatement value (building)"
+    },
+    {
+      "column": "ABATELAND",
+      "start": 156,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Abatement value (land)"
+    },
+    {
+      "column": "NOTICVAL",
+      "start": 167,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Notice Value"
+    },
+    {
+      "column": "SPECVAL",
+      "start": 178,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Total special assessment value"
+    },
+    {
+      "column": "EXMPCODE",
+      "start": 189,
+      "length": 6,
+      "type": "Alpha",
+      "description": "Exemption Code"
+    },
+    {
+      "column": "NOTICEDATE",
+      "start": 195,
+      "length": 9,
+      "type": "Date",
+      "description": "Notice Date"
+    },
+    {
+      "column": "REASCD",
+      "start": 204,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Reason code for change in assessed"
+    },
+    {
+      "column": "CLASS",
+      "start": 206,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Classification"
+    },
+    {
+      "column": "TAXCLASS",
+      "start": 210,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Tax Class"
+    },
+    {
+      "column": "LUC",
+      "start": 214,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Land Use Code"
+    },
+    {
+      "column": "FLAG2",
+      "start": 218,
+      "length": 6,
+      "type": "Alpha",
+      "description": "2 1/2 % flag (Ohio)"
+    },
+    {
+      "column": "NOTE1",
+      "start": 224,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 1"
+    },
+    {
+      "column": "NOTE2",
+      "start": 264,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 2"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 304,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 313,
+      "length": 9,
+      "type": "Date",
+      "description": "Last maintenance date"
+    }
+  ],
+  "APRVAL": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 37,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "SEQ",
+      "start": 42,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Sequence Number"
+    },
+    {
+      "column": "REASCD",
+      "start": 46,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Reason code for change in assessed"
+    },
+    {
+      "column": "APRLAND",
+      "start": 48,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Appraised land value"
+    },
+    {
+      "column": "APRBLDG",
+      "start": 59,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Appraised building value"
+    },
+    {
+      "column": "APRTOT",
+      "start": 70,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Total Appraised Value"
+    },
+    {
+      "column": "LANDVAL",
+      "start": 81,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Total land cost value"
+    },
+    {
+      "column": "BLDGVAL",
+      "start": 92,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Building value"
+    },
+    {
+      "column": "COSTVAL",
+      "start": 103,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Total cost value"
+    },
+    {
+      "column": "ASSMKT",
+      "start": 114,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Total Assessed Value"
+    },
+    {
+      "column": "DWELVAL",
+      "start": 125,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Total dwelling value"
+    },
+    {
+      "column": "OBYVAL",
+      "start": 136,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Total OBY value"
+    },
+    {
+      "column": "REVREAS",
+      "start": 147,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Review reason code"
+    },
+    {
+      "column": "REVLAND",
+      "start": 150,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Reviewer land value estimate"
+    },
+    {
+      "column": "REVBLDG",
+      "start": 161,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Reviewer building value estimate"
+    },
+    {
+      "column": "REVTOT",
+      "start": 172,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Reviewer Total"
+    },
+    {
+      "column": "RESGRMVAL",
+      "start": 183,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Gross Rent Multipler Value"
+    },
+    {
+      "column": "ADJBLDFACT",
+      "start": 194,
+      "length": 8,
+      "type": "Numeric",
+      "description": "Building Factor"
+    },
+    {
+      "column": "ADJLANDFAC",
+      "start": 202,
+      "length": 8,
+      "type": "Numeric",
+      "description": "Land Factor"
+    },
+    {
+      "column": "REVWHO",
+      "start": 210,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Reviewer name/code"
+    },
+    {
+      "column": "REVCODE",
+      "start": 220,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Review code (value type)"
+    },
+    {
+      "column": "COMVAL",
+      "start": 222,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Commercial building cost value"
+    },
+    {
+      "column": "COMINCVAL",
+      "start": 233,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Commerical Income Value"
+    },
+    {
+      "column": "EXMPLAND",
+      "start": 244,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Exemption Land Value"
+    },
+    {
+      "column": "EXMPBLDG",
+      "start": 255,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Exemption Building Value"
+    },
+    {
+      "column": "EXMPVAL",
+      "start": 266,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Exemption Value"
+    },
+    {
+      "column": "EXMPPCT",
+      "start": 277,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Exemption Percent"
+    },
+    {
+      "column": "AREASUM",
+      "start": 284,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Sum of Designated Structure Areas"
+    },
+    {
+      "column": "ROLLTYPE",
+      "start": 295,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Tax Roll Name"
+    },
+    {
+      "column": "NOTE1",
+      "start": 305,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 1"
+    },
+    {
+      "column": "NOTE2",
+      "start": 345,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 2"
+    },
+    {
+      "column": "INCOME",
+      "start": 385,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Total income value"
+    },
+    {
+      "column": "MKTVAL",
+      "start": 396,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Market value"
+    },
+    {
+      "column": "MKTDT",
+      "start": 407,
+      "length": 9,
+      "type": "Date",
+      "description": "Total market date"
+    },
+    {
+      "column": "LASTUPD",
+      "start": 416,
+      "length": 9,
+      "type": "Date",
+      "description": "Date of last change to a value field"
+    },
+    {
+      "column": "REVDT",
+      "start": 425,
+      "length": 9,
+      "type": "Date",
+      "description": "Review date"
+    },
+    {
+      "column": "COSTDT",
+      "start": 434,
+      "length": 9,
+      "type": "Date",
+      "description": "Cost value date"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 443,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 452,
+      "length": 9,
+      "type": "Date",
+      "description": "Last maintenance date"
+    }
+  ],
+  "PARDAT": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 37,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "SEQ",
+      "start": 42,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Sequence Number"
+    },
+    {
+      "column": "MAPPRE",
+      "start": 46,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Map/Routing map prefix number"
+    },
+    {
+      "column": "MAPSUF",
+      "start": 50,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Map/Routing map suffix number"
+    },
+    {
+      "column": "RTEPRE",
+      "start": 52,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Map/Routing routing prefix"
+    },
+    {
+      "column": "RTESUF",
+      "start": 55,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Map/Routing routing suffix number"
+    },
+    {
+      "column": "ADRNO",
+      "start": 57,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Street Number"
+    },
+    {
+      "column": "ADRPRE",
+      "start": 68,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Street Prefix"
+    },
+    {
+      "column": "ADRSUF",
+      "start": 70,
+      "length": 8,
+      "type": "Alpha",
+      "description": "Street suffix"
+    },
+    {
+      "column": "ADRSUF2",
+      "start": 78,
+      "length": 8,
+      "type": "Alpha",
+      "description": "Street Suffix 2"
+    },
+    {
+      "column": "ADRDIR",
+      "start": 86,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Street direction"
+    },
+    {
+      "column": "ADRSTR",
+      "start": 88,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Address street name"
+    },
+    {
+      "column": "CITYNAME",
+      "start": 118,
+      "length": 40,
+      "type": "Alpha",
+      "description": "City Name"
+    },
+    {
+      "column": "UNITDESC",
+      "start": 158,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Zip Code, First 5-digits"
+    },
+    {
+      "column": "UNITNO",
+      "start": 168,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Zip Code, Last 4-digits"
+    },
+    {
+      "column": "LOC2",
+      "start": 178,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Address Unit Description"
+    },
+    {
+      "column": "ZIP1",
+      "start": 218,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Address Unit Number"
+    },
+    {
+      "column": "ZIP2",
+      "start": 223,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Address Location Line 2"
+    },
+    {
+      "column": "NBHD",
+      "start": 227,
+      "length": 8,
+      "type": "Alpha",
+      "description": "Neighborhood Number"
+    },
+    {
+      "column": "CLASS",
+      "start": 235,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Classification"
+    },
+    {
+      "column": "LUC",
+      "start": 239,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Land Use Code"
+    },
+    {
+      "column": "LUCMULT",
+      "start": 243,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Multiple land use flag"
+    },
+    {
+      "column": "LIVUNIT",
+      "start": 244,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Number of living units"
+    },
+    {
+      "column": "TIEBACK",
+      "start": 248,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Tieback"
+    },
+    {
+      "column": "TIEBACKCD",
+      "start": 278,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Tieback Code"
+    },
+    {
+      "column": "TIELANDPCT",
+      "start": 280,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Tieback Land Percent"
+    },
+    {
+      "column": "TIEBLDGPCT",
+      "start": 289,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Tieback Building Percent"
+    },
+    {
+      "column": "LANDISC",
+      "start": 298,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Tieback Code"
+    },
+    {
+      "column": "CALCACRES",
+      "start": 308,
+      "length": 14,
+      "type": "Numeric",
+      "description": "Total Acres Calculated from Land"
+    },
+    {
+      "column": "ACRES",
+      "start": 322,
+      "length": 14,
+      "type": "Numeric",
+      "description": "Total Acres"
+    },
+    {
+      "column": "STREET1",
+      "start": 336,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Street and sidewalk code 1"
+    },
+    {
+      "column": "STREET2",
+      "start": 338,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Street and sidewalk code 2"
+    },
+    {
+      "column": "TRAFFIC",
+      "start": 340,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Traffic code"
+    },
+    {
+      "column": "TOPO1",
+      "start": 342,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Topography code 1"
+    },
+    {
+      "column": "TOPO2",
+      "start": 343,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Topography code 2"
+    },
+    {
+      "column": "TOPO3",
+      "start": 344,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Topography code 3"
+    },
+    {
+      "column": "LOCATION",
+      "start": 345,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Location factor (area type)"
+    },
+    {
+      "column": "FRONTING",
+      "start": 347,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Fronting location factor (street)"
+    },
+    {
+      "column": "UTIL1",
+      "start": 348,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Utility Code 1"
+    },
+    {
+      "column": "UTIL2",
+      "start": 350,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Utility Code 2"
+    },
+    {
+      "column": "UTIL3",
+      "start": 352,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Utility Code 3"
+    },
+    {
+      "column": "OFCARD",
+      "start": 354,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Number of main buildings (cards)"
+    },
+    {
+      "column": "PARTIAL",
+      "start": 359,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Partial ownership indicator"
+    },
+    {
+      "column": "BLDGROS_D",
+      "start": 360,
+      "length": 21,
+      "type": "Alpha",
+      "description": "Gross building description"
+    },
+    {
+      "column": "BLDGROS_V",
+      "start": 381,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Gross building value"
+    },
+    {
+      "column": "MSCBLD_N",
+      "start": 392,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Number of miscellaneous buildings"
+    },
+    {
+      "column": "MSCBLD_V",
+      "start": 395,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Value of miscellaneous buildings"
+    },
+    {
+      "column": "NOTECD1",
+      "start": 406,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Code for predefined note 1"
+    },
+    {
+      "column": "NOTECD2",
+      "start": 408,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Code for predefined note 2"
+    },
+    {
+      "column": "NOTE1",
+      "start": 410,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 1"
+    },
+    {
+      "column": "NOTE2",
+      "start": 450,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 2"
+    },
+    {
+      "column": "NOTE4",
+      "start": 530,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 4"
+    },
+    {
+      "column": "RECTYPE",
+      "start": 570,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Value Category"
+    },
+    {
+      "column": "PCTOWN",
+      "start": 571,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Percent of Ownership for Primary"
+    },
+    {
+      "column": "CHGRSN",
+      "start": 580,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Reason Code for Change of Value"
+    },
+    {
+      "column": "SALEKEY",
+      "start": 582,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Key Pointing to the Sale"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 591,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 600,
+      "length": 9,
+      "type": "Date",
+      "description": "Last maintenance date"
+    }
+  ],
+  "SALES": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "TRANSNO",
+      "start": 37,
+      "length": 9,
+      "type": "Alpha",
+      "description": "Transfer Number"
+    },
+    {
+      "column": "OLDYR",
+      "start": 46,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Old Year"
+    },
+    {
+      "column": "OLDSEQ",
+      "start": 51,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Old Sequence Number"
+    },
+    {
+      "column": "NEWYR",
+      "start": 55,
+      "length": 5,
+      "type": "Numeric",
+      "description": "New Year"
+    },
+    {
+      "column": "NEWSEQ",
+      "start": 60,
+      "length": 4,
+      "type": "Numeric",
+      "description": "New Sequence Number"
+    },
+    {
+      "column": "SALEKEY",
+      "start": 64,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Key Pointing to the Sale"
+    },
+    {
+      "column": "BOOK",
+      "start": 73,
+      "length": 8,
+      "type": "Alpha",
+      "description": "Book Number"
+    },
+    {
+      "column": "PAGE",
+      "start": 81,
+      "length": 8,
+      "type": "Alpha",
+      "description": "Page Number"
+    },
+    {
+      "column": "OLDOWN",
+      "start": 89,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Old Owner Name"
+    },
+    {
+      "column": "OWN1",
+      "start": 129,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Owner Name 1"
+    },
+    {
+      "column": "SALEDT",
+      "start": 169,
+      "length": 9,
+      "type": "Date",
+      "description": "Sale Date"
+    },
+    {
+      "column": "PRICE",
+      "start": 178,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Sale Price"
+    },
+    {
+      "column": "SOURCE",
+      "start": 189,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Source Code"
+    },
+    {
+      "column": "SALETYPE",
+      "start": 190,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Sale Type Code"
+    },
+    {
+      "column": "INSTRUNO",
+      "start": 191,
+      "length": 14,
+      "type": "Alpha",
+      "description": "Instument Number"
+    },
+    {
+      "column": "INSTRTYP",
+      "start": 205,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Instrument Type"
+    },
+    {
+      "column": "IMAGENO",
+      "start": 207,
+      "length": 12,
+      "type": "Alpha",
+      "description": "Document Image Number for the"
+    },
+    {
+      "column": "ADJPRICE",
+      "start": 219,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Adjusted Sales Price"
+    },
+    {
+      "column": "ADJREAS",
+      "start": 230,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Reason for Adjusting Sale Price"
+    },
+    {
+      "column": "RECORDDT",
+      "start": 233,
+      "length": 9,
+      "type": "Date",
+      "description": "Recording Date"
+    },
+    {
+      "column": "APRTOT",
+      "start": 242,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Total Appraised Values"
+    },
+    {
+      "column": "SALEVAL",
+      "start": 253,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Sale Validity Code"
+    },
+    {
+      "column": "NOTE1",
+      "start": 255,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 1"
+    },
+    {
+      "column": "NOTE2",
+      "start": 295,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 2"
+    },
+    {
+      "column": "TRANSDT",
+      "start": 335,
+      "length": 9,
+      "type": "Date",
+      "description": "Transaction Date"
+    },
+    {
+      "column": "WEN",
+      "start": 344,
+      "length": 9,
+      "type": "Date",
+      "description": "Last maintenance date"
+    }
+  ],
+  "ENTER": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "ENTERCD",
+      "start": 37,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Entrance code"
+    },
+    {
+      "column": "ENTERDT",
+      "start": 40,
+      "length": 9,
+      "type": "Date",
+      "description": "Entrance Date"
+    },
+    {
+      "column": "ENTERID",
+      "start": 49,
+      "length": 3,
+      "type": "Alpha",
+      "description": "ID of Person Making Inspection"
+    },
+    {
+      "column": "ENTERINFO",
+      "start": 52,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Entrance Info Code"
+    },
+    {
+      "column": "WEN",
+      "start": 55,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Maintenance Date"
+    }
+  ],
+  "LAND": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "LLINE",
+      "start": 37,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Line Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 42,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "SEQ",
+      "start": 47,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Version Number of this Record"
+    },
+    {
+      "column": "LTYPE",
+      "start": 51,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Land Type"
+    },
+    {
+      "column": "UNITS",
+      "start": 52,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Units instead of using square foot"
+    },
+    {
+      "column": "CODE",
+      "start": 61,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Code"
+    },
+    {
+      "column": "SF",
+      "start": 64,
+      "length": 11,
+      "type": "Numeric",
+      "description": "SF of Land"
+    },
+    {
+      "column": "FRONACT",
+      "start": 75,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Actual Frontage"
+    },
+    {
+      "column": "FRONEFF",
+      "start": 82,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Effective Frontage"
+    },
+    {
+      "column": "DEPTH",
+      "start": 87,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Depth"
+    },
+    {
+      "column": "CLASS",
+      "start": 91,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Classification"
+    },
+    {
+      "column": "AGFLG",
+      "start": 95,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Note Field 1"
+    },
+    {
+      "column": "CHGRSN",
+      "start": 96,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Reason Code for Change of Value"
+    },
+    {
+      "column": "ORATE",
+      "start": 98,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Override Incremental Rate"
+    },
+    {
+      "column": "BRATE",
+      "start": 109,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Base Rate"
+    },
+    {
+      "column": "DEPFACT",
+      "start": 120,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Depth Factor"
+    },
+    {
+      "column": "ACRES",
+      "start": 125,
+      "length": 15,
+      "type": "Numeric",
+      "description": "Total Acres"
+    },
+    {
+      "column": "EXMPVAL",
+      "start": 140,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Exemption Value"
+    },
+    {
+      "column": "INFL1",
+      "start": 151,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Influence Code #2"
+    },
+    {
+      "column": "INFL2",
+      "start": 153,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Influence Code (+/-)"
+    },
+    {
+      "column": "INFLU",
+      "start": 155,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Land Code Model"
+    },
+    {
+      "column": "PRICE",
+      "start": 159,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Price"
+    },
+    {
+      "column": "EXMPPCT",
+      "start": 170,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Exemption Percent"
+    },
+    {
+      "column": "SALEKEY",
+      "start": 177,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Key Pointing to the Sale"
+    },
+    {
+      "column": "NOTE1",
+      "start": 186,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note 1"
+    },
+    {
+      "column": "WEN",
+      "start": 226,
+      "length": 9,
+      "type": "Date",
+      "description": "Last maintenance date"
+    }
+  ],
+  "DWELDAT": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "CARD",
+      "start": 37,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Building Card Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 42,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "SEQ",
+      "start": 47,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Version Number of this Record"
+    },
+    {
+      "column": "STORIES",
+      "start": 51,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Story Height"
+    },
+    {
+      "column": "EXTWALL",
+      "start": 55,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Exterior Wall Code"
+    },
+    {
+      "column": "STYLE",
+      "start": 57,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Architectural style"
+    },
+    {
+      "column": "YRBLT",
+      "start": 59,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Year Built"
+    },
+    {
+      "column": "YRREMOD",
+      "start": 64,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Year Remodeled"
+    },
+    {
+      "column": "RMTOT",
+      "start": 69,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Total Rooms"
+    },
+    {
+      "column": "RMBED",
+      "start": 72,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Number of Bedrooms"
+    },
+    {
+      "column": "RMFAM",
+      "start": 75,
+      "length": 2,
+      "type": "Numeric",
+      "description": "Number of Family Rooms"
+    },
+    {
+      "column": "FIXBATH",
+      "start": 77,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Number of Full Bathrooms"
+    },
+    {
+      "column": "FIXHALF",
+      "start": 80,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Number of Half Bathrooms"
+    },
+    {
+      "column": "FIXADDL",
+      "start": 83,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Number of Addt'l Plumbing"
+    },
+    {
+      "column": "FIXTOT",
+      "start": 86,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Total Plumbing Fixtures"
+    },
+    {
+      "column": "REMKIT",
+      "start": 89,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Kitchen Remodeled"
+    },
+    {
+      "column": "REMBATH",
+      "start": 90,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Bathrooms Remodeled"
+    },
+    {
+      "column": "BSMT",
+      "start": 91,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Basement Code"
+    },
+    {
+      "column": "HEAT",
+      "start": 92,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Heat Code"
+    },
+    {
+      "column": "HEATSYS",
+      "start": 93,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Heating System Type"
+    },
+    {
+      "column": "FUEL",
+      "start": 94,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Heating Fule Type"
+    },
+    {
+      "column": "GRADE",
+      "start": 95,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Grade"
+    },
+    {
+      "column": "CLASS",
+      "start": 98,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Classification"
+    },
+    {
+      "column": "CDDESC",
+      "start": 102,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Cost and Design Description Code"
+    },
+    {
+      "column": "ATTIC",
+      "start": 104,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Attic Code"
+    },
+    {
+      "column": "INTEXT",
+      "start": 105,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Interior condition relative to exterior"
+    },
+    {
+      "column": "UNITNO",
+      "start": 106,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Unit Number of Dwelling"
+    },
+    {
+      "column": "RECTYPE",
+      "start": 116,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Value Category"
+    },
+    {
+      "column": "FLR1AREA",
+      "start": 117,
+      "length": 8,
+      "type": "Numeric",
+      "description": "Sub Total Value"
+    },
+    {
+      "column": "MASTRIMAR",
+      "start": 125,
+      "length": 7,
+      "type": "Numeric",
+      "description": ""
+    },
+    {
+      "column": "UNFINAREA",
+      "start": 132,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Unfinished Area"
+    },
+    {
+      "column": "RECROMARE",
+      "start": 139,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Recreational Room Area"
+    },
+    {
+      "column": "FINBSMTARE",
+      "start": 146,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Finished Basement Living Area"
+    },
+    {
+      "column": "CONDOVW",
+      "start": 153,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Condominium View"
+    },
+    {
+      "column": "CNDCMPLX",
+      "start": 156,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Conod Complex Description"
+    },
+    {
+      "column": "CLINE",
+      "start": 186,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Gross Rent Multiplier Units"
+    },
+    {
+      "column": "WBFP_O",
+      "start": 191,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Wood Burning Fireplace Openings"
+    },
+    {
+      "column": "WBFP_S",
+      "start": 194,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Wood Burning Fireplace Stacks"
+    },
+    {
+      "column": "WBFP_PF",
+      "start": 197,
+      "length": 2,
+      "type": "Numeric",
+      "description": "Prefabricated Fireplace"
+    },
+    {
+      "column": "BSMTCAR",
+      "start": 199,
+      "length": 2,
+      "type": "Numeric",
+      "description": "Basement Garage (# of Cars)"
+    },
+    {
+      "column": "MSC1DES",
+      "start": 201,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Miscellaneous item #1 description"
+    },
+    {
+      "column": "MSC1NUM",
+      "start": 203,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Miscellaneous item #1 quantity"
+    },
+    {
+      "column": "MSC2DES",
+      "start": 206,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Miscellaneous item #2 description"
+    },
+    {
+      "column": "MSC2NUM",
+      "start": 208,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Miscellaneous item #2 quantity"
+    },
+    {
+      "column": "CONDOLVL",
+      "start": 211,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Condominium Floor Level"
+    },
+    {
+      "column": "CONDOTYP",
+      "start": 214,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Condomunium Type Code"
+    },
+    {
+      "column": "MGFA",
+      "start": 218,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Main Section Ground Floor Area"
+    },
+    {
+      "column": "CDPCT",
+      "start": 225,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Cost and Design Percent"
+    },
+    {
+      "column": "CDU",
+      "start": 229,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Cost and Design"
+    },
+    {
+      "column": "DEPR",
+      "start": 231,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Percent Good From Tables"
+    },
+    {
+      "column": "ADDNVAL",
+      "start": 235,
+      "length": 11,
+      "type": "Numeric",
+      "description": "RCN Value of Additions"
+    },
+    {
+      "column": "ADJAREA",
+      "start": 253,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Adjusted Area"
+    },
+    {
+      "column": "AREAFACT",
+      "start": 260,
+      "length": 8,
+      "type": "Numeric",
+      "description": "Area Factor"
+    },
+    {
+      "column": "ATTICVAL",
+      "start": 268,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Attic Value"
+    },
+    {
+      "column": "BGARVAL",
+      "start": 277,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Basement Garage Value"
+    },
+    {
+      "column": "BSMTVAL",
+      "start": 286,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Basement Value"
+    },
+    {
+      "column": "CNSTFACT",
+      "start": 295,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Constuction Factor"
+    },
+    {
+      "column": "CNSTVAL",
+      "start": 302,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Constuction Factor Value"
+    },
+    {
+      "column": "CNDBASEVA",
+      "start": 311,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Main Section Ground Floor Area"
+    },
+    {
+      "column": "CNDADJVAL",
+      "start": 322,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Total Living Area of"
+    },
+    {
+      "column": "FINBSMTVAL",
+      "start": 333,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Finished Basement Value"
+    },
+    {
+      "column": "GRDFACT",
+      "start": 342,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Grade Factor"
+    },
+    {
+      "column": "HEATVAL",
+      "start": 347,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Heating/Air Value"
+    },
+    {
+      "column": "MKTADJ",
+      "start": 356,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Override Percent Good"
+    },
+    {
+      "column": "MSC1VAL",
+      "start": 360,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Miscellaneous feature #1 Value"
+    },
+    {
+      "column": "MSC2VAL",
+      "start": 369,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Miscellaneous feature #2 Value"
+    },
+    {
+      "column": "PLUMVAL",
+      "start": 378,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Plumbing Value"
+    },
+    {
+      "column": "UFEATVAL",
+      "start": 387,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Feature Value"
+    },
+    {
+      "column": "WBFPVAL",
+      "start": 396,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Fireplace Value"
+    },
+    {
+      "column": "EXMPPCT",
+      "start": 405,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Exemption Percent"
+    },
+    {
+      "column": "EXMPVAL",
+      "start": 412,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Exemption Value"
+    },
+    {
+      "column": "RCNLD",
+      "start": 423,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Replacement Cost New less"
+    },
+    {
+      "column": "ADJRCNLD",
+      "start": 434,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Adjusted Replacement Cost New"
+    },
+    {
+      "column": "ADJFACT",
+      "start": 445,
+      "length": 8,
+      "type": "Numeric",
+      "description": "Adjusted Factor"
+    },
+    {
+      "column": "RCNVAL",
+      "start": 453,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Replacing Cost new of Dwelling"
+    },
+    {
+      "column": "RECVAL",
+      "start": 464,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Recreational Room Value"
+    },
+    {
+      "column": "SFLA",
+      "start": 473,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Total Living Area"
+    },
+    {
+      "column": "SHFACT",
+      "start": 480,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Story Height Factor"
+    },
+    {
+      "column": "SUBTVAL",
+      "start": 487,
+      "length": 10,
+      "type": "Numeric",
+      "description": "Sub Total Value"
+    },
+    {
+      "column": "TRIMVAL",
+      "start": 497,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Masonry Trim Value"
+    },
+    {
+      "column": "UNFINVAL",
+      "start": 506,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Unfinished Area Value"
+    },
+    {
+      "column": "GRMUNITS",
+      "start": 515,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Gross Rent Multiplier Units"
+    },
+    {
+      "column": "GRMRENT",
+      "start": 519,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Gross Rent Multiplier Rents"
+    },
+    {
+      "column": "ADJGRMFAC",
+      "start": 526,
+      "length": 8,
+      "type": "Numeric",
+      "description": "Adjusted Gross Rent Mulitplier"
+    },
+    {
+      "column": "RESGRMVAL",
+      "start": 534,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Gross Rent Multiplier Value"
+    },
+    {
+      "column": "SALEKEY",
+      "start": 545,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Key Pointing to the Sale"
+    },
+    {
+      "column": "NOTE1",
+      "start": 554,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 1"
+    },
+    {
+      "column": "NOTE2",
+      "start": 594,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 2"
+    },
+    {
+      "column": "EFFYR",
+      "start": 634,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Effective Year"
+    },
+    {
+      "column": "PCTCOMPLET",
+      "start": 639,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Percent Complete"
+    },
+    {
+      "column": "USER1",
+      "start": 643,
+      "length": 20,
+      "type": "Alpha",
+      "description": "User Defined Field 1"
+    },
+    {
+      "column": "USER2",
+      "start": 663,
+      "length": 20,
+      "type": "Alpha",
+      "description": "User Defined Field 2"
+    },
+    {
+      "column": "USER3",
+      "start": 683,
+      "length": 20,
+      "type": "Alpha",
+      "description": "User Defined Field 3"
+    },
+    {
+      "column": "USER4",
+      "start": 703,
+      "length": 20,
+      "type": "Alpha",
+      "description": "User Defined Field 4"
+    },
+    {
+      "column": "USER5",
+      "start": 723,
+      "length": 20,
+      "type": "Alpha",
+      "description": "User Defined Field 5"
+    },
+    {
+      "column": "USER6",
+      "start": 743,
+      "length": 20,
+      "type": "Alpha",
+      "description": "User Defined Field 6"
+    },
+    {
+      "column": "USER7",
+      "start": 763,
+      "length": 20,
+      "type": "Alpha",
+      "description": "User Defined Field 7"
+    },
+    {
+      "column": "USER8",
+      "start": 783,
+      "length": 20,
+      "type": "Alpha",
+      "description": "User Defined Field 8"
+    },
+    {
+      "column": "USER9",
+      "start": 803,
+      "length": 20,
+      "type": "Alpha",
+      "description": "User Defined Field 9"
+    },
+    {
+      "column": "USER10",
+      "start": 823,
+      "length": 20,
+      "type": "Alpha",
+      "description": "User Defined Field 10"
+    },
+    {
+      "column": "WEN",
+      "start": 852,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Maintenance Date"
+    }
+  ],
+  "ADDN": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "SEQ",
+      "start": 37,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Version Number of this Record"
+    },
+    {
+      "column": "CARD",
+      "start": 41,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Building Card Number"
+    },
+    {
+      "column": "LLINE",
+      "start": 46,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Line Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 51,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "CLASS",
+      "start": 56,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Classification"
+    },
+    {
+      "column": "YRBLT",
+      "start": 60,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Year Built"
+    },
+    {
+      "column": "EFFYR",
+      "start": 65,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Effective Year"
+    },
+    {
+      "column": "LOWER",
+      "start": 70,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Lower Level Addition"
+    },
+    {
+      "column": "FIRST",
+      "start": 73,
+      "length": 3,
+      "type": "Alpha",
+      "description": "First Floor Addition"
+    },
+    {
+      "column": "SECOND",
+      "start": 76,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Second Floor Addition"
+    },
+    {
+      "column": "THIRD",
+      "start": 79,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Third Floor Addition"
+    },
+    {
+      "column": "GRADE",
+      "start": 82,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Grade"
+    },
+    {
+      "column": "GRDFACT",
+      "start": 85,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Grade Factor"
+    },
+    {
+      "column": "CDU",
+      "start": 90,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Condition/desirability/utility code"
+    },
+    {
+      "column": "DEPR",
+      "start": 92,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Percent Good From Tables"
+    },
+    {
+      "column": "PCTCOMP",
+      "start": 96,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Percent Compelete"
+    },
+    {
+      "column": "AREA",
+      "start": 100,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Area of this line"
+    },
+    {
+      "column": "AREASUM",
+      "start": 109,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Sum of Designated Structure Area"
+    },
+    {
+      "column": "VALUE",
+      "start": 120,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Value of the Addition"
+    },
+    {
+      "column": "MKTADJ",
+      "start": 131,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Override Percent Good"
+    },
+    {
+      "column": "RCNLD",
+      "start": 135,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Replacement Cose New Less"
+    },
+    {
+      "column": "EXMPPCT",
+      "start": 146,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Exemption Percent"
+    },
+    {
+      "column": "EXMPVAL",
+      "start": 153,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Exemption Value"
+    },
+    {
+      "column": "SALEKEY",
+      "start": 164,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Key Pointing to the Sale"
+    },
+    {
+      "column": "CHGRSN",
+      "start": 173,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Reason Code for Change of Value"
+    },
+    {
+      "column": "VECT",
+      "start": 175,
+      "length": 500,
+      "type": "Alpha",
+      "description": "Vector String"
+    },
+    {
+      "column": "WEN",
+      "start": 675,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Maintenance Date"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 684,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    }
+  ],
+  "OBY": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "SEQ",
+      "start": 37,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Version Number of this Record"
+    },
+    {
+      "column": "LLINE",
+      "start": 41,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Building Card Number"
+    },
+    {
+      "column": "CARD",
+      "start": 46,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Line Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 51,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "CODE",
+      "start": 56,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Oby Type Code"
+    },
+    {
+      "column": "YRBLT",
+      "start": 59,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Year Built"
+    },
+    {
+      "column": "EFFYR",
+      "start": 64,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Effective Year"
+    },
+    {
+      "column": "RECTYPE",
+      "start": 69,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Value Category"
+    },
+    {
+      "column": "YRREM",
+      "start": 70,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Year Remodeled"
+    },
+    {
+      "column": "AREA",
+      "start": 75,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Area of this line"
+    },
+    {
+      "column": "AREASUM",
+      "start": 84,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Sum of Designated Structure Area"
+    },
+    {
+      "column": "GRADE",
+      "start": 95,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Grade"
+    },
+    {
+      "column": "CLASS",
+      "start": 96,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Classification"
+    },
+    {
+      "column": "CHGRSN",
+      "start": 100,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Reason Code for Change of Value"
+    },
+    {
+      "column": "OBYMOD1",
+      "start": 102,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Modification code ( 1 of 4)"
+    },
+    {
+      "column": "OBYMOD2",
+      "start": 104,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Modification code ( 2 of 4)"
+    },
+    {
+      "column": "OBYMOD3",
+      "start": 106,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Modification code ( 3 of 4)"
+    },
+    {
+      "column": "OBYMOD4",
+      "start": 108,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Modification code ( 4 of 4)"
+    },
+    {
+      "column": "COND",
+      "start": 110,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Condition Code"
+    },
+    {
+      "column": "CNDFLAG",
+      "start": 111,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Condo Deactivation Flag"
+    },
+    {
+      "column": "CNDTYPE",
+      "start": 112,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Condo Type"
+    },
+    {
+      "column": "CNDCMPLX",
+      "start": 116,
+      "length": 32,
+      "type": "Alpha",
+      "description": "Condo Complex Decription"
+    },
+    {
+      "column": "FUNCT",
+      "start": 148,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Function used in computing this"
+    },
+    {
+      "column": "CLINE",
+      "start": 149,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Gross rent multiplier rent"
+    },
+    {
+      "column": "MKTADJ",
+      "start": 154,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Percent Good Override"
+    },
+    {
+      "column": "UNITS",
+      "start": 158,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Number of Identical Units"
+    },
+    {
+      "column": "DEPR",
+      "start": 161,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Percent Good From Tables"
+    },
+    {
+      "column": "PCTCOMP",
+      "start": 165,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Percent Complete"
+    },
+    {
+      "column": "RATE",
+      "start": 169,
+      "length": 14,
+      "type": "Numeric",
+      "description": "Rate (SF cost) from tables"
+    },
+    {
+      "column": "RCN",
+      "start": 183,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Replacement Cost New"
+    },
+    {
+      "column": "ADJFACT",
+      "start": 194,
+      "length": 8,
+      "type": "Numeric",
+      "description": "Adjustment Factor"
+    },
+    {
+      "column": "ADJRCNLD",
+      "start": 202,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Adjusted Replacement Cost New"
+    },
+    {
+      "column": "EXMPPCT",
+      "start": 213,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Exemption Percent"
+    },
+    {
+      "column": "EXMPVAL",
+      "start": 220,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Exemption Value"
+    },
+    {
+      "column": "RATEOVR",
+      "start": 231,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Override Rate"
+    },
+    {
+      "column": "MHMAKE",
+      "start": 243,
+      "length": 20,
+      "type": "Alpha",
+      "description": "Manfactured Homes Make"
+    },
+    {
+      "column": "MHMODEL",
+      "start": 263,
+      "length": 20,
+      "type": "Alpha",
+      "description": "Manfactured Homes Model"
+    },
+    {
+      "column": "MEAS1",
+      "start": 292,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Measurment 1 for a line"
+    },
+    {
+      "column": "MEAS2",
+      "start": 296,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Measuremnt 2 for a line"
+    },
+    {
+      "column": "VECT",
+      "start": 301,
+      "length": 500,
+      "type": "Alpha",
+      "description": "Vector String"
+    },
+    {
+      "column": "WEN",
+      "start": 801,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Maintenance Date"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 810,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    }
+  ],
+  "AGLAND": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 37,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "SEQ",
+      "start": 42,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Version Number of this Record"
+    },
+    {
+      "column": "CA_LL",
+      "start": 46,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Reference Cama Line Number"
+    },
+    {
+      "column": "CLASS",
+      "start": 51,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Classification"
+    },
+    {
+      "column": "SOIL",
+      "start": 55,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Soil Type"
+    },
+    {
+      "column": "USE",
+      "start": 60,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Use Type"
+    },
+    {
+      "column": "ACRES",
+      "start": 65,
+      "length": 14,
+      "type": "Numeric",
+      "description": "Total Acres"
+    },
+    {
+      "column": "SOILVAL",
+      "start": 79,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Sum of Soil/use value for parcel/tax"
+    },
+    {
+      "column": "TXSAV",
+      "start": 90,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Tax Saving"
+    },
+    {
+      "column": "OVRVAL",
+      "start": 102,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Override Value"
+    },
+    {
+      "column": "INFO1",
+      "start": 114,
+      "length": 6,
+      "type": "Alpha",
+      "description": "Soil/Use additional modifier"
+    },
+    {
+      "column": "INFO2",
+      "start": 120,
+      "length": 6,
+      "type": "Alpha",
+      "description": "Additional entry to determine rates"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 126,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 135,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Date record Updated"
+    }
+  ],
+  "SASMT": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "PROJNO",
+      "start": 37,
+      "length": 6,
+      "type": "Alpha",
+      "description": "Project Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 43,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "SEQ",
+      "start": 48,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Version Number of this Record"
+    },
+    {
+      "column": "ACREBNE",
+      "start": 52,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Acres benefited by Asmt"
+    },
+    {
+      "column": "AMOUNT",
+      "start": 64,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Amount"
+    },
+    {
+      "column": "BASE",
+      "start": 76,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Base Amount"
+    },
+    {
+      "column": "TAX1",
+      "start": 88,
+      "length": 12,
+      "type": "Numeric",
+      "description": "1st Half taxes + fee"
+    },
+    {
+      "column": "TAX2",
+      "start": 100,
+      "length": 12,
+      "type": "Numeric",
+      "description": "2nd Half taxes + fee"
+    },
+    {
+      "column": "FEE1",
+      "start": 112,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Auditors fee first half"
+    },
+    {
+      "column": "FEE2",
+      "start": 124,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Auditors fee second half"
+    },
+    {
+      "column": "PEN1",
+      "start": 136,
+      "length": 12,
+      "type": "Numeric",
+      "description": "1stHalf penalty"
+    },
+    {
+      "column": "PEN2",
+      "start": 148,
+      "length": 12,
+      "type": "Numeric",
+      "description": "2ndHalf penalty"
+    },
+    {
+      "column": "DLQ",
+      "start": 160,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Delinquent taxes"
+    },
+    {
+      "column": "DLQINT",
+      "start": 172,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Ditch interest"
+    },
+    {
+      "column": "CACCD",
+      "start": 184,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Code for calculating taxes"
+    },
+    {
+      "column": "CYCLGRP",
+      "start": 185,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Cycle Group"
+    },
+    {
+      "column": "DITCH",
+      "start": 190,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Ditch adjustment"
+    },
+    {
+      "column": "PRINCIPAL",
+      "start": 193,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Principal Amount"
+    },
+    {
+      "column": "INTEREST",
+      "start": 205,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Interest Amount"
+    },
+    {
+      "column": "CALCAMT",
+      "start": 217,
+      "length": 10,
+      "type": "Numeric",
+      "description": "Calculated Amount Due this Year"
+    },
+    {
+      "column": "OVRAMT",
+      "start": 227,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Override Amount"
+    },
+    {
+      "column": "FUTCRED",
+      "start": 239,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Future Credit Amount"
+    },
+    {
+      "column": "DEINCR",
+      "start": 251,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Declining Increment Amount"
+    },
+    {
+      "column": "FEE",
+      "start": 263,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Fee Amount"
+    },
+    {
+      "column": "VAL1",
+      "start": 275,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Value 1"
+    },
+    {
+      "column": "VAL2",
+      "start": 284,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Amount used to Compute Tax"
+    },
+    {
+      "column": "REMAIN",
+      "start": 293,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Principal Remaining for All years"
+    },
+    {
+      "column": "INTREM",
+      "start": 305,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Interest Remaining for all Years"
+    },
+    {
+      "column": "PAYOFF",
+      "start": 317,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Payoff Amount for the Year"
+    },
+    {
+      "column": "ROLLTYPE",
+      "start": 329,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Tax Roll Name"
+    },
+    {
+      "column": "NOTE1",
+      "start": 339,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 1"
+    },
+    {
+      "column": "NOTE2",
+      "start": 379,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 2"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 419,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 428,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Date record Updated"
+    }
+  ],
+  "PROJECT": [
+    {
+      "column": "PROJNO",
+      "start": 1,
+      "length": 6,
+      "type": "Alpha",
+      "description": "Project Number"
+    },
+    {
+      "column": "YRBEG",
+      "start": 7,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Start Year of Spec Asmt"
+    },
+    {
+      "column": "YREND",
+      "start": 12,
+      "length": 5,
+      "type": "Numeric",
+      "description": "End Year of Spec Asmt"
+    },
+    {
+      "column": "PROJNAM",
+      "start": 17,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Project Name"
+    },
+    {
+      "column": "ACCODE",
+      "start": 47,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Access Code for Type of Spec"
+    },
+    {
+      "column": "BONDDT",
+      "start": 49,
+      "length": 9,
+      "type": "Date",
+      "description": "Date Bonds Issued"
+    },
+    {
+      "column": "CALCD",
+      "start": 58,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Code for Calculating Taxes"
+    },
+    {
+      "column": "ROUNDCENT",
+      "start": 59,
+      "length": 6,
+      "type": "Numeric",
+      "description": "Decimal Positions to Round"
+    },
+    {
+      "column": "CATEGORY",
+      "start": 65,
+      "length": 3,
+      "type": "Numeric",
+      "description": "FX=fixed, OP=operating,"
+    },
+    {
+      "column": "ALTPROJNO",
+      "start": 68,
+      "length": 15,
+      "type": "Alpha",
+      "description": "Alternate Special Assessment"
+    },
+    {
+      "column": "UNITTYP",
+      "start": 83,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Unit Type"
+    },
+    {
+      "column": "DELFLG",
+      "start": 85,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Delete Flag"
+    },
+    {
+      "column": "DITCH",
+      "start": 86,
+      "length": 6,
+      "type": "Numeric",
+      "description": "Ditch Minimum Assessment"
+    },
+    {
+      "column": "INTMOS",
+      "start": 92,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Interest Months"
+    },
+    {
+      "column": "INTRATE",
+      "start": 95,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Interest Rate"
+    },
+    {
+      "column": "MIN1ST",
+      "start": 107,
+      "length": 8,
+      "type": "Numeric",
+      "description": "Total 1st+ 2nd< MIN1ST, put in"
+    },
+    {
+      "column": "MINHALF",
+      "start": 115,
+      "length": 8,
+      "type": "Numeric",
+      "description": "Minimum Half Amount to be"
+    },
+    {
+      "column": "ORDCODE",
+      "start": 123,
+      "length": 6,
+      "type": "Alpha",
+      "description": "Ordinance Code"
+    },
+    {
+      "column": "NOTE1",
+      "start": 129,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 1"
+    },
+    {
+      "column": "NOTE2",
+      "start": 169,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note Field 2"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 209,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 218,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Maintenance Date"
+    }
+  ],
+  "HMSD": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 37,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "SEQ",
+      "start": 42,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Version Number of this Record"
+    },
+    {
+      "column": "ROLLTYPE",
+      "start": 46,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Tax Roll Name"
+    },
+    {
+      "column": "HMSDAPPL",
+      "start": 56,
+      "length": 7,
+      "type": "Numeric",
+      "description": "HMSD Application Number"
+    },
+    {
+      "column": "HMSDCODE",
+      "start": 63,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Code indicating age or disability"
+    },
+    {
+      "column": "NAME1",
+      "start": 64,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Application Name 1"
+    },
+    {
+      "column": "ADDR1",
+      "start": 104,
+      "length": 80,
+      "type": "Alpha",
+      "description": "Address Line 1"
+    },
+    {
+      "column": "ADDR2",
+      "start": 184,
+      "length": 80,
+      "type": "Alpha",
+      "description": "Address Line 2"
+    },
+    {
+      "column": "ADDR3",
+      "start": 264,
+      "length": 80,
+      "type": "Alpha",
+      "description": "Address Line 3"
+    },
+    {
+      "column": "CITYNAME",
+      "start": 344,
+      "length": 40,
+      "type": "Alpha",
+      "description": "City Name"
+    },
+    {
+      "column": "STATECODE",
+      "start": 384,
+      "length": 2,
+      "type": "Alpha",
+      "description": "State or Province (2-digit)"
+    },
+    {
+      "column": "ZIP1",
+      "start": 386,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Zip Code, First 5-digits"
+    },
+    {
+      "column": "ZIP2",
+      "start": 391,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Zip Code Suffic, Last 4-digits"
+    },
+    {
+      "column": "HMSDLAND",
+      "start": 395,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Homestead Land Value"
+    },
+    {
+      "column": "HMSDBLDG",
+      "start": 406,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Homestead Building Value"
+    },
+    {
+      "column": "REDLAND",
+      "start": 417,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Reduced Homestead Land Value"
+    },
+    {
+      "column": "REDBLDG",
+      "start": 428,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Reduced Homestead Building"
+    },
+    {
+      "column": "NOTE1",
+      "start": 439,
+      "length": 80,
+      "type": "Alpha",
+      "description": "Note Field 1"
+    },
+    {
+      "column": "NOTE2",
+      "start": 519,
+      "length": 80,
+      "type": "Alpha",
+      "description": "Note Field 2"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 599,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 608,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Maintenance Date"
+    }
+  ],
+  "CHARGE": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 37,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "STUB",
+      "start": 42,
+      "length": 9,
+      "type": "Numeric",
+      "description": "Stub Number"
+    },
+    {
+      "column": "TAXDIST",
+      "start": 51,
+      "length": 10,
+      "type": "Numeric",
+      "description": "Tax district"
+    },
+    {
+      "column": "ORGCHG",
+      "start": 61,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Original charge"
+    },
+    {
+      "column": "ORGRED",
+      "start": 73,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Original reduction"
+    },
+    {
+      "column": "ORGADJ",
+      "start": 85,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Original Adjustment"
+    },
+    {
+      "column": "ORGRLBK",
+      "start": 97,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Original rollback"
+    },
+    {
+      "column": "ORGHMSD",
+      "start": 109,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Original homestead"
+    },
+    {
+      "column": "ORGHMRB",
+      "start": 121,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Original homestead rollback"
+    },
+    {
+      "column": "ORGINT",
+      "start": 133,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Original interest"
+    },
+    {
+      "column": "ORGDELQ",
+      "start": 145,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Original delinquent"
+    },
+    {
+      "column": "CURCHG1",
+      "start": 157,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current charge 1st half"
+    },
+    {
+      "column": "CURCHG2",
+      "start": 169,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current charge 2nd half"
+    },
+    {
+      "column": "CURRED1",
+      "start": 181,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current reduction 1st half"
+    },
+    {
+      "column": "CURRED2",
+      "start": 193,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current reduction 2nd half"
+    },
+    {
+      "column": "CURADJ1",
+      "start": 205,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current adjust 1st half"
+    },
+    {
+      "column": "CURADJ2",
+      "start": 217,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current adjust 2nd half"
+    },
+    {
+      "column": "CURRLBK1",
+      "start": 229,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current rollback 1st half"
+    },
+    {
+      "column": "CURRLBK2",
+      "start": 241,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current rollback 2nd half"
+    },
+    {
+      "column": "CURHMSD1",
+      "start": 253,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current homestead 1st half"
+    },
+    {
+      "column": "CURHMSD2",
+      "start": 265,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current homestead 2nd half"
+    },
+    {
+      "column": "CURHMRB1",
+      "start": 277,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current homestead rollback 1st half"
+    },
+    {
+      "column": "CURHMRB2",
+      "start": 289,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current homestead rollback 2nd"
+    },
+    {
+      "column": "CURINT",
+      "start": 301,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current interest"
+    },
+    {
+      "column": "CURPEN1",
+      "start": 313,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current penalty 1st half"
+    },
+    {
+      "column": "CURPEN2",
+      "start": 325,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current penalty 2nd half"
+    },
+    {
+      "column": "CURDELQ",
+      "start": 337,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Current delinquent"
+    },
+    {
+      "column": "SANETD",
+      "start": 349,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Special assessment net due3"
+    },
+    {
+      "column": "SANET1",
+      "start": 361,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Special assessment net 1st half"
+    },
+    {
+      "column": "SANET2",
+      "start": 373,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Special assessment net 2nd half"
+    },
+    {
+      "column": "SAORGD",
+      "start": 385,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Special assessment original charge"
+    },
+    {
+      "column": "SAORG1",
+      "start": 397,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Special assessment original 1st"
+    },
+    {
+      "column": "SAORG2",
+      "start": 409,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Special assessment original 2nd"
+    },
+    {
+      "column": "NETTAX",
+      "start": 421,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Net Tax"
+    },
+    {
+      "column": "NETDUE",
+      "start": 433,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Net due"
+    },
+    {
+      "column": "NETDELQ",
+      "start": 445,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Net delinquent"
+    },
+    {
+      "column": "NET1ST",
+      "start": 457,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Net 1st half"
+    },
+    {
+      "column": "NET2ND",
+      "start": 469,
+      "length": 12,
+      "type": "Numeric",
+      "description": "Net 2nd half"
+    }
+  ],
+  "CINTEXT": [
+    {
+      "column": "COMINTEXT",
+      "start": 1,
+      "length": 10,
+      "type": "Alpha",
+      "description": "COMINTEXT' Label"
+    },
+    {
+      "column": "USE",
+      "start": 20,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Use Type"
+    },
+    {
+      "column": "DESCR",
+      "start": 23,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Description"
+    }
+  ],
+  "CIEXT": [
+    {
+      "column": "COMINTEXT",
+      "start": 1,
+      "length": 10,
+      "type": "Alpha",
+      "description": "COMINTEXT' Label"
+    },
+    {
+      "column": "EXTWALL",
+      "start": 11,
+      "length": 8,
+      "type": "Alpha",
+      "description": "EXTWALL' Label"
+    },
+    {
+      "column": "EXTWALL",
+      "start": 19,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Exterior Wall Code"
+    },
+    {
+      "column": "DESCR",
+      "start": 21,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Description"
+    }
+  ],
+  "CIFEAT": [
+    {
+      "column": "COMINTEXT",
+      "start": 1,
+      "length": 10,
+      "type": "Alpha",
+      "description": "COMINTEXT' Label"
+    },
+    {
+      "column": "STRUCTURE",
+      "start": 11,
+      "length": 15,
+      "type": "Alpha",
+      "description": "STRUCTURE CODE' Label"
+    },
+    {
+      "column": "CODE",
+      "start": 26,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Stucture Code"
+    },
+    {
+      "column": "DESCR",
+      "start": 30,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Description"
+    }
+  ],
+  "CISTRUCT": [
+    {
+      "column": "COMDAT",
+      "start": 1,
+      "length": 7,
+      "type": "Alpha",
+      "description": "COMDAT' Label"
+    },
+    {
+      "column": "EXTWALL",
+      "start": 8,
+      "length": 8,
+      "type": "Alpha",
+      "description": "EXTWALL' Label"
+    },
+    {
+      "column": "CODE",
+      "start": 16,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Stucture Code"
+    },
+    {
+      "column": "DESCR",
+      "start": 19,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Description"
+    }
+  ],
+  "CICDU": [
+    {
+      "column": "COMDAT",
+      "start": 1,
+      "length": 7,
+      "type": "Alpha",
+      "description": "COMDAT' Label"
+    },
+    {
+      "column": "CDU",
+      "start": 8,
+      "length": 4,
+      "type": "Alpha",
+      "description": "CDU' Label"
+    },
+    {
+      "column": "CDUTBLE",
+      "start": 12,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Cdu Table"
+    },
+    {
+      "column": "CDU",
+      "start": 14,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Condition/desirability/utility code"
+    }
+  ],
+  "RCFACT": [
+    {
+      "column": "DWELDAT",
+      "start": 1,
+      "length": 8,
+      "type": "Alpha",
+      "description": "DWELDAT\" Label"
+    },
+    {
+      "column": "ATTIC",
+      "start": 9,
+      "length": 6,
+      "type": "Alpha",
+      "description": "ATTIC' Label"
+    },
+    {
+      "column": "BSMT",
+      "start": 9,
+      "length": 5,
+      "type": "Alpha",
+      "description": "BSMT' Label"
+    },
+    {
+      "column": "GRADE",
+      "start": 9,
+      "length": 6,
+      "type": "Alpha",
+      "description": "GRADE' Label"
+    },
+    {
+      "column": "EXTWALL",
+      "start": 9,
+      "length": 8,
+      "type": "Alpha",
+      "description": "EXTWALL' Label"
+    },
+    {
+      "column": "HEAT",
+      "start": 9,
+      "length": 5,
+      "type": "Alpha",
+      "description": "HEAT' Label"
+    },
+    {
+      "column": "CODE",
+      "start": 14,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Code for Variable Being Costed"
+    },
+    {
+      "column": "CODE",
+      "start": 15,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Code for Variable Being Costed"
+    },
+    {
+      "column": "CODE",
+      "start": 17,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Code for Variable Being Costed"
+    },
+    {
+      "column": "DESCRIB",
+      "start": 19,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Description of Factor"
+    },
+    {
+      "column": "DESCIB",
+      "start": 19,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Description of Factor"
+    },
+    {
+      "column": "DESCRIB",
+      "start": 20,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Description of Factor"
+    },
+    {
+      "column": "DESCRIB",
+      "start": 22,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Description of Factor"
+    }
+  ],
+  "AEDIT": [
+    {
+      "column": "TBLE",
+      "start": 1,
+      "length": 20,
+      "type": "Alpha",
+      "description": "Table Location of Data Being"
+    },
+    {
+      "column": "DESCRIB",
+      "start": 4,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Field Location of Data Being"
+    },
+    {
+      "column": "FLD",
+      "start": 21,
+      "length": 20,
+      "type": "Alpha",
+      "description": "Field Location of Data Being"
+    },
+    {
+      "column": "VAL",
+      "start": 41,
+      "length": 20,
+      "type": "Alpha",
+      "description": "Allowable Value"
+    },
+    {
+      "column": "MSG",
+      "start": 61,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Description of Value"
+    },
+    {
+      "column": "WEN",
+      "start": 101,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Maintenance Date"
+    }
+  ],
+  "RCOBY": [
+    {
+      "column": "CODE",
+      "start": 1,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Table Location of Data Being"
+    }
+  ],
+  "COMFEAT": [
+    {
+      "column": "CARD",
+      "start": 31,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Building (card) number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 36,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "LLINE",
+      "start": 41,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Line Number"
+    },
+    {
+      "column": "SEQ",
+      "start": 46,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Version Number of this Record"
+    },
+    {
+      "column": "STRUCT",
+      "start": 50,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Struct Code"
+    },
+    {
+      "column": "OFSIGN",
+      "start": 53,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Other features sign"
+    },
+    {
+      "column": "MEAS1",
+      "start": 54,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Measurement 1 for a line"
+    },
+    {
+      "column": "MEAS2",
+      "start": 61,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Measurement 2 for a line"
+    },
+    {
+      "column": "STOPS",
+      "start": 68,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Number of stops if code is an"
+    },
+    {
+      "column": "OFNUM",
+      "start": 71,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Identical units for a line"
+    },
+    {
+      "column": "PRICE",
+      "start": 74,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Value of other features line"
+    },
+    {
+      "column": "VECT",
+      "start": 85,
+      "length": 500,
+      "type": "Alpha",
+      "description": "Vector Setting"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 585,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 594,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Date record Updated"
+    }
+  ],
+  "PERMIT": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "JUR",
+      "start": 31,
+      "length": 6,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "NUM",
+      "start": 37,
+      "length": 18,
+      "type": "Alpha",
+      "description": "Tax Year"
+    },
+    {
+      "column": "PERMDT",
+      "start": 55,
+      "length": 9,
+      "type": "Date",
+      "description": "User ID of last maintenance"
+    },
+    {
+      "column": "WHY",
+      "start": 64,
+      "length": 10,
+      "type": "Alpha",
+      "description": "Why"
+    },
+    {
+      "column": "ADRNO",
+      "start": 74,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Street Number"
+    },
+    {
+      "column": "ADRADD",
+      "start": 85,
+      "length": 6,
+      "type": "Alpha",
+      "description": "Address number suffix"
+    },
+    {
+      "column": "ADRDIR",
+      "start": 91,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Street Direction"
+    },
+    {
+      "column": "ADRSTR",
+      "start": 93,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Address street name"
+    },
+    {
+      "column": "ADSUF",
+      "start": 123,
+      "length": 8,
+      "type": "Alpha",
+      "description": "Street suffix"
+    },
+    {
+      "column": "ADSUF2",
+      "start": 131,
+      "length": 8,
+      "type": "Alpha",
+      "description": "Street suffix #2"
+    },
+    {
+      "column": "ID1",
+      "start": 139,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Id field 1"
+    },
+    {
+      "column": "ID2",
+      "start": 142,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Id field 2"
+    },
+    {
+      "column": "AMOUNT",
+      "start": 145,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Amount"
+    },
+    {
+      "column": "FLAG",
+      "start": 156,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Flag"
+    },
+    {
+      "column": "NOTE1",
+      "start": 157,
+      "length": 80,
+      "type": "Alpha",
+      "description": "Note1"
+    },
+    {
+      "column": "NOTE2",
+      "start": 237,
+      "length": 80,
+      "type": "Alpha",
+      "description": "Note2"
+    },
+    {
+      "column": "NOTE3",
+      "start": 317,
+      "length": 80,
+      "type": "Alpha",
+      "description": "Note3"
+    },
+    {
+      "column": "DRAWNDT",
+      "start": 397,
+      "length": 9,
+      "type": "Date",
+      "description": ""
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 406,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 415,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Date record Updated"
+    }
+  ],
+  "COMDATL": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "CARD",
+      "start": 31,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Building (card) number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 36,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "SEQ",
+      "start": 41,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Version number of this record"
+    },
+    {
+      "column": "BLDNUM",
+      "start": 45,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Building number"
+    },
+    {
+      "column": "YRBLT",
+      "start": 49,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Year Build"
+    },
+    {
+      "column": "EFFYR",
+      "start": 54,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Effective Year"
+    },
+    {
+      "column": "UNITS",
+      "start": 59,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Units"
+    },
+    {
+      "column": "STRUCTURE",
+      "start": 64,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Structure code"
+    },
+    {
+      "column": "GRADE",
+      "start": 67,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Grade"
+    },
+    {
+      "column": "GFACT",
+      "start": 70,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Grade factor"
+    },
+    {
+      "column": "NUMIDENT",
+      "start": 77,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Number of identical units"
+    },
+    {
+      "column": "BLDFROS_D",
+      "start": 80,
+      "length": 31,
+      "type": "Alpha",
+      "description": ""
+    },
+    {
+      "column": "BLDGROS_V",
+      "start": 111,
+      "length": 11,
+      "type": "Alpha",
+      "description": ""
+    },
+    {
+      "column": "NOTE1",
+      "start": 122,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note 1"
+    },
+    {
+      "column": "NOTE2",
+      "start": 162,
+      "length": 40,
+      "type": "Alpha",
+      "description": "Note 2"
+    },
+    {
+      "column": "IMPRNAME",
+      "start": 202,
+      "length": 30,
+      "type": "Alpha",
+      "description": ""
+    },
+    {
+      "column": "PARKCOVE",
+      "start": 232,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Number of parking spaces covered"
+    },
+    {
+      "column": "PARKUNCOV",
+      "start": 237,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Number of parking spaces"
+    },
+    {
+      "column": "RCN",
+      "start": 242,
+      "length": 11,
+      "type": "Alpha",
+      "description": "Replacement cost new"
+    },
+    {
+      "column": "PCG",
+      "start": 253,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Market adjustment/depr"
+    },
+    {
+      "column": "RCNLD",
+      "start": 257,
+      "length": 11,
+      "type": "Alpha",
+      "description": "Replacement cost new less"
+    },
+    {
+      "column": "PCTCOMP",
+      "start": 268,
+      "length": 4,
+      "type": "Alpha",
+      "description": "Percent of construction completed"
+    },
+    {
+      "column": "BLDGVAL",
+      "start": 272,
+      "length": 11,
+      "type": "Alpha",
+      "description": "Building value"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 283,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 292,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Date record Updated"
+    }
+  ],
+  "COMINTEX": [
+    {
+      "column": "CARD",
+      "start": 31,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Building (card) number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 36,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "LLINE",
+      "start": 41,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Line number"
+    },
+    {
+      "column": "SEQ",
+      "start": 46,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Version Number of this Record"
+    },
+    {
+      "column": "SECT",
+      "start": 50,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Section number"
+    },
+    {
+      "column": "FLRFROM",
+      "start": 53,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Range of floors lower value"
+    },
+    {
+      "column": "FLRTO",
+      "start": 55,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Range of floors upper value"
+    },
+    {
+      "column": "WIDTH",
+      "start": 57,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Width dimension"
+    },
+    {
+      "column": "LNGTH",
+      "start": 62,
+      "length": 5,
+      "type": "Numeric",
+      "description": ""
+    },
+    {
+      "column": "AREA",
+      "start": 67,
+      "length": 10,
+      "type": "Numeric",
+      "description": "Area of this line"
+    },
+    {
+      "column": "PERIM",
+      "start": 77,
+      "length": 6,
+      "type": "Numeric",
+      "description": "Perimeter of building/line"
+    },
+    {
+      "column": "USETYPE",
+      "start": 83,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Use type"
+    },
+    {
+      "column": "WALLHGT",
+      "start": 86,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Wall height"
+    },
+    {
+      "column": "EXTWALL",
+      "start": 89,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Exterior wall code"
+    },
+    {
+      "column": "CONSTR",
+      "start": 91,
+      "length": 2,
+      "type": "Alpha",
+      "description": "Construction type"
+    },
+    {
+      "column": "INTFIN",
+      "start": 93,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Interior finish"
+    },
+    {
+      "column": "HEAT",
+      "start": 97,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Heat code"
+    },
+    {
+      "column": "AIR",
+      "start": 98,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Air conditioning code"
+    },
+    {
+      "column": "PLUMB",
+      "start": 99,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Plumbing code"
+    },
+    {
+      "column": "PHYCOND",
+      "start": 100,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Physical condition"
+    },
+    {
+      "column": "FUNCTUTIL",
+      "start": 101,
+      "length": 1,
+      "type": "Alpha",
+      "description": "Functional utility"
+    },
+    {
+      "column": "RCN",
+      "start": 102,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Replacement cost new"
+    },
+    {
+      "column": "PCTG",
+      "start": 113,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Market adustment/Depreciation"
+    },
+    {
+      "column": "PRICE",
+      "start": 117,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Price"
+    },
+    {
+      "column": "LINEVAL",
+      "start": 128,
+      "length": 11,
+      "type": "Numeric",
+      "description": "RCN for line before other features"
+    },
+    {
+      "column": "FEATVAL",
+      "start": 139,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Other features value"
+    },
+    {
+      "column": "STORIES",
+      "start": 150,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Story height"
+    },
+    {
+      "column": "SF",
+      "start": 153,
+      "length": 10,
+      "type": "Numeric",
+      "description": ""
+    },
+    {
+      "column": "RENTPCT",
+      "start": 163,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Percent rentable"
+    },
+    {
+      "column": "VECT",
+      "start": 167,
+      "length": 500,
+      "type": "Alpha",
+      "description": "Vector string"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 667,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 676,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Date record Updated"
+    }
+  ],
+  "COMAPT": [
+    {
+      "column": "PARID",
+      "start": 1,
+      "length": 30,
+      "type": "Alpha",
+      "description": "Parcel Id Number"
+    },
+    {
+      "column": "CARD",
+      "start": 31,
+      "length": 5,
+      "type": "Alpha",
+      "description": "County Number"
+    },
+    {
+      "column": "TAXYR",
+      "start": 36,
+      "length": 5,
+      "type": "Numeric",
+      "description": "Tax Year"
+    },
+    {
+      "column": "SEQ",
+      "start": 41,
+      "length": 4,
+      "type": "Numeric",
+      "description": "Version Number of this Record"
+    },
+    {
+      "column": "USETYPE",
+      "start": 45,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Interior use type"
+    },
+    {
+      "column": "CNT",
+      "start": 48,
+      "length": 7,
+      "type": "Alpha",
+      "description": "Number of units of this type"
+    },
+    {
+      "column": "BED",
+      "start": 55,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Number of bedrooms"
+    },
+    {
+      "column": "BATH",
+      "start": 58,
+      "length": 3,
+      "type": "Alpha",
+      "description": "Number of full baths"
+    },
+    {
+      "column": "HALF",
+      "start": 61,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Number of half baths"
+    },
+    {
+      "column": "OTHER",
+      "start": 64,
+      "length": 3,
+      "type": "Numeric",
+      "description": "Other feature count (usually"
+    },
+    {
+      "column": "RENT",
+      "start": 67,
+      "length": 7,
+      "type": "Numeric",
+      "description": "Rent per apartment"
+    },
+    {
+      "column": "INCOME",
+      "start": 74,
+      "length": 11,
+      "type": "Numeric",
+      "description": "Total income value"
+    },
+    {
+      "column": "DEACTIVAT",
+      "start": 85,
+      "length": 9,
+      "type": "Date",
+      "description": "Deactivation Date"
+    },
+    {
+      "column": "WEN",
+      "start": 94,
+      "length": 9,
+      "type": "Date",
+      "description": "Last Date record Updated"
+    }
+  ],
+  "LPNHB": [
+    {
+      "column": "PARDAT",
+      "start": 1,
+      "length": 7,
+      "type": "Alpha",
+      "description": "Pardat Label"
+    },
+    {
+      "column": "NBHD",
+      "start": 8,
+      "length": 5,
+      "type": "Alpha",
+      "description": "Nbhd Label"
+    },
+    {
+      "column": "NBHD",
+      "start": 13,
+      "length": 9,
+      "type": "Alpha",
+      "description": "Neighborhood Number"
+    },
+    {
+      "column": "DESCRIB",
+      "start": 22,
+      "length": 44,
+      "type": "Alpha",
+      "description": "Nbhd Description"
+    }
+  ]
+}

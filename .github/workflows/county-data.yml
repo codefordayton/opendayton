@@ -1,0 +1,41 @@
+name: Rebuild County database
+
+# Rebuilds county.duckdb from the newest Montgomery County bulk files,
+# publishes it to the `county-data` release, and pokes the repo so Railway
+# redeploys with the fresh file. The County refreshes the tax roll daily and
+# CAMA/sales monthly; monthly is plenty.
+
+on:
+  schedule:
+    - cron: "17 9 2 * *"   # 09:17 UTC on the 2nd of each month
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --frozen
+      - name: Build county.duckdb
+        run: uv run python -m county.build
+      - name: Run the county tests against the fresh build
+        run: uv run pytest -q tests/test_county.py
+      - name: Publish to the county-data release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload county-data county/county.duckdb --clobber
+          gh release edit county-data --notes "Rebuilt $(date -u +%F) by the county-data workflow. Source file dates are in the _meta table. Owner names and mailing addresses are not included."
+      - name: Record the build so Railway redeploys
+        run: |
+          git config user.name "county-data workflow"
+          git config user.email "noreply@codefordayton.org"
+          date -u +%F > county/LAST_BUILD
+          git add county/LAST_BUILD
+          git commit -m "county-data: rebuilt $(date -u +%F)" || exit 0
+          git push

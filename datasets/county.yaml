@@ -1,0 +1,275 @@
+# OpenDayton — Montgomery County bulk data, as loaded into county.duckdb.
+#
+# Built by `uv run python -m county.build` from the Auditor/Treasurer file
+# downloads (https://go.mcohio.org/applications/treasurer/search/filedownloads.cfm).
+# This file documents every table and column the `county_sql` tool may query;
+# the build validates that each documented column exists. Owner names and
+# mailing addresses are dropped at build time and are not in the database.
+
+publisher: Montgomery County Auditor and Treasurer
+source_page: https://go.mcohio.org/applications/treasurer/search/filedownloads.cfm
+public_via: County Treasurer bulk file downloads (public, no login)
+description: >
+  Countywide parcel-level records from the Montgomery County Auditor and
+  Treasurer: the current tax roll (one row per parcel with values, tenure
+  flags, delinquency, foreclosure, and census tract), the delinquent list,
+  every recorded property transfer since 2001 (2003-2010 not published),
+  and the Auditor's CAMA assessment extract (dwelling characteristics,
+  building permits back to the 1990s, apartment unit counts). All of
+  Montgomery County, not just Dayton — filter with city_township = 'DAYTON'
+  or tax_district = 'R72' for the City of Dayton.
+
+join_keys:
+  - parcel_id is the key across every table (format R72 08702 0039). The City's
+    ArcGIS layers carry the same id as PARCELID / TAXPINNO, so County and City data join directly.
+  - census_tract on taxroll joins to Census/ACS tract data (format 39113-110201-3; the middle segment is the tract).
+  - nbhd (Auditor neighborhood code) joins to nbhd_codes for a name. These are appraisal neighborhoods, not City neighborhoods.
+
+tables:
+
+  taxroll:
+    description: >
+      The current tax roll: one row per parcel, countywide (~255,000). Property
+      class, land use, appraised and taxable values, owner-occupancy and
+      homestead flags, rental registration, delinquent and amount-due figures,
+      foreclosure date, last sale, year built, square footage, and census tract.
+      Refreshed by the County daily; see _meta for the file date.
+    columns:
+      tax_year: Tax year the roll is for.
+      parcel_id: Parcel ID, e.g. R72 08702 0039.
+      parcel_location: Property street address (no city).
+      parcel_zip: Property ZIP code.
+      city_township: DAYTON for City of Dayton parcels (also GERMANTOWN); blank for the rest of the county.
+      tax_district: Taxing district code; the first segment of the parcel id. R72 = Dayton.
+      census_tract: Census tract as 39113-TTTTTT-B (state-county, tract, block group digit).
+      nbhd: Auditor appraisal neighborhood code; join nbhd_codes.
+      class: Property class — R residential, C commercial, I industrial, A agricultural, E exempt, U utility.
+      luc: Land use code (e.g. 510 single family, 520 two family, 401-499 apartments/commercial).
+      acres: Parcel acreage. Zero for many urban lots; use sq_ft.
+      sq_ft: Lot square footage.
+      year_built: Year the main structure was built; null for vacant land.
+      appraised_land: 100% appraised land value ($).
+      appraised_bldg: 100% appraised building value ($).
+      appraised_total: 100% appraised total value ($).
+      taxable_land: 35% taxable land value ($).
+      taxable_bldg: 35% taxable building value ($).
+      taxable_total: 35% taxable total value ($).
+      owner_occupied: Y if the parcel receives the owner-occupancy tax credit — the best public tenure flag (~136,000 Y).
+      homestead: Y if the parcel has a homestead exemption (age/disability/income-restricted; a subset of owner-occupied).
+      rental_registered: Y if registered with the County Rental Registration Program (~17,000). Measures registration, not rental status.
+      dayton_credit: Y if the parcel receives the Dayton income-tax credit.
+      net_delinquent: Net delinquent taxes owed ($). > 0 means the parcel is delinquent.
+      hlf1_delinquent: Delinquent plus unpaid first-half amount ($).
+      full_year_amount_due: Full-year amount due ($).
+      hlf1_amount_due: First-half amount due ($).
+      hlf2_amount_due: Second-half amount due ($).
+      hlf1_charge: First-half gross tax charge ($).
+      hlf2_charge: Second-half gross tax charge ($).
+      hlf1_adjusted_charge: First-half charge after reduction factor ($).
+      hlf2_adjusted_charge: Second-half charge after reduction factor ($).
+      hlf1_penalty: First-half penalty ($).
+      hlf2_penalty: Second-half penalty ($).
+      hlf1_special_assessments: First-half special assessments ($).
+      hlf2_special_assessments: Second-half special assessments ($).
+      foreclosure_date: Date of foreclosure filing; null if none (~1,000 parcels).
+      sale_date: Date of the most recent sale.
+      sale_price: Price of the most recent sale ($).
+      mailing_city: City the tax bill is mailed to. Differs from the property's city for absentee owners.
+      gross_tax_rate: Gross millage.
+      effective_tax_rate: Effective millage after reduction factors.
+      due_date: Due date of the current collection cycle.
+      bill_half: Current collection period — 1 first half, 2 second half, 0 delinquent cycle.
+      legal1: Legal description line 1 (usually the lot number).
+      roll_type: County roll type (RP_OH real property; others are manufactured homes/utilities).
+
+  delinquent:
+    description: >
+      The County's certified delinquent list (~25,000 parcels): the same layout
+      as the tax roll, restricted to parcels with delinquent taxes, plus the
+      certified delinquent year. Use taxroll.net_delinquent > 0 for the current
+      picture; use this table for the certified list and delinquent year.
+    columns:
+      parcel_id: Parcel ID.
+      parcel_location: Property street address.
+      class: Property class (R/C/I/A/E/U).
+      luc: Land use code.
+      net_delinquent: Net delinquent taxes owed ($).
+      full_year_amount_due: Full-year amount due ($).
+      appraised_total: 100% appraised total value ($).
+      taxable_total: 35% taxable total value ($).
+      certified_delinquent_year: Tax year the parcel was certified delinquent.
+      foreclosure_date: Foreclosure filing date, if any.
+      year_built: Year built.
+      nbhd: Auditor neighborhood code.
+      tax_district: Taxing district code (R72 = Dayton).
+      mailing_city: City the tax bill is mailed to.
+
+  sales:
+    description: >
+      Every recorded property transfer in the County's yearly sales files:
+      2001-2002 and 2011 to date (the County does not publish 2003-2010).
+      ~420,000 transfers with date, price, validity code, sale type, class,
+      values at the time of sale, and the buyer's mailing city/state.
+      For market analysis filter sale_validity = 'VALID SALE' and sale_price > 0.
+    columns:
+      parcel_id: Parcel ID.
+      sale_date: Date of the transfer.
+      sale_price: Sale price ($); 0 for non-monetary transfers.
+      sale_validity: Auditor's validity code — VALID SALE, NOT VALIDATED, RELATED INDIVIDUALS OR CORPORATIONS, LIQUIDATION/FORECLOSURE, SALE INVOLVING MULTIPLE PARCELS, NOT OPEN MARKET, … Null in 2001-2002.
+      sale_type: LAND AND BUILDING, LAND ONLY, BUILDING ONLY, MOBILE HOME.
+      class: Property class at time of sale.
+      parcel_location: Property street address.
+      mailing_city_state: Buyer's mailing city, state, ZIP (e.g. VANDALIA OH 45377); out-of-state suggests an investor buyer.
+      conveyance_number: County conveyance number.
+      deed_reference: Recorder's deed reference (2020s files only).
+      appraised_total: 100% appraised total at time of sale ($).
+      taxable_total: 35% taxable total at time of sale ($).
+      acres: Acreage.
+      nbhd: Auditor neighborhood code (recent files only).
+      file_year: Which yearly file the row came from (matches year of sale_date).
+
+  cama_parcel:
+    description: >
+      Auditor CAMA parcel master (~260,000): address, appraisal neighborhood,
+      class, land use, and the number of living units on the parcel — the
+      denominator for housing-unit counts.
+    columns:
+      parcel_id: Parcel ID.
+      tax_year: Tax year of the extract.
+      address: Property street address assembled from the CAMA address parts.
+      city: Property city.
+      zip: Property ZIP.
+      nbhd: Auditor neighborhood code; join nbhd_codes.
+      class: Property class.
+      luc: Land use code.
+      living_units: Number of dwelling units on the parcel (0 for vacant/non-residential).
+      calc_acres: Calculated acreage.
+      acres: Deeded acreage.
+      street_type: Street type code.
+      traffic: Traffic code.
+      topography: Topography code.
+      location_code: Location code.
+      utility: Utilities code.
+      note1: Appraiser note.
+      note2: Appraiser note.
+
+  cama_dwelling:
+    description: >
+      One row per residential dwelling card (~189,000): stories, exterior wall,
+      style, year built, remodel year, rooms, bedrooms, baths, basement, heat,
+      construction grade, condition (CDU), attic, living area, fireplaces.
+      A parcel with more than one dwelling has several cards. Decode *_code
+      columns with cama_codes (column_name = EXTWALL, BSMT, HEAT, ATTIC, GRADE, CDU).
+    columns:
+      parcel_id: Parcel ID.
+      card: Dwelling card number on the parcel (1 for most parcels).
+      tax_year: Tax year of the extract.
+      stories: Number of stories (e.g. 1.0, 1.5, 2.0).
+      ext_wall_code: Exterior wall code; decode via cama_codes EXTWALL (1 frame, 2 brick, …).
+      style_code: Architectural style code.
+      year_built: Year built.
+      year_remodeled: Year remodeled, if any.
+      rooms: Total rooms.
+      bedrooms: Bedrooms.
+      family_rooms: Family rooms.
+      full_baths: Full bathrooms.
+      half_baths: Half bathrooms.
+      basement_code: Basement code; decode via cama_codes BSMT (1 none, 2 crawl, 3 part, 4 full).
+      heat_code: Heat code; decode via cama_codes HEAT (1 none, 2 non-central, 3 central heat, 4 central A/C).
+      heat_system_code: Heating system type code.
+      fuel_code: Heating fuel code.
+      grade: Construction grade (A+ … E-); decode via cama_codes GRADE.
+      condition_code: Condition — EX excellent, VG very good, GD good, AV average, FR fair, PR poor, VP very poor, UN unsound.
+      attic_code: Attic code; decode via cama_codes ATTIC.
+      living_area_sqft: Total finished living area (sq ft).
+      fireplaces: Number of wood-burning fireplace openings.
+      effective_year: Effective year built used for depreciation.
+      record_type: Value category record type.
+
+  cama_permit:
+    description: >
+      Building permits linked to parcels from the Auditor's CAMA extract
+      (~250,000, mostly 1990s to date, ~10,000/year): permit number, date,
+      type (DWLG, ADDN, ALT, DEMO, ELECTRIC, FURNACE, AC, GAS LINE, REMODEL,
+      FENCING, …), address, amount, and status. DEMO is demolition. The 2019
+      spike is the Memorial Day tornado outbreak.
+    columns:
+      parcel_id: Parcel ID.
+      permit_number: Permit number (jurisdiction-prefixed, e.g. BLD08-00158).
+      permit_date: Permit date. ~1,500 rows have no date.
+      permit_type: Permit type/reason code (DEMO, DWLG, ADDN, ALT, ELECTRIC, FURNACE, AC, GAS LINE, REMODEL, FENCING, MISC, …). Null for ~21,000 older rows.
+      address: Address on the permit.
+      amount: Declared value/amount ($); often 0.
+      status_code: Status — C complete/closed, O open, R.
+      notes: Permit notes.
+      deactivated_date: Date the record was deactivated, if any.
+
+  cama_apartment:
+    description: >
+      Apartment unit inventory by bedroom type for multifamily parcels (~6,800
+      rows, ~44,800 units on ~3,600 parcels): unit count, bedrooms, baths, and
+      the assessor's rent. Rents are valuation (economic) rents used for the
+      income approach, not market rents — use for inventory, not affordability.
+    columns:
+      parcel_id: Parcel ID.
+      card: Building card number.
+      tax_year: Tax year of the extract.
+      use_type_code: Interior use type code.
+      unit_count: Number of units of this type on the card.
+      bedrooms: Bedrooms per unit.
+      full_baths: Full baths per unit.
+      half_baths: Half baths per unit.
+      annual_rent_per_unit: Assessor's annual rent per unit ($) — valuation rent, not market.
+      annual_income: Assessor's total annual income for this unit type ($).
+
+  cama_codes:
+    description: >
+      Code lookup tables shipped with the CAMA extract plus the standard CDU
+      condition codes. Join on column_name and code to decode cama_dwelling
+      codes and Auditor neighborhood numbers.
+    columns:
+      cama_table: Source table (DWELDAT or PARDAT).
+      column_name: Column the code belongs to (EXTWALL, BSMT, HEAT, ATTIC, GRADE, CDU, SHFACT, NBHD).
+      code: Code value.
+      description: Meaning.
+
+  nbhd_codes:
+    description: >
+      Auditor appraisal neighborhood codes and names from the County's monthly
+      neighborhood code listing (~1,300). These are the Auditor's valuation
+      areas (e.g. NW PRIORITY BOARD-CORNELL HEIGHTS), not City neighborhoods.
+    columns:
+      nbhd: Neighborhood code (matches taxroll.nbhd, cama_parcel.nbhd).
+      description: Neighborhood name.
+
+  _meta:
+    description: >
+      Provenance for every table — which County file it came from, the file
+      date, row count, and when the database was built. Cite the file date
+      as the as-of date in answers.
+    columns:
+      table_name: Table.
+      source_file: County file name.
+      file_date: Date of the County file (the as-of date).
+      row_count: Rows loaded.
+      built_at: When county.duckdb was built (UTC).
+      pii_included: Always false for the deployed database.
+
+caveats:
+  - Countywide. Filter city_township = 'DAYTON' (or tax_district = 'R72') before reporting anything as a Dayton figure.
+  - owner_occupied (the owner-occupancy credit) is the tenure flag; homestead is a much narrower age/disability/income exemption. Do not use homestead as an owner-occupancy proxy.
+  - rental_registered counts registered rentals, not rentals; the gap between it and non-owner-occupied parcels is a compliance finding.
+  - Sales validity is null for 2001-2002 files; for market questions use file_year >= 2011 and sale_validity = 'VALID SALE'.
+  - The County publishes no sales files for 2003-2010; do not describe that gap as zero sales.
+  - cama_apartment rents are assessor valuation rents, far below market. Never present them as market rents.
+  - Values are in whole dollars as DECIMAL; acres are often 0 for city lots (use sq_ft).
+  - Owner names and mailing street addresses are not in the database by design; questions about who owns a parcel cannot be answered here.
+
+example_questions:
+  - How many parcels in Dayton are tax-delinquent, and what do they owe in total?
+  - What share of residential parcels in each census tract are owner-occupied?
+  - How many demolition permits were issued each year since 2015?
+  - What was the median valid sale price for single-family homes in Dayton by year since 2015?
+  - How many rental-registered parcels are also delinquent, by taxing district?
+  - How many housing units are on parcels rated poor or unsound?
+  - Which appraisal neighborhoods have the oldest housing stock?
