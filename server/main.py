@@ -26,6 +26,7 @@ from starlette.responses import HTMLResponse, JSONResponse
 from .arcgis import DEFAULT_LIMIT, MAX_LIMIT, STATS_MAX_LIMIT, ArcGISClient, ArcGISError
 from .catalog import Catalog, CatalogError
 from .county import DEFAULT_LIMIT as COUNTY_DEFAULT_LIMIT, CountyDB, CountySQLError
+from .geocode import GeocodeError, GeocoderClient
 from .where import WhereError
 
 VERSION = "0.1.0"
@@ -34,6 +35,7 @@ PUBLIC_URL = os.environ.get("OPENDAYTON_PUBLIC_URL", "http://localhost:8000")
 catalog = Catalog.load()
 arcgis = ArcGISClient()
 county = CountyDB()
+geocoder = GeocoderClient()
 
 INSTRUCTIONS = f"""\
 OpenDayton gives you read-only access to {len(catalog)} curated public datasets
@@ -52,7 +54,10 @@ How to work:
    history, permits, dwelling characteristics) call county_schema, then
    county_sql with a single SELECT. The County data is countywide: filter
    city_township = 'DAYTON' for City of Dayton figures.
-5. Use the `near` parameters for "at this address" questions.
+5. For "at this address" questions: call geocode(address) to get the parcel
+   and its latitude/longitude, then pass near_latitude / near_longitude to
+   arcgis_query or arcgis_stats (trash pickup, storm drains, capital
+   projects, lead lines), or use the parcel_id with county_sql.
 
 Rules: cite the dataset title and publisher in answers; report the as-of
 information returned with results; never claim a dataset covers something
@@ -68,6 +73,7 @@ async def lifespan(_server: MCPServer):
         yield {}
     finally:
         await arcgis.aclose()
+        await geocoder.aclose()
         county.close()
 
 
@@ -313,6 +319,22 @@ async def county_sql(sql: str, limit: int = COUNTY_DEFAULT_LIMIT) -> dict[str, A
     return result
 
 
+@server.tool(annotations=READ_ONLY)
+async def geocode(address: str | None = None, parcel_id: str | None = None, limit: int = 10) -> dict[str, Any]:
+    """Find Montgomery County parcels by street address or parcel ID and
+    return each parcel's ID, address, ZIP, latitude, and longitude.
+
+    Give a street address like "275 Linden Ave" (city and ZIP are ignored;
+    partial addresses like "LINDEN AVE" match many parcels) or a parcel ID
+    like "R72 12307 0032". Use the coordinates with the near_* parameters of
+    arcgis_query / arcgis_stats, and the parcel_id with county_sql.
+    """
+    try:
+        return await geocoder.geocode(address=address, parcel_id=parcel_id, limit=limit)
+    except GeocodeError as e:
+        return _err("geocode_error", str(e))
+
+
 def _source(layer) -> dict[str, Any]:
     return {
         "dataset": layer.title,
@@ -351,7 +373,7 @@ City of Boston's <a href="https://github.com/CityOfBoston/OpenContext">OpenConte
 <h2>Datasets</h2>
 <table><tr><th>id</th><th>Title</th><th>Theme</th><th>Publisher</th><th></th></tr>{rows}</table>
 <h2>Tools</h2>
-<p><code>list_datasets</code> · <code>describe_dataset</code> · <code>arcgis_query</code> · <code>arcgis_stats</code> · <code>county_schema</code> · <code>county_sql</code></p>
+<p><code>list_datasets</code> · <code>describe_dataset</code> · <code>arcgis_query</code> · <code>arcgis_stats</code> · <code>county_schema</code> · <code>county_sql</code> · <code>geocode</code></p>
 <h2>County database</h2>
 <p>{"Loaded: " + ", ".join(f"{m['table']} ({m['row_count']:,} rows, {m['file_date']})" for m in county.meta()) if county.available else "Not loaded on this server."}</p>
 <p>Source: <a href="https://github.com/codefordayton/opendayton">github.com/codefordayton/opendayton</a></p>
@@ -361,7 +383,7 @@ City of Boston's <a href="https://github.com/CityOfBoston/OpenContext">OpenConte
 
 @server.custom_route("/health", methods=["GET"])
 async def health(_request: Request) -> JSONResponse:
-    return JSONResponse({"status": "ok", "version": VERSION, "datasets": len(catalog), "county_db": county.available})
+    return JSONResponse({"status": "ok", "version": VERSION, "datasets": len(catalog), "county_db": county.available, "geocoder": geocoder.available})
 
 
 @server.custom_route("/datasets.json", methods=["GET"])
