@@ -28,6 +28,8 @@ CALLS: dict[str, tuple[str, dict]] = {
     "use_of_force_incidents": ("arcgis_stats", {"dataset_id": "use_of_force", "group_by": ["Year", "Disposition"]}),
     "hcs_worst_neighborhoods": ("arcgis_stats", {"dataset_id": "housing_condition_2025", "group_by": ["NEIGHBORHOOD"], "where": "GRADE >= 3", "limit": 10}),
     "hcs_change": ("arcgis_stats", {"dataset_id": "housing_condition_2025", "where": "HCS_DIFF < 0"}),
+    "trash_day_at_address": ("arcgis_query", {"dataset_id": "trash_pickup", "near_latitude": 39.75917, "near_longitude": -84.16023, "near_meters": 5, "out_fields": ["NHBHD_NAME", "Day"]}),
+    "geocode_address": ("geocode", {"address": "275 Linden Avenue, Dayton OH"}),
     "lead_at_address": ("arcgis_query", {"dataset_id": "lead_service_lines", "where": "address LIKE '275 LINDEN%'", "out_fields": ["address", "utilstatus", "custstatus", "bothsidesstatus", "replacestatus"]}),
     "lead_by_zip": ("arcgis_stats", {"dataset_id": "lead_service_lines", "group_by": ["zip"], "where": "utilstatus = 'Lead'"}),
     "cip_cost_by_type": ("arcgis_stats", {"dataset_id": "cip_completed", "group_by": ["PROJTYPE"], "stat_type": "sum", "stat_field": "AwdConstructionCost"}),

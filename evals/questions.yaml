@@ -43,6 +43,14 @@ questions:
       - Uses HCS_DIFF < 0 for "worse" (the sign trap).
       - Notes that only parcels graded in both years count.
 
+  - id: trash_day_at_address
+    question: What day is trash pickup at 275 Linden Ave?
+    datasets: [trash_pickup]
+    tool_path: geocode(address) → arcgis_query(trash_pickup, near_latitude/longitude, near_meters=5)
+    checks:
+      - Uses geocode first rather than guessing a neighborhood.
+      - Reports the day and the route/neighborhood, and links the City calendar (Cal_Link) if asked for schedule details.
+
   - id: lead_at_address
     question: Does 275 Linden Ave have a lead service line?
     datasets: [lead_service_lines]
