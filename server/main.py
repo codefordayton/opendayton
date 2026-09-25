@@ -14,16 +14,16 @@ from __future__ import annotations
 import json
 import os
 from contextlib import asynccontextmanager
-from html import escape
 from typing import Any
 
 from mcp.server.mcpserver import MCPServer
 from mcp.server.transport_security import TransportSecuritySettings
 from mcp_types import ToolAnnotations
 from starlette.requests import Request
-from starlette.responses import HTMLResponse, JSONResponse
+from starlette.responses import FileResponse, HTMLResponse, JSONResponse, Response
 
 from .arcgis import DEFAULT_LIMIT, MAX_LIMIT, STATS_MAX_LIMIT, ArcGISClient, ArcGISError
+from . import landing as landing_page
 from .catalog import Catalog, CatalogError
 from .county import DEFAULT_LIMIT as COUNTY_DEFAULT_LIMIT, CountyDB, CountySQLError
 from .geocode import GeocodeError, GeocoderClient
@@ -349,36 +349,15 @@ def _source(layer) -> dict[str, Any]:
 
 @server.custom_route("/", methods=["GET"])
 async def landing(_request: Request) -> HTMLResponse:
-    rows = "".join(
-        f"<tr><td><code>{escape(l.id)}</code></td><td>{escape(l.title)}</td>"
-        f"<td>{escape(l.theme)}</td><td>{escape(l.publisher)}</td>"
-        f"<td><a href='{escape(l.source_page)}'>source</a></td></tr>"
-        for l in catalog.by_theme()
-    )
-    html = f"""<!doctype html><html><head><meta charset="utf-8">
-<title>OpenDayton</title>
-<style>body{{font:16px/1.5 system-ui,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem;color:#222}}
-table{{border-collapse:collapse;width:100%;font-size:14px}}td,th{{border-bottom:1px solid #ddd;padding:.4rem;text-align:left;vertical-align:top}}
-code{{background:#f3f3f3;padding:.1rem .3rem;border-radius:3px}}pre{{background:#f3f3f3;padding:1rem;overflow:auto}}</style></head>
-<body>
-<h1>OpenDayton</h1>
-<p>An <a href="https://modelcontextprotocol.io">MCP</a> server that lets an AI assistant answer
-questions from {len(catalog)} curated public datasets about Dayton and Montgomery County, Ohio.
-Read-only. A <a href="https://codefordayton.org">Code for Dayton</a> project, inspired by the
-City of Boston's <a href="https://github.com/CityOfBoston/OpenContext">OpenContext</a>.</p>
-<h2>Connect</h2>
-<p>MCP endpoint: <code>{escape(PUBLIC_URL)}/mcp</code></p>
-<p><strong>Claude.ai / Claude Desktop:</strong> Settings → Connectors → Add custom connector → paste the endpoint.<br>
-<strong>Claude Code:</strong> <code>claude mcp add --transport http opendayton {escape(PUBLIC_URL)}/mcp</code></p>
-<h2>Datasets</h2>
-<table><tr><th>id</th><th>Title</th><th>Theme</th><th>Publisher</th><th></th></tr>{rows}</table>
-<h2>Tools</h2>
-<p><code>list_datasets</code> · <code>describe_dataset</code> · <code>arcgis_query</code> · <code>arcgis_stats</code> · <code>county_schema</code> · <code>county_sql</code> · <code>geocode</code></p>
-<h2>County database</h2>
-<p>{"Loaded: " + ", ".join(f"{m['table']} ({m['row_count']:,} rows, {m['file_date']})" for m in county.meta()) if county.available else "Not loaded on this server."}</p>
-<p>Source: <a href="https://github.com/codefordayton/opendayton">github.com/codefordayton/opendayton</a></p>
-</body></html>"""
-    return HTMLResponse(html)
+    return HTMLResponse(landing_page.render(catalog, county, PUBLIC_URL))
+
+
+@server.custom_route("/static/{name}", methods=["GET"])
+async def static(request: Request) -> Response:
+    path = landing_page.STATIC_FILES.get(request.path_params["name"])
+    if path is None:
+        return Response(status_code=404)
+    return FileResponse(path, headers={"Cache-Control": "public, max-age=86400"})
 
 
 @server.custom_route("/health", methods=["GET"])
