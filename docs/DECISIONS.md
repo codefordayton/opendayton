@@ -99,6 +99,43 @@ owns every house on this street." Removing at build time means there's nothing t
 wrong at query time. A private build with the columns exists for the housing subcommittee's
 own work and is never deployed.
 
+## 8b. Some published fields are still withheld
+
+**Decision.** Four field sets were removed from the catalog after a review on
+2026-09-26, even though the City publishes them: the exact arrest date and
+arrestee age (`arrests`), the exact offense date and victim-offender
+relationship (`crimes`), the street address on the housing condition survey
+(`housing_condition_2025`), and adopter-supplied drain nicknames
+(`storm_drains`). `tests/test_privacy.py` pins each one with its reason.
+
+**Why.** All of it is public record, so the question was never legality. The
+question is whether conversational bulk access exposes something the original
+publication format did not. For most datasets it doesn't, and lowering that
+friction is the entire point of the project. For these it does:
+
+- **Juveniles.** 19% of arrest rows are juveniles. Exact date + age in years +
+  sex + race + neighborhood + charge identifies a specific minor to anyone in
+  that community. Year, neighborhood, charge and demographics remain, so every
+  policy question still works.
+- **Vacant buildings.** The survey flags ~4,300 vacant structures. Filtered by
+  neighborhood with addresses attached, that is a targeting list for copper
+  theft, squatting, and arson. Parcel IDs remain, so a resident can still look
+  up one property by geocoding its address, and every aggregate is unaffected.
+- **Crime victims.** Victim demographics plus the offender relationship plus an
+  exact date in a neighborhood of a few thousand identifies victims of domestic
+  and sexual violence. Month resolution keeps the trends and the equity
+  analysis without the pinpoint.
+
+**What this is not.** Friction, not a wall: parcel IDs can be walked back to
+addresses one geocode call at a time, and the underlying layers stay public and
+bulk-downloadable. The goal is that the easy path is the aggregate one.
+
+**Reviewed and kept:** address-level lead service lines (federal LCRR requires
+public per-address lookup, and the day cares and schools with lead are exactly
+what a parent should be able to ask about), use-of-force records (no geography,
+banded ages, and accountability is why they are published), and contractor
+company names on capital projects.
+
 ## 9. The geocoder is a separate service
 
 **Decision.** Code for Dayton's parcel geocoder keeps its own repo and Railway service; the

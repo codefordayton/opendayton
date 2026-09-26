@@ -83,18 +83,23 @@ def validate_where(where: str | None, layer: Layer) -> str:
                     raise WhereError("unbalanced parentheses in where clause")
             out.append(text)
         elif kind == "ident":
-            # Field names win over keywords: layers commonly have YEAR / MONTH /
-            # DAY columns that collide with INTERVAL units, and a field must be
-            # checked against the allowlist, never waved through as a keyword.
+            upper = text.upper()
+            # In `EXTRACT(YEAR FROM x)` or `INTERVAL '30' DAY`, the unit word is
+            # a unit specifier and never a column — even on layers that happen
+            # to have a Year or Day column. Check that position first.
+            if upper in UNIT_KEYWORDS and _unit_context_ok(sig):
+                out.append(upper)
+                sig.append(("ident", upper))
+                continue
+            # Otherwise field names win over keywords: layers commonly have
+            # YEAR / MONTH / DAY columns, and a field must be checked against
+            # the allowlist, never waved through as a keyword.
             canonical = layer.canonical_field(text)
             if canonical is not None:
                 out.append(canonical)
                 sig.append(("field", canonical))
                 continue
-            upper = text.upper()
-            if upper in UNIT_KEYWORDS and _unit_context_ok(sig):
-                out.append(upper)
-            elif upper in KEYWORDS or upper in FUNCTIONS:
+            if upper in KEYWORDS or upper in FUNCTIONS:
                 out.append(upper)
             else:
                 raise WhereError(

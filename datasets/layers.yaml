@@ -127,12 +127,14 @@ layers:
     url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/Crimes_OpenData_HOSTED/FeatureServer/0
     geometry: table
     approx_records: 52000
-    time_field: Commit_Date
     description: >
       Reported crime incidents in Dayton coded to the FBI NIBRS standard, with
       offense category, Ohio Revised Code section, neighborhood, police
       district, weapon, and victim characteristics (as age bands). One row per
-      offense. Roughly the last three to four years.
+      offense. Roughly the last three to four years. Resolved to the month, not
+      the day, and without the victim-offender relationship: those fields
+      together would identify victims of domestic and sexual violence in small
+      neighborhoods.
     fields:
       NIBRS_Code: NIBRS offense code (e.g. 13A aggravated assault, 220 burglary, 23F theft from vehicle).
       NIBRS_Category: NIBRS offense category name (ASSAULT OFFENSES, BURGLARY/BREAKING AND ENTERING, LARCENY/THEFT OFFENSES, …).
@@ -142,10 +144,8 @@ layers:
       ORC_Part: UCR grouping (PART I VIOLENT, PART I PROPERTY, PART II VIOLENT, PART II PROPERTY, …). Use this for "violent vs property crime".
       Offense_Category: FELONY or MISDEMEANOR.
       Attempted_Completed: ATTEMPTED or COMPLETED.
-      Commit_Date: Date the offense was committed.
       YEAR: Year committed.
       MONTH: Month committed (1-12).
-      DAY: Day of month committed.
       Disposition_Description: Case disposition (CLOSED, OPEN, …).
       District: Police district (EPOD east, WPOD west, CPOD central).
       Neighborhood: Neighborhood name, UPPER CASE.
@@ -156,10 +156,10 @@ layers:
       Victim_Age: Victim age band (e.g. "26-35", "> 55").
       Victim_Sex: Victim sex.
       Victim_Race: Victim race.
-      Relationship_To_Victim: Offender's relationship to the victim.
     caveats:
       - Neighborhood is UPPER CASE here but Title Case in the arrests and calls-for-service layers. Compare with UPPER(Neighborhood).
       - One row per offense, not per incident; an incident with two offenses appears twice.
+      - Offenses are dated to the month (YEAR, MONTH); there is no exact date, and the victim-offender relationship is not exposed. This layer answers aggregate questions, not questions about a particular incident or person.
       - Check the YEAR range with a count-by-YEAR before describing trends; the layer is a rolling window, not full history.
       - Some incidents have a blank Neighborhood. Report that bucket as "no neighborhood recorded", not as a place, or exclude it with Neighborhood <> ''.
     example_questions:
@@ -176,14 +176,14 @@ layers:
     url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/Arrests_OpenData_HOSTED/FeatureServer/0
     geometry: table
     approx_records: 50000
-    time_field: Arrest_Date
     description: >
       Arrests by Dayton Police with charge, charge level, neighborhood, and
       arrestee demographics as categories. Intended for aggregate analysis
       (arrests by charge, by year, by neighborhood, by demographic group).
-      Identifying fields are not exposed.
+      Identifying fields are not exposed, and neither is the exact arrest date
+      or the arrestee's age in years — 19% of these rows are juveniles, and
+      date plus age plus neighborhood would identify individual minors.
     fields:
-      Arrest_Date: Date of arrest.
       Year: Year of arrest.
       Category: Charge level (Felony, Misdemeanor, Charge Level Not Listed).
       Charge: Ohio Revised Code section charged.
@@ -198,13 +198,13 @@ layers:
       Priority_Board: Priority Board name.
       Adult_Juvenile: ADULT or JUVENILE.
       Sex: Arrestee sex.
-      Age: Arrestee age in years.
       Race: Arrestee race.
       Ethnicity: Arrestee ethnicity.
       Armed_With1_Desc: Whether/how the arrestee was armed.
     caveats:
       - One row per charge, not per person; a single arrest with three charges appears three times.
-      - Do not attempt to identify individuals; the layer is exposed for aggregate questions only.
+      - Only the year is available, not the arrest date, and age in years is not exposed. This layer answers aggregate questions; it cannot answer questions about a particular person or day.
+      - Roughly a fifth of arrests are juveniles. Report them only in aggregate.
     example_questions:
       - How many felony arrests were there each year?
       - What are the ten most common arrest charges in 2025?
@@ -305,8 +305,7 @@ layers:
       2 minor repair, 3 major repair, 4 rehabilitation, 5 dilapidated; null
       means not surveyed.
     fields:
-      PARCELID: County parcel ID (e.g. "R72 08702 0039"). Joins to County data.
-      PARLOC: Parcel street address.
+      PARCELID: County parcel ID (e.g. "R72 08702 0039"). Joins to County data. Use geocode to turn an address into a parcel ID.
       NEIGHBORHOOD: Neighborhood name, UPPER CASE.
       CLASS: Property class (R residential, C commercial, E exempt, A agricultural, I industrial).
       LUC: Land use code.
@@ -339,6 +338,7 @@ layers:
       - GRADE 0 is a vacant lot, not a condition; exclude it when computing average condition of housing.
       - APPRLAND/APPRBLDG are text with thousands separators; they cannot be summed in a query.
       - Owner names exist on the source layer but are deliberately not exposed here.
+      - Street addresses are not exposed either. The survey flags ~4,300 vacant structures, and an address list of empty buildings is a targeting list for theft and arson. Look up a single property by geocoding the address to a parcel ID; aggregate freely by neighborhood.
     example_questions:
       - Which neighborhoods have the most houses graded major repair or worse?
       - How many parcels got worse between 2023 and 2025, by neighborhood?
@@ -509,7 +509,8 @@ layers:
     base_where: publicview = 'Yes'
     description: >
       City storm drain inlets with their address, lifecycle status, and
-      Adopt-A-Drain adoption status. Adopter contact details are not exposed.
+      Adopt-A-Drain adoption status. Adopter names, contact details, and the
+      free-text nicknames they give their drains are not exposed.
     fields:
       assetid: Storm drain asset ID.
       fulladdr: Nearest street address.
@@ -517,7 +518,6 @@ layers:
       ownedby: Owner (City, Private, Other).
       adoptionstatus: Available or Adopted.
       adoptedon: Date adopted.
-      nickname: Adopter-given nickname for the drain.
       trashtotal: Trash collected (reported by adopters).
     example_questions:
       - How many storm drains have been adopted?

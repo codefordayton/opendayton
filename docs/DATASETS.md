@@ -20,7 +20,10 @@ A dataset goes in when all of these are true:
    inventory's duplicate analysis picks one.
 5. **Its fields have been reviewed.** Someone wrote the allowlist and the caveats. Fields
    that identify a person (names, account numbers, contact details) and editor-tracking
-   fields stay off.
+   fields stay off. So does anything whose harm comes from the *combination* — an exact
+   date next to demographics and a small geography, or an address next to a vacancy flag.
+   `tests/test_privacy.py` pins those decisions with reasons; see
+   [`DECISIONS.md`](DECISIONS.md) §8b.
 
 ## City of Dayton — ArcGIS layers
 
@@ -44,6 +47,10 @@ Traps: `Neighborhood` is UPPER CASE in crimes and Title Case elsewhere; crimes a
 are one row per offense/charge, not per incident/person; some incidents have no
 neighborhood recorded; every police layer is a rolling window — check the year range first.
 
+Withheld here: exact arrest dates and arrestee age (a fifth of arrests are juveniles),
+and exact offense dates and the victim-offender relationship. These layers answer
+aggregate questions by year and month, not questions about a person or a day.
+
 ### Housing
 
 | id | What | Answers |
@@ -53,8 +60,9 @@ neighborhood recorded; every police layer is a rolling window — check the year
 | `city_owned_parcels` | Parcels the City owns (2021 snapshot) | Vacant City lots by neighborhood; parcels marked for sale |
 
 Traps: `HCS_DIFF` is 2025 minus 2023, so negative means *worse*; grade 0 is a vacant lot,
-not a condition; ~13.5k parcels are unsurveyed (null); owner names are on the source
-layer and deliberately not exposed.
+not a condition; ~13.5k parcels are unsurveyed (null); owner names and street addresses
+are on the source layer and deliberately not exposed — geocode an address to a parcel ID
+to look up one property.
 
 ### Infrastructure
 

@@ -9,6 +9,12 @@ def crimes() -> Layer:
     return Catalog.load().get("crimes")
 
 
+@pytest.fixture(scope="module")
+def cfs() -> Layer:
+    """Calls for service — the date-bearing layer used for date-literal tests."""
+    return Catalog.load().get("calls_for_service")
+
+
 @pytest.mark.parametrize(
     "clause, expected",
     [
@@ -17,7 +23,6 @@ def crimes() -> Layer:
         ("1=1", "1=1"),
         ("year = 2025", "YEAR = 2025"),
         ("neighborhood = 'FIVE OAKS' and year >= 2025", "Neighborhood = 'FIVE OAKS' AND YEAR >= 2025"),
-        ("Commit_Date >= DATE '2025-01-01'", "Commit_Date >= DATE '2025-01-01'"),
         ("UPPER(Neighborhood) LIKE 'OLD%'", "UPPER(Neighborhood) LIKE 'OLD%'"),
         ("ORC_Part IN ('PART I VIOLENT', 'PART I PROPERTY')", "ORC_Part IN ('PART I VIOLENT', 'PART I PROPERTY')"),
         ("Weapon_Description IS NOT NULL", "Weapon_Description IS NOT NULL"),
@@ -83,11 +88,15 @@ def test_keyword_named_fields_are_canonicalized_not_waved_through():
         validate_where("Year = 2026", neighborhoods)
 
 
-def test_interval_and_extract_units_still_work(crimes):
+def test_date_literals(cfs):
+    assert validate_where("Call_Date >= DATE '2025-01-01'", cfs) == "Call_Date >= DATE '2025-01-01'"
+
+
+def test_interval_and_extract_units_still_work(cfs, crimes):
     assert (
-        validate_where("Commit_Date >= CURRENT_TIMESTAMP - INTERVAL '30' DAY", crimes)
-        == "Commit_Date >= CURRENT_TIMESTAMP - INTERVAL '30' DAY"
+        validate_where("Call_Date >= CURRENT_TIMESTAMP - INTERVAL '30' DAY", cfs)
+        == "Call_Date >= CURRENT_TIMESTAMP - INTERVAL '30' DAY"
     )
-    assert validate_where("EXTRACT(YEAR FROM Commit_Date) = 2025", crimes) == "EXTRACT(YEAR FROM Commit_Date) = 2025"
+    assert validate_where("EXTRACT(YEAR FROM Call_Date) = 2025", cfs) == "EXTRACT(YEAR FROM Call_Date) = 2025"
     # `YEAR` on crimes is a real field, so this is a field comparison, not a unit
     assert validate_where("YEAR = 2025", crimes) == "YEAR = 2025"
