@@ -38,10 +38,12 @@ questions:
   - id: hcs_change
     question: How many parcels got worse between 2023 and 2025?
     datasets: [housing_condition_2025]
-    tool_path: describe_dataset → arcgis_stats(where="HCS_DIFF < 0")
+    tool_path: describe_dataset → arcgis_stats(where="HCS_DIFF > 0 AND GRADE > 0 AND GRADE_2023 > 0")
     checks:
-      - Uses HCS_DIFF < 0 for "worse" (the sign trap).
-      - Notes that only parcels graded in both years count.
+      - Uses HCS_DIFF > 0 for "worse". The grade scale runs good-to-bad, so a rising
+        grade is a declining building — answering 8,567 means it inverted the sign.
+      - Excludes grade-0 transitions (demolition and new construction), or says it did not.
+      - Expect ~15,577 worse and ~4,365 improved among buildings standing in both years.
 
   - id: trash_day_at_address
     question: What day is trash pickup at 275 Linden Ave?

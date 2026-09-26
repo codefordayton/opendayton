@@ -315,7 +315,7 @@ layers:
       GRADE: 2025 condition grade 0-5 (see description). Null = not surveyed.
       GRADE_DESC: 2025 grade as words (SOUND, MINOR REPAIR, MAJOR REPAIR, REHABILITATION, DILAPIDATED, VACANT LOT).
       GRADE_2023: 2023 condition grade 0-5.
-      HCS_DIFF: GRADE minus GRADE_2023. Negative = worse in 2025 than 2023; positive = improved. Only meaningful where both grades exist.
+      HCS_DIFF: GRADE minus GRADE_2023. The grade scale runs from good to bad, so POSITIVE means the parcel got WORSE and negative means it improved. Only meaningful where both grades exist.
       STATUS: Occupancy status code (OCC occupied, VS vacant & secure, VB vacant & boarded, VTO vacant/too damaged to board, DEMO, NA).
       STATUS_DESC: Occupancy status as words.
       ISSUE_ROOF: YES if a roof defect was noted.
@@ -333,7 +333,9 @@ layers:
       APPRLAND: County appraised land value (text with commas).
       APPRBLDG: County appraised building value (text with commas).
     caveats:
-      - HCS_DIFF sign is counter-intuitive; GRADE 1 → 3 gives HCS_DIFF = -2 (got worse). Say "worse" or "improved", not "increased".
+      - "The grade scale runs good to bad: 1 SOUND is the best standing structure and 5 DILAPIDATED the worst. A RISING grade means a DECLINING building."
+      - "HCS_DIFF is GRADE minus GRADE_2023, so HCS_DIFF > 0 means the parcel got worse (e.g. 1 SOUND in 2023 to 2 MINOR REPAIR in 2025 gives +1) and HCS_DIFF < 0 means it improved. Say \"worse\" or \"improved\", never \"higher\" or \"increased\" — the direction flips depending on whether you mean the grade or the condition."
+      - "Grade 0 is a vacant lot, not a condition, so transitions through 0 are not condition changes: GRADE_2023 > 0 with GRADE = 0 is a demolition (4,202 parcels) and GRADE_2023 = 0 with GRADE > 0 is new construction (614). Add GRADE > 0 AND GRADE_2023 > 0 to measure change in standing buildings: 15,577 got worse, 4,365 improved."
       - About 13,500 parcels have a null GRADE (not surveyed, mostly non-residential). Exclude nulls from rates.
       - GRADE 0 is a vacant lot, not a condition; exclude it when computing average condition of housing.
       - APPRLAND/APPRBLDG are text with thousands separators; they cannot be summed in a query.
