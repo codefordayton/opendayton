@@ -76,6 +76,37 @@ skip the build if you only care about the ArcGIS layers.
 
 Try it from Claude Code: `claude mcp add --transport http opendayton http://localhost:8000/mcp`
 
+## Using it with a local open-weight model
+
+Ollama has no MCP client of its own, so you need a bridge. Either use
+[`ollmcp`](https://github.com/jonigl/mcp-client-for-ollama) —
+
+```bash
+uv tool install ollmcp
+ollmcp -u https://opendayton.org/mcp -m granite4.1:8b
+```
+
+— or run [`examples/local_model.py`](examples/local_model.py), which is the same
+loop in about a page and prints every tool call, so you can see what the model
+is actually doing:
+
+```bash
+ollama pull granite4.1:8b
+uv run python examples/local_model.py --model granite4.1:8b \
+  "How many crimes were reported in Five Oaks in 2025?"
+```
+
+Tool calling, not chat quality, is what matters here. Measured on an M2 Max:
+
+| Model | Size | "crimes in Five Oaks 2025" | Notes |
+|---|---|---|---|
+| `granite4.1:8b` | 5.3 GB | correct, 3 calls, 31 s | best small option tested |
+| `granite4.1:30b` | 17 GB | — | untested; fits 32 GB |
+| `qwen3.8:27b` | 18 GB | — | needs Ollama ≥ 0.34; MLX build available |
+| `qwen3.5` | 6.6 GB | correct, 5 calls, 124 s | over-calls, slower |
+
+On 32 GB of unified memory, stay at or under ~18 GB so the OS keeps room.
+
 ## How it's built
 
 ```
