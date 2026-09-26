@@ -84,3 +84,20 @@ def test_dates_and_money_are_typed(db):
 def test_permit_two_digit_years_pivot_correctly(db):
     r = db.query("SELECT min(year(permit_date)) AS lo, max(year(permit_date)) AS hi FROM cama_permit")
     assert r["rows"][0]["lo"] >= 1900 and r["rows"][0]["hi"] <= 2027
+
+
+def test_second_instance_in_same_process_is_still_hardened():
+    """DuckDB's lock_configuration is instance-wide, so a second CountyDB cannot
+    re-apply its settings. It must still come up verified, not crash or degrade."""
+    a = CountyDB()
+    b = CountyDB()
+    try:
+        for db in (a, b):
+            assert db.available
+            assert db._con.execute("SELECT current_setting('enable_external_access')").fetchone()[0] is False
+            assert db._con.execute("SELECT current_setting('lock_configuration')").fetchone()[0] is True
+            with pytest.raises(CountySQLError):
+                db.query("SELECT * FROM read_csv('/etc/passwd')")
+    finally:
+        a.close()
+        b.close()

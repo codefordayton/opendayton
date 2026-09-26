@@ -32,6 +32,36 @@ MAX_SQL_LENGTH = 6000
 
 _LEADING_RE = re.compile(r"^\s*(WITH|SELECT|FROM)\b", re.IGNORECASE)
 
+# Settings that must hold before we will run anything against the database.
+# enable_external_access=false is what stops read_csv/ATTACH/INSTALL/COPY from
+# reaching the filesystem or network; lock_configuration stops it being undone.
+_REQUIRED_SETTINGS = {"enable_external_access": False, "lock_configuration": True}
+_BEST_EFFORT_SETTINGS = {"memory_limit": "'512MB'", "threads": "2"}
+
+
+def _harden(con: duckdb.DuckDBPyConnection) -> None:
+    """Lock a connection down, then verify it — never trust the SET alone.
+
+    DuckDB shares one instance per database file per process, and
+    lock_configuration applies to that instance, so a second CountyDB in the
+    same process cannot re-apply these settings: the SET raises. That is fine
+    only if the first instance already applied them, so every setting is
+    verified after the fact and an unverifiable connection is refused.
+    """
+    for key, value in {**_BEST_EFFORT_SETTINGS,
+                       **{k: str(v).lower() for k, v in _REQUIRED_SETTINGS.items()}}.items():
+        try:
+            con.execute(f"SET {key} = {value}")
+        except duckdb.Error:
+            pass  # already locked by another instance; the check below is the authority
+    for key, expected in _REQUIRED_SETTINGS.items():
+        actual = con.execute(f"SELECT current_setting('{key}')").fetchone()[0]
+        if bool(actual) is not expected:
+            con.close()
+            raise RuntimeError(
+                f"refusing to serve county data: {key} is {actual!r}, expected {expected!r}"
+            )
+
 
 class CountySQLError(ValueError):
     pass
@@ -76,10 +106,7 @@ class CountyDB:
         self._con: duckdb.DuckDBPyConnection | None = None
         if path.exists():
             self._con = duckdb.connect(str(path), read_only=True)
-            self._con.execute("SET enable_external_access = false")
-            self._con.execute("SET memory_limit = '512MB'")
-            self._con.execute("SET threads = 2")
-            self._con.execute("SET lock_configuration = true")
+            _harden(self._con)
 
     @property
     def available(self) -> bool:
