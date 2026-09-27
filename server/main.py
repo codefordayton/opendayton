@@ -187,7 +187,7 @@ async def describe_dataset(dataset_id: str) -> dict[str, Any]:
 async def arcgis_query(
     dataset_id: str,
     where: str | None = None,
-    out_fields: list[str] | None = None,
+    out_fields: list[str] | str | None = None,
     order_by: str | None = None,
     limit: int = DEFAULT_LIMIT,
     offset: int = 0,
@@ -198,7 +198,8 @@ async def arcgis_query(
 ) -> dict[str, Any]:
     """Return rows from a dataset.
 
-    `where` is a SQL-style filter using only allowlisted fields, e.g.
+    `out_fields` accepts a list or a comma-separated string. `where` is a
+    SQL-style filter using only allowlisted fields, e.g.
     "Neighborhood = 'Five Oaks' AND Year = 2025". `out_fields` narrows the
     columns; `order_by` is "FIELD DESC". `limit` caps rows (max 2000); use
     `offset` to page. For "near this address" questions, pass near_latitude /
@@ -235,7 +236,7 @@ async def arcgis_query(
 @server.tool(annotations=READ_ONLY)
 async def arcgis_stats(
     dataset_id: str,
-    group_by: list[str] | None = None,
+    group_by: list[str] | str | None = None,
     stat_type: str = "count",
     stat_field: str | None = None,
     where: str | None = None,

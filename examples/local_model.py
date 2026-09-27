@@ -44,6 +44,12 @@ Work in this order:
 Cite the dataset and publisher in your answer. If the tools cannot answer the
 question, say so plainly rather than guessing."""
 
+# --naive: no workflow guidance. The model has the same tools and the same
+# server, but nothing telling it to read the schema first. Useful for showing
+# what the allowlist and describe_dataset are actually for — a guessed field
+# name comes back rejected, with the valid names, and the model recovers.
+NAIVE_SYSTEM = "You answer questions about Dayton, Ohio using the tools provided."
+
 
 def to_ollama_tools(mcp_tools) -> list[dict]:
     """MCP tool definitions -> Ollama's OpenAI-shaped `tools` array."""
@@ -71,15 +77,19 @@ async def chat(client: httpx.AsyncClient, model: str, messages: list[dict], tool
     return r.json()["message"]
 
 
-async def run(question: str, model: str, url: str, verbose: bool) -> int:
+async def run(question: str, model: str, url: str, verbose: bool, naive: bool = False) -> int:
     async with Client(url) as mcp, httpx.AsyncClient() as http:
         listed = await mcp.list_tools()
         tools = to_ollama_tools(listed.tools)
         if verbose:
             print(f"connected: {len(tools)} tools — {', '.join(t['function']['name'] for t in tools)}\n")
 
-        messages = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": question}]
+        prompt = NAIVE_SYSTEM if naive else SYSTEM
+        if verbose and naive:
+            print("(naive mode: no workflow guidance)\n")
+        messages = [{"role": "system", "content": prompt}, {"role": "user", "content": question}]
         started = time.time()
+        seen: set[tuple[str, str]] = set()   # (tool, args) that already failed
 
         for step in range(MAX_STEPS):
             msg = await chat(http, model, messages, tools)
@@ -103,13 +113,28 @@ async def run(question: str, model: str, url: str, verbose: bool) -> int:
                         args = {}
                 if verbose:
                     print(f"  → {name}({json.dumps(args)[:150]})")
-                try:
-                    result = await mcp.call_tool(name, args)
-                    text = result.content[0].text if result.content else "{}"
-                except Exception as e:  # noqa: BLE001 — feed tool errors back to the model
-                    text = json.dumps({"error": "tool_failed", "message": str(e)[:300]})
+                signature = (name, json.dumps(args, sort_keys=True))
+                if signature in seen:
+                    # Small models will repeat a failing call verbatim until they
+                    # run out of steps. Say so explicitly instead of letting it loop.
+                    text = json.dumps({
+                        "error": "repeated_call",
+                        "message": f"You already called {name} with these exact arguments and it failed. "
+                                   "Do not retry it unchanged — change the arguments, use a different "
+                                   "tool, or tell the user this data is not available.",
+                    })
+                else:
+                    try:
+                        result = await mcp.call_tool(name, args)
+                        text = result.content[0].text if result.content else "{}"
+                    except Exception as e:  # noqa: BLE001 — feed tool errors back to the model
+                        text = json.dumps({"error": "tool_failed", "message": str(e)[:300]})
+                    if '"error"' in text:
+                        seen.add(signature)
                 if verbose:
-                    print(f"  ← {text[:200].replace(chr(10), ' ')}")
+                    flat = " ".join(text.split())
+                    marker = "✗" if '"error"' in text else "←"
+                    print(f"  {marker} {flat[:210]}")
                 messages.append({"role": "tool", "tool_name": name, "content": text[:8000]})
 
         print(f"\nGave up after {MAX_STEPS} steps without a final answer.", file=sys.stderr)
@@ -122,9 +147,11 @@ def main() -> int:
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--url", default=DEFAULT_URL)
     ap.add_argument("--quiet", action="store_true")
+    ap.add_argument("--naive", action="store_true",
+                    help="drop the workflow guidance from the system prompt (demo: why describe_dataset exists)")
     a = ap.parse_args()
     try:
-        return asyncio.run(run(" ".join(a.question), a.model, a.url, not a.quiet))
+        return asyncio.run(run(" ".join(a.question), a.model, a.url, not a.quiet, a.naive))
     except httpx.ConnectError:
         print(f"Can't reach Ollama at {OLLAMA}. Is `ollama serve` running?", file=sys.stderr)
         return 2

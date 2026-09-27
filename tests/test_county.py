@@ -101,3 +101,19 @@ def test_second_instance_in_same_process_is_still_hardened():
     finally:
         a.close()
         b.close()
+
+
+def test_missing_table_error_names_real_tables(db):
+    """DuckDB suggests internal catalog tables, which sends a model in circles."""
+    with pytest.raises(CountySQLError) as exc:
+        db.query("SELECT address FROM housing_condition_2025")
+    msg = str(exc.value)
+    assert "pg_" not in msg, f"leaked an internal catalog suggestion: {msg}"
+    assert "taxroll" in msg and "cama_permit" in msg
+    assert "arcgis" in msg.lower(), "should redirect City datasets to the ArcGIS tools"
+
+
+def test_missing_column_error_points_at_the_schema_tool(db):
+    with pytest.raises(CountySQLError) as exc:
+        db.query("SELECT nope FROM taxroll")
+    assert "county_schema" in str(exc.value)

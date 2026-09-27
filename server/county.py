@@ -201,6 +201,23 @@ class CountyDB:
             raise CountySQLError(f"only SELECT statements are allowed (got {statements[0].type.name})")
         return sql
 
+    def _explain_error(self, msg: str) -> str:
+        """Turn an engine error into something a model can act on.
+
+        DuckDB's own suggestions point at internal catalog tables ("did you mean
+        pg_description?"), which sends a model in circles. Name the real tables
+        and columns instead.
+        """
+        cleaned = _clean_error(msg)
+        if m := _MISSING_TABLE_RE.search(msg):
+            return (f"no table named '{m.group(1)}' in the county database. "
+                    f"Tables: {', '.join(self.schema.tables)}. "
+                    "City datasets such as the housing condition survey are not in SQL — "
+                    "query those with arcgis_query or arcgis_stats instead.")
+        if m := _MISSING_COLUMN_RE.search(msg):
+            return f"{cleaned} Call county_schema(table) for the column list."
+        return cleaned
+
     def query(self, sql: str, limit: int = DEFAULT_LIMIT) -> dict[str, Any]:
         sql = self.validate(sql)
         limit = max(1, min(int(limit), MAX_LIMIT))
@@ -216,7 +233,7 @@ class CountyDB:
         except duckdb.InterruptException as e:
             raise CountySQLError(f"query exceeded {QUERY_TIMEOUT_SECONDS}s and was cancelled; add filters or aggregate") from e
         except duckdb.Error as e:
-            raise CountySQLError(f"SQL error: {_clean_error(str(e))}") from e
+            raise CountySQLError(f"SQL error: {self._explain_error(str(e))}") from e
         finally:
             timer.cancel()
             cur.close()
@@ -229,6 +246,10 @@ class CountyDB:
             "truncated": truncated,
             "rows": [dict(zip(columns, (_json(v) for v in r))) for r in rows],
         }
+
+
+_MISSING_TABLE_RE = re.compile(r"Table with name (\w+) does not exist", re.IGNORECASE)
+_MISSING_COLUMN_RE = re.compile(r'Referenced column "([^"]+)" not found', re.IGNORECASE)
 
 
 def _json(v: Any) -> Any:
