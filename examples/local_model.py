@@ -30,7 +30,7 @@ from mcp.client import Client
 OLLAMA = os.environ.get("OLLAMA_HOST", "http://localhost:11434").rstrip("/")
 DEFAULT_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3.8:27b")
 DEFAULT_URL = os.environ.get("OPENDAYTON_URL", "https://opendayton.org/mcp")
-MAX_STEPS = 8
+MAX_STEPS = 12
 
 SYSTEM = """You answer questions about Dayton, Ohio using only the tools provided.
 
@@ -92,6 +92,12 @@ async def run(question: str, model: str, url: str, verbose: bool, naive: bool = 
         seen: set[tuple[str, str]] = set()   # (tool, args) that already failed
 
         for step in range(MAX_STEPS):
+            if step == MAX_STEPS - 1:
+                # Out of budget: make it answer from what it has rather than
+                # stopping mid-exploration with nothing to show.
+                messages.append({"role": "user", "content":
+                    "You are out of tool calls. Answer now using what you already have, "
+                    "and say plainly what you could not determine."})
             msg = await chat(http, model, messages, tools)
             calls = msg.get("tool_calls") or []
             messages.append(msg)

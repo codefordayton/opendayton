@@ -184,6 +184,12 @@ class ArcGISClient:
             params["orderByFields"] = order_sql
         if near is not None:
             self._apply_near(params, layer, near)
+        if include_location and not layer.allow_location:
+            raise WhereError(
+                f"dataset '{layer.id}' does not expose coordinates. Its street addresses are "
+                "withheld, and a coordinate list would be the same thing one step removed. "
+                "Aggregate by neighbourhood, or geocode a single address you already have."
+            )
         want_geometry = include_location and layer.geometry in ("point", "polygon")
         if want_geometry:
             params["returnGeometry"] = "true"

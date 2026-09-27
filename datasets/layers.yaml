@@ -297,6 +297,9 @@ layers:
     url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/Dayton_Housing_Condition_Survey_Parcels_2025/FeatureServer/0
     geometry: polygon
     approx_records: 88922
+    # Street addresses are withheld for this layer (see caveats); centroids
+    # filtered by vacancy would reconstruct the same list, so geometry is off.
+    allow_location: false
     description: >
       Every parcel in Dayton with the exterior condition grade from the City's
       2025 windshield survey, the 2023 grade in the same row, occupancy status,

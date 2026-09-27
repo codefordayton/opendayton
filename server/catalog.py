@@ -52,6 +52,7 @@ class Layer:
     approx_records: int | None = None
     time_field: str | None = None
     base_where: str | None = None
+    allow_location: bool = True
     caveats: list[str] = field(default_factory=list)
     example_questions: list[str] = field(default_factory=list)
 
@@ -121,6 +122,7 @@ def _parse_layer(raw: dict) -> Layer:
         approx_records=raw.get("approx_records"),
         time_field=time_field,
         base_where=raw.get("base_where"),
+        allow_location=bool(raw.get("allow_location", True)),
         caveats=[str(c) for c in raw.get("caveats", []) or []],
         example_questions=[str(q) for q in raw.get("example_questions", []) or []],
     )

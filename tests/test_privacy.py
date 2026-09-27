@@ -73,3 +73,9 @@ def test_no_layer_exposes_an_obvious_person_field(catalog):
         f"person-identifying fields in the catalog: {offenders}. "
         "Remove them, or add to ALLOWED_EXCEPTIONS with a reason if they are institutional."
     )
+
+
+def test_condition_survey_does_not_expose_coordinates(catalog):
+    """PARLOC is withheld so there is no address list of vacant structures;
+    centroids filtered by vacancy would rebuild that list one step removed."""
+    assert catalog.get("housing_condition_2025").allow_location is False
