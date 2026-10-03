@@ -88,6 +88,8 @@ tables:
       as the tax roll, restricted to parcels with delinquent taxes, plus the
       certified delinquent year. Use taxroll.net_delinquent > 0 for the current
       picture; use this table for the certified list and delinquent year.
+      Unlike taxroll this file carries no mailing city — join taxroll on
+      parcel_id if you need where the bill is sent.
     columns:
       parcel_id: Parcel ID.
       parcel_location: Property street address.
@@ -102,7 +104,6 @@ tables:
       year_built: Year built.
       nbhd: Auditor neighborhood code.
       tax_district: Taxing district code (R72 = Dayton).
-      mailing_city: City the tax bill is mailed to.
 
   sales:
     description: >

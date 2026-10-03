@@ -146,6 +146,22 @@ class CountyDB:
                 cur.close()
         meta = {m["table"]: m for m in self.meta()}
 
+        def columns_of(name: str) -> list[dict[str, Any]]:
+            """What the database actually has, described from the docs.
+
+            Built from the live columns, not from county.yaml: advertising a
+            column that is documented but absent sends the model off to write
+            a query that can only fail.
+            """
+            spec = s.tables[name]
+            live = types.get(name)
+            if not live:  # database not attached; the docs are all we have
+                return [{"name": c, "type": None, "description": d} for c, d in spec["columns"].items()]
+            return [
+                {"name": c, "type": t, "description": spec["columns"].get(c, "(undocumented column)")}
+                for c, t in live.items()
+            ]
+
         def table_doc(name: str) -> dict[str, Any]:
             spec = s.tables[name]
             return {
@@ -153,10 +169,7 @@ class CountyDB:
                 "description": spec["description"],
                 "rows": meta.get(name, {}).get("row_count"),
                 "as_of": meta.get(name, {}).get("file_date"),
-                "columns": [
-                    {"name": c, "type": types.get(name, {}).get(c), "description": d}
-                    for c, d in spec["columns"].items()
-                ],
+                "columns": columns_of(name),
             }
 
         if table:
@@ -171,7 +184,7 @@ class CountyDB:
             "join_keys": s.join_keys,
             "tables": [
                 {"table": n, "description": spec["description"], "rows": meta.get(n, {}).get("row_count"),
-                 "as_of": meta.get(n, {}).get("file_date"), "columns": list(spec["columns"])}
+                 "as_of": meta.get(n, {}).get("file_date"), "columns": [c["name"] for c in columns_of(n)]}
                 for n, spec in s.tables.items()
             ],
             "caveats": s.caveats,

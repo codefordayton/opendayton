@@ -18,10 +18,26 @@ def test_schema_yaml_loads():
 
 
 def test_database_matches_documentation(db):
-    """The build drops undocumented columns and fails on missing ones; double-check here."""
+    """The build drops undocumented columns and fails on missing ones; double-check here.
+
+    Reads the live database directly. Going through describe() made this
+    tautological, because describe() used to build its column list from the
+    same YAML it was being compared against — so a documented column that
+    never existed sailed through the test and was advertised to models.
+    """
     for table, spec in db.schema.tables.items():
-        live = {c["name"] for c in db.describe(table)["columns"]}
-        assert live == set(spec["columns"]), table
+        live = {r[0] for r in db._con.execute(f"DESCRIBE {table}").fetchall()}
+        assert live == set(spec["columns"]), (
+            f"{table}: documented-not-built {sorted(set(spec['columns']) - live)}, "
+            f"built-not-documented {sorted(live - set(spec['columns']))}"
+        )
+
+
+def test_describe_never_advertises_a_column_that_cannot_be_queried(db):
+    """Every column county_schema reports must survive an actual SELECT."""
+    for table in db.schema.tables:
+        for col in db.describe(table)["columns"]:
+            db.query(f'SELECT "{col["name"]}" FROM {table} LIMIT 1')
 
 
 def test_no_pii_columns(db):
