@@ -81,6 +81,20 @@ async def main(model: str, skip_local: bool) -> int:
         problems += 0 if health.get(key) else 1
     print(f"  {OK}  {health.get('datasets')} datasets, version {health.get('version')}")
 
+    # Pages are served from files that have to be in the deployed image, which
+    # local tests cannot prove — /start renders docs/START.md at runtime.
+    print("\n\033[1mPages\033[0m")
+    for path, must_contain in [("/", "Lead Service Line Inventory"), ("/start", "granite4.1")]:
+        try:
+            body = httpx.get(f"https://opendayton.org{path}", timeout=20).text
+            good = must_contain in body and len(body) > 3000
+            print(f"  {OK if good else BAD}  {path:<8} {len(body):>6} bytes"
+                  + ("" if good else f"  — missing {must_contain!r}; is it in the image?"))
+            problems += 0 if good else 1
+        except Exception as e:  # noqa: BLE001
+            print(f"  {BAD}  {path:<8} {str(e)[:50]}")
+            problems += 1
+
     print("\n\033[1mDemo questions\033[0m")
     async with Client(URL) as c:
         for label, tool, args in BEATS:

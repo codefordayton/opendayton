@@ -113,11 +113,8 @@ assessor valuation rents; owner names and mailing street addresses are removed a
 | Dataset | Status |
 |---|---|
 | Housing code enforcement incidents (Accela) | Live open layer, but not advertised on any public page. Held until the City confirms it's intended to be public. |
-| City employee list | Public record, but a name list is a different thing in a chatbot. Out. |
-| Group homes with 1,000-ft buffers | Sensitive by nature. Out. |
 | Vacant-lot mowing layers | One-off snapshots, five near-duplicates. Out. |
 | MVRPC Regional Housing Study block groups | In the plan (regional cost burden, tenure, rent bands). Next. |
-| HUD LIHTC / project-based Section 8 / public housing | In the plan (subsidized inventory and expirations). Next. |
 | Zoning districts, street trees, sidewalks, Mediation Response Unit, Police reform tracker, Preschool Promise, emissions | In the plan; each needs a field review. Good first issues. |
 | Census ACS (tract / block group) | The obvious join target for `census_tract`. Candidate. |
 | RTA GTFS | Public transit schedules; fun demo material. Candidate. |

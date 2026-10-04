@@ -15,6 +15,8 @@ ADD https://github.com/codefordayton/opendayton/releases/download/county-data/co
 
 COPY server ./server
 COPY datasets ./datasets
+# /start renders docs/START.md at runtime, so the docs have to ship too.
+COPY docs ./docs
 COPY county/__init__.py county/cama.py county/cama_spec.json county/build.py ./county/
 
 ENV PORT=8080

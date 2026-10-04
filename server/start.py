@@ -111,7 +111,11 @@ def render() -> str:
     try:
         body = _to_html(START_MD.read_text())
     except OSError:
-        body = "<p>Setup instructions are in docs/START.md in the repository.</p>"
+        body = ("<h1>Setup instructions unavailable</h1><p>docs/START.md is not present in "
+                "this deployment — it is probably missing from the container image. "
+                "The instructions are in the repository at "
+                '<a href="https://github.com/codefordayton/opendayton/blob/main/docs/START.md">'
+                "docs/START.md</a>.</p>")
     return (
         "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
