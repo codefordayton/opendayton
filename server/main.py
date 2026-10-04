@@ -354,7 +354,9 @@ async def profile_address(address: str) -> dict[str, Any]:
     question, the individual tools are cheaper.
     """
     try:
-        found = await geocoder.geocode(address=address, limit=1)
+        # Ask for several: the near-miss fallback needs candidates to offer, and
+        # one address can cover several parcels (a condo or an arcade of units).
+        found = await geocoder.geocode(address=address, limit=5)
     except GeocodeError as e:
         return _err("geocode_error", str(e))
     if not found.get("results"):
@@ -378,6 +380,18 @@ async def profile_address(address: str) -> dict[str, Any]:
     parcel = found["results"][0]
     lat, lon = parcel["latitude"], parcel["longitude"]
     out: dict[str, Any] = {"address": address, "found": True, "parcel": parcel, "about": {}, "unavailable": []}
+    others = found["results"][1:]
+    if others:
+        # Commercial blocks and condos record several parcels at one address.
+        # Everything below describes the first; say so rather than implying
+        # it covers the whole building.
+        out["other_parcels_at_this_address"] = [
+            {"parcel_id": p["parcel_id"], "address": p["address"]} for p in others
+        ]
+        out["note_on_parcels"] = (
+            f"{len(found['results'])} parcels share this address. What follows describes "
+            f"{parcel['parcel_id']} only — query the others with county_sql if you need the whole building."
+        )
 
     async def section(name: str, coro):
         """Record what each lookup found, or why it did not, without failing the rest."""

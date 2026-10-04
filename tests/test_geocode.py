@@ -60,3 +60,23 @@ async def test_profile_address_refuses_to_profile_a_near_miss(monkeypatch):
     assert out["found"] is False
     assert "about" not in out, "must not profile a building that was not asked about"
     assert [r["address"] for r in out["nearest_on_street"]] == ["40 W FOURTH ST", "28 W FOURTH ST"]
+
+
+async def test_profile_address_says_when_an_address_covers_several_parcels(monkeypatch):
+    """Downtown blocks and condos record several parcels at one address; a
+    profile of the first should not read as a profile of the whole building."""
+    from server import main
+
+    async def fake_geocode(**kwargs):
+        return {"query": "28 W FOURTH ST", "exact_match": True, "count": 3, "results": [
+            {"parcel_id": "R72 51467 0001", "address": "28 W FOURTH ST", "latitude": 39.75, "longitude": -84.19},
+            {"parcel_id": "R72 51467 0002", "address": "28 W FOURTH ST", "latitude": 39.75, "longitude": -84.19},
+            {"parcel_id": "R72 51467 0003", "address": "28 W FOURTH ST", "latitude": 39.75, "longitude": -84.19},
+        ]}
+
+    monkeypatch.setattr(main.geocoder, "geocode", fake_geocode)
+    monkeypatch.setattr(type(main.county), "available", property(lambda self: False))
+    out = await main.profile_address("28 W Fourth St")
+    assert out["found"] is True
+    assert len(out["other_parcels_at_this_address"]) == 2
+    assert "R72 51467 0001" in out["note_on_parcels"]
