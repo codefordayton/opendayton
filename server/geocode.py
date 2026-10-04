@@ -19,6 +19,7 @@ import httpx
 
 GEOCODER_URL = os.environ.get("GEOCODER_URL", "").rstrip("/")
 MAX_RESULTS = 25
+_STREET_SCAN_LIMIT = 250  # the geocoder service's ceiling: enough for a whole street
 
 # "275 Linden Avenue, Dayton, OH 45403" -> "275 LINDEN AVE"
 _SUFFIXES = {
@@ -27,7 +28,22 @@ _SUFFIXES = {
     "HIGHWAY": "HWY", "TERRACE": "TER", "TRAIL": "TRL", "PIKE": "PIKE", "WAY": "WAY",
 }
 _DIRS = {"NORTH": "N", "SOUTH": "S", "EAST": "E", "WEST": "W"}
+# Montgomery County spells numbered streets out and never uses the digit form:
+# about 6,000 parcels are on FIRST through TWELFTH, none on 1ST or 4TH. Everyone
+# types "4th St", so translate toward the county's spelling, not away from it.
+_ORDINALS = {
+    "1ST": "FIRST", "2ND": "SECOND", "3RD": "THIRD", "4TH": "FOURTH", "5TH": "FIFTH",
+    "6TH": "SIXTH", "7TH": "SEVENTH", "8TH": "EIGHTH", "9TH": "NINTH", "10TH": "TENTH",
+    "11TH": "ELEVENTH", "12TH": "TWELFTH",
+}
 _STRIP_TAIL = re.compile(r",.*$|\b(DAYTON|OHIO|OH)\b.*$|\b\d{5}(-\d{4})?\b.*$", re.IGNORECASE)
+
+
+_SOURCE = {
+    "dataset": "Montgomery County parcel centroids (Code for Dayton geocoder)",
+    "publisher": "Montgomery County Auditor GIS",
+    "source_page": "https://gis.mcohio.org/server/rest/services/TestData/mc_parcel_polygon/FeatureServer/0",
+}
 
 
 class GeocodeError(RuntimeError):
@@ -39,8 +55,7 @@ def normalize_address(text: str) -> str:
     s = _STRIP_TAIL.sub("", text.strip()).upper()
     s = re.sub(r"[.#]", " ", s)
     words = [w for w in s.split() if w]
-    words = [_DIRS.get(w, _SUFFIXES.get(w, w)) for w in words]
-    # Numbered street ordinals: "5TH" stays; "FIFTH" is how the County spells some — leave as typed.
+    words = [_ORDINALS.get(w, _DIRS.get(w, _SUFFIXES.get(w, w))) for w in words]
     return " ".join(words)
 
 
@@ -76,18 +91,66 @@ class GeocoderClient:
         except httpx.HTTPError as e:
             raise GeocodeError(f"geocoder unreachable: {e}") from e
         if resp.status_code == 404:
+            if query_used:
+                near = await self._nearest_on_street(query_used, limit)
+                if near:
+                    return {
+                        "query": query_used, "exact_match": False, "count": len(near), "results": near,
+                        "note": f"No parcel is recorded at '{query_used}'. These are nearby numbers "
+                                "on that street, nearest first — a sample, not the whole street. "
+                                "Do not present them as the address that was asked for.",
+                        "source": _SOURCE,
+                    }
             return {"query": query_used or parcel_id, "count": 0, "results": [],
-                    "hint": "No parcel matched. Try just the house number and street name (e.g. '275 LINDEN'), without city or ZIP."}
+                    "hint": "No parcel matched. Try just the house number and street name (e.g. '275 LINDEN'), "
+                            "without city or ZIP. Numbered streets are spelled out in county records "
+                            "(FOURTH, not 4th) — this tool translates that for you."}
         if resp.status_code >= 400:
             raise GeocodeError(f"geocoder error HTTP {resp.status_code}: {resp.text[:200]}")
         data = resp.json()
         return {
             "query": query_used or parcel_id,
+            "exact_match": True,
             "count": data.get("count", 0),
             "results": data.get("results", []),
-            "source": {
-                "dataset": "Montgomery County parcel centroids (Code for Dayton geocoder)",
-                "publisher": "Montgomery County Auditor GIS",
-                "source_page": "https://gis.mcohio.org/server/rest/services/TestData/mc_parcel_polygon/FeatureServer/0",
-            },
+            "source": _SOURCE,
         }
+
+    async def _nearest_on_street(self, query: str, limit: int) -> list[dict[str, Any]]:
+        """Drop the house number and return the closest numbers on the same street.
+
+        An address that does not exist should still tell you what is around it —
+        downtown blocks in particular are recorded under one number for a whole
+        complex, so an exact miss is common and usually recoverable.
+        """
+        parts = query.split()
+        if len(parts) < 2 or not parts[0].isdigit():
+            return []
+        wanted, street = int(parts[0]), " ".join(parts[1:])
+        assert self._http is not None
+        try:
+            # Ask for as many as the service will give: it matches on substring
+            # and returns one row per parcel, so a downtown street can run to
+            # dozens of rows before the distinct addresses are all seen.
+            resp = await self._http.get(f"{self.base_url}/geocode",
+                                        params={"address": street, "limit": _STREET_SCAN_LIMIT})
+        except httpx.HTTPError:
+            return []
+        if resp.status_code != 200:
+            return []
+        rows = resp.json().get("results", [])
+
+        def distance(row: dict[str, Any]) -> int:
+            head = str(row.get("address", "")).split(" ", 1)[0]
+            return abs(int(head) - wanted) if head.isdigit() else 10**9
+
+        seen, out = set(), []
+        for row in sorted(rows, key=distance):
+            key = row.get("address")
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append(row)
+            if len(out) >= min(limit, 5):
+                break
+        return out
