@@ -24,6 +24,7 @@ from starlette.responses import FileResponse, HTMLResponse, JSONResponse, Respon
 
 from .arcgis import DEFAULT_LIMIT, MAX_LIMIT, STATS_MAX_LIMIT, ArcGISClient, ArcGISError
 from . import landing as landing_page
+from . import start as start_page
 from .catalog import Catalog, CatalogError
 from .county import DEFAULT_LIMIT as COUNTY_DEFAULT_LIMIT, CountyDB, CountySQLError
 from .geocode import GeocodeError, GeocoderClient
@@ -419,6 +420,13 @@ def _source(layer) -> dict[str, Any]:
 @server.custom_route("/", methods=["GET"])
 async def landing(_request: Request) -> HTMLResponse:
     return HTMLResponse(landing_page.render(catalog, county, PUBLIC_URL))
+
+
+@server.custom_route("/start", methods=["GET"])
+async def start(_request: Request) -> HTMLResponse:
+    """Setup instructions, rendered from docs/START.md — the handout and the
+    repo are the same file."""
+    return HTMLResponse(start_page.render())
 
 
 @server.custom_route("/static/{name}", methods=["GET"])

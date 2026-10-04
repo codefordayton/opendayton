@@ -13,6 +13,9 @@ A [Code for Dayton](https://codefordayton.org) project, built for Hacktoberfest 
 inspired by the City of Boston's [OpenContext](https://github.com/CityOfBoston/OpenContext).
 It's meant to be small enough to read in an afternoon and to spin up for your own city.
 
+New here? **[opendayton.org/start](https://opendayton.org/start)** is the two-minute
+version. Want to add something? **[CONTRIBUTING.md](CONTRIBUTING.md)**.
+
 ## Connect
 
 The public endpoint is `https://opendayton.org/mcp` (landing page at https://opendayton.org).
