@@ -502,6 +502,53 @@ layers:
       - What day is trash pickup at 123 Main St?
       - Which neighborhoods have Monday pickup?
 
+  - id: service_requests
+    title: City Service Requests (Dayton Delivers)
+    theme: infrastructure
+    publisher: City of Dayton
+    public_via: Dayton Delivers, the City's service request portal, app and call centre; housing complaints are also published on the City's Dayton Housing Tracker
+    source_page: https://daytondelivers.daytonohio.gov/about
+    url: https://maps.daytonohio.gov/gisservices/rest/services/PublicWorks/COD_ServiceRequests_Last90/MapServer/0
+    geometry: point
+    approx_records: 18900
+    time_field: ADDDTTM
+    # The City flags each record's public visibility itself; honour its call
+    # rather than inventing ours. 412 of ~19,300 are marked not public.
+    base_where: IsPublic = 'Y'
+    # Street addresses and coordinates are withheld — see caveats.
+    allow_location: false
+    description: >
+      Every service request residents filed through Dayton Delivers in the last
+      90 days: what was reported, which department owns it, the neighborhood,
+      when it was opened and closed, and how it was resolved. Waste collection
+      is around 60% of all requests, followed by housing inspection and street
+      maintenance. Because open and close timestamps are both here, this is the
+      one dataset that shows how long the City takes to do things.
+    fields:
+      CatName: Service area — Waste Collection, Housing Inspection, Street Maintenance, Sewer Maintenance, Water Distribution.
+      PROBDESC: What was reported, in the City's own words (REQUEST BULK PICK UP, GRASS COMPLAINTS, POTHOLE REPAIR, GRAFFITI, DEAD ANIMAL PICKUP, …). About 50 distinct types.
+      PROBCODE: Short code for the request type.
+      RESP: Department responsible (e.g. CITY - WASTE COLLECTION, CITY - HOUSING INSPECTION).
+      NEIGH_COM: Neighborhood, UPPER CASE. Matches the neighborhoods dataset.
+      ADDDTTM: When the request was opened.
+      RESDTTM: When it was closed. Null while still open.
+      DaysSince: Days since the request was opened.
+      RESCODE: How it ended (ITEMS PICKED UP, COMPLETED, TRANSFER TO CACE, ITEMS NOT OUT, …).
+      RESFLAG: Closed, or "Not Resolution Entered" for requests still open.
+    caveats:
+      - "A rolling 90-day window, not a history: the oldest request is always about 90 days old, so year-over-year comparisons are impossible. Check the ADDDTTM range before describing any trend."
+      - "To measure how long something took, use RESDTTM minus ADDDTTM, and exclude the roughly 900 requests where RESDTTM is null because they are still open. Including them as zero would make the City look faster than it is."
+      - "RESCODE = 'TRANSFER TO CACE' or 'TRANSFER TO ACCELA' means the request became a code enforcement case, not that the problem was fixed. Do not count those as resolved work."
+      - About 900 requests have NEIGH_COM of "No Data". Report that as "no neighborhood recorded", never as a place.
+      - "Street addresses and coordinates are not exposed. Waste requests carry the requester's own address, but housing inspection requests carry the address of a property somebody complained about, and a filtered list of those is a list of neighbours' grievances. Aggregate by neighborhood, or filter by proximity without returning locations."
+      - Resident and staff free-text comments are not exposed either; they routinely contain names and phone numbers.
+      - Served from the City's on-premise server, which is slower than the rest and occasionally errors. Retry once.
+    example_questions:
+      - How long does the City take to fill a pothole, and does it differ by neighborhood?
+      - What share of service requests are about waste collection?
+      - Which neighborhoods file the most housing inspection complaints?
+      - How many requests are still open, by department?
+
   - id: storm_drains
     title: Storm Drains (Adopt-A-Drain)
     theme: infrastructure

@@ -79,3 +79,28 @@ def test_condition_survey_does_not_expose_coordinates(catalog):
     """PARLOC is withheld so there is no address list of vacant structures;
     centroids filtered by vacancy would rebuild that list one step removed."""
     assert catalog.get("housing_condition_2025").allow_location is False
+
+
+@pytest.mark.parametrize(
+    "field, why",
+    [
+        ("ADDRESS", "housing complaints name a property someone reported; an address list is a grievance list"),
+        ("STSUB", "apartment/unit detail is part of the withheld address"),
+        ("COMMENTS", "resident and staff free text; carries names and phone numbers"),
+        ("LOC", "resident free text about the location"),
+        ("ADDBY", "City staff username"),
+        ("ModBy", "City staff username"),
+        ("TAKENBY", "City staff username"),
+        ("SERVNO", "sequential request number — enumerable"),
+        ("REFNO", "sequential request number — enumerable"),
+    ],
+)
+def test_service_requests_withholds_identifying_fields(catalog, field, why):
+    assert catalog.get("service_requests").canonical_field(field) is None, why
+
+
+def test_service_requests_honours_the_citys_own_public_flag(catalog):
+    """The City marks each record's visibility; we filter on its call, not ours."""
+    layer = catalog.get("service_requests")
+    assert layer.base_where == "IsPublic = 'Y'"
+    assert layer.allow_location is False

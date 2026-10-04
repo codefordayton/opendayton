@@ -117,6 +117,30 @@ questions:
     datasets: [county.cama_dwelling, county.cama_parcel, county.taxroll]
     tool_path: county_sql — join on parcel_id; condition_code IN ('PR','UN','VP'); sum living_units; filter Dayton via taxroll.city_township
 
+  - id: service_request_categories
+    question: What do people most often ask the City to fix?
+    datasets: [service_requests]
+    tool_path: describe_dataset → arcgis_stats(group_by=CatName or PROBDESC)
+    checks:
+      - Waste collection should dominate (~60% of all requests).
+      - Says the window is a rolling 90 days, not a full year.
+
+  - id: service_request_response
+    question: How long does the City take to fill a pothole, and does it vary by neighborhood?
+    datasets: [service_requests]
+    tool_path: arcgis_query / arcgis_stats over ADDDTTM and RESDTTM where PROBDESC = 'POTHOLE REPAIR'
+    checks:
+      - Excludes still-open requests (RESDTTM null) rather than counting them as instant.
+      - Does not report the "No Data" neighborhood bucket as a place.
+
+  - id: onprem_count_stat
+    question: What kinds of capital projects are currently active?
+    datasets: [cip_active]
+    tool_path: arcgis_stats(cip_active, group_by=PROJTYPE)
+    checks:
+      - "Regression guard: counts grouped on the City's on-premise server, where the
+        statistic alias `count` is a reserved word and returns a bare HTTP 400."
+
   - id: survey
     question: What kinds of data can you tell me about?
     datasets: []

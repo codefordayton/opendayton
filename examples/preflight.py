@@ -41,6 +41,8 @@ BEATS: list[tuple[str, str, dict]] = [
     ("condition change",   "arcgis_stats",  {"dataset_id": "housing_condition_2025",
                                              "where": "HCS_DIFF > 0 AND GRADE > 0 AND GRADE_2023 > 0"}),
     ("geocode address",    "geocode",       {"address": "275 Linden Ave"}),
+    ("service requests",   "arcgis_stats",  {"dataset_id": "service_requests", "group_by": ["CatName"]}),
+    ("on-prem count stat",  "arcgis_stats",  {"dataset_id": "cip_active", "group_by": ["PROJTYPE"]}),
     ("trash day (on-prem)", "arcgis_query", {"dataset_id": "trash_pickup", "near_latitude": 39.75917,
                                              "near_longitude": -84.16023, "near_meters": 5,
                                              "out_fields": ["NHBHD_NAME", "Day"]}),

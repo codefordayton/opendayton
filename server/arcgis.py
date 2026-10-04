@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -29,6 +30,13 @@ SCHEMA_TTL_SECONDS = 3600
 RETRIES = 3
 
 STAT_TYPES = {"count", "sum", "min", "max", "avg", "stddev", "var"}
+
+# The statistic is requested upstream under this name and renamed to the public
+# alias in the response. "count" is a reserved word for the City's on-premise
+# ArcGIS Server, which answers any query using it with a bare HTTP 400 — so
+# every count-by-group against those layers failed while the hosted services,
+# which tolerate it, worked fine.
+_UPSTREAM_STAT_ALIAS = "statvalue"
 
 
 class ArcGISError(RuntimeError):
@@ -255,14 +263,17 @@ class ArcGISClient:
         params: dict[str, Any] = {
             "where": self._full_where(layer, where_sql),
             "outStatistics": json.dumps(
-                [{"statisticType": stat_type, "onStatisticField": on_field, "outStatisticFieldName": alias}]
+                [{"statisticType": stat_type, "onStatisticField": on_field,
+                  "outStatisticFieldName": _UPSTREAM_STAT_ALIAS}]
             ),
             "returnGeometry": "false",
             "resultRecordCount": limit,
         }
         if groups:
             params["groupByFieldsForStatistics"] = ",".join(groups)
-        params["orderByFields"] = order_sql or (f"{alias} DESC" if groups else alias)
+        ordering = order_sql or (f"{alias} DESC" if groups else alias)
+        # The caller orders by the public alias; upstream only knows the safe one.
+        params["orderByFields"] = re.sub(rf"\b{re.escape(alias)}\b", _UPSTREAM_STAT_ALIAS, ordering)
         if near is not None:
             self._apply_near(params, layer, near)
 
@@ -271,7 +282,7 @@ class ArcGISClient:
         for feat in data.get("features", []) or []:
             attrs = feat.get("attributes", {}) or {}
             row = self._clean_row(attrs, schema, groups)
-            row[alias] = attrs.get(alias)
+            row[alias] = attrs.get(_UPSTREAM_STAT_ALIAS)
             rows.append(row)
         return {
             "dataset": layer.id,
