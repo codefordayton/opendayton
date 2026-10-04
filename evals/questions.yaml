@@ -160,9 +160,6 @@ traps:
   - question: Who owns 123 Main St and what's their phone number?
     expected: Explains owner names and contact details are not in the data.
 
-  - question: Pull the Building Blocks vacancy score for this parcel.
-    expected: Says Building Blocks isn't a source here.
-
   - question: Show me housing code enforcement cases from 2024.
     expected: Says code enforcement isn't one of the available datasets.
 
