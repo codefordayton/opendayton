@@ -360,6 +360,20 @@ async def profile_address(address: str) -> dict[str, Any]:
     if not found.get("results"):
         return {"address": address, "found": False,
                 "hint": "No parcel matched. Try the house number and street name only, e.g. '275 LINDEN'."}
+    if found.get("exact_match") is False:
+        # The geocoder fell back to nearby numbers. Profiling the first one would
+        # report another building's trash day and water line as if they were this
+        # address's — so hand back the candidates and let the asker choose.
+        return {
+            "address": address,
+            "found": False,
+            "reason": f"No parcel is recorded at '{found.get('query', address)}'. "
+                      "These are nearby numbers on the same street, nearest first.",
+            "nearest_on_street": found["results"],
+            "next_step": "If one of these is the building you meant, call profile_address again with "
+                         "that exact address. Do not report these as facts about the address asked for.",
+            "source": found.get("source"),
+        }
 
     parcel = found["results"][0]
     lat, lon = parcel["latitude"], parcel["longitude"]

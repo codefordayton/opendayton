@@ -42,3 +42,21 @@ async def test_unconfigured_client_reports_unavailable():
 )
 def test_numbered_streets_translate_to_the_county_spelling(typed, expected):
     assert normalize_address(typed) == expected
+
+
+async def test_profile_address_refuses_to_profile_a_near_miss(monkeypatch):
+    """A fallback match is a different building. Profiling it would report that
+    building's trash day and water line as if they belonged to the address asked
+    for, which is worse than returning nothing."""
+    from server import main
+
+    async def fake_geocode(**kwargs):
+        return {"query": "35 W FOURTH ST", "exact_match": False, "count": 2,
+                "results": [{"parcel_id": "R72 00504 0009", "address": "40 W FOURTH ST"},
+                            {"parcel_id": "R72 51467 0003", "address": "28 W FOURTH ST"}]}
+
+    monkeypatch.setattr(main.geocoder, "geocode", fake_geocode)
+    out = await main.profile_address("35 W 4th St")
+    assert out["found"] is False
+    assert "about" not in out, "must not profile a building that was not asked about"
+    assert [r["address"] for r in out["nearest_on_street"]] == ["40 W FOURTH ST", "28 W FOURTH ST"]
