@@ -163,6 +163,40 @@ Partial answers beat no answer.
 3. **Dataset ids, not URLs.** A tool that takes a URL can be pointed anywhere, and the curated boundary stops meaning anything.
 4. **Errors are instructions.** When a model gets something wrong, the message should say what *would* work. `"'ADDRESS' is not a field. Allowed: PARCELID, NEIGHBORHOOD, …"` gets it back on track; `"invalid field"` does not.
 5. **Attribute.** Return the publisher and as-of date with the data.
+6. **Know who the result is for.** A tool result goes to the *model* first. If
+   what you are returning is really for the *human*, a tool is usually the wrong
+   shape — see below.
+
+### A worked example of saying no: "can it draw a map?"
+
+Worth reading before you build anything, because this question kills more tool
+ideas than any other.
+
+MCP tool results can carry images — `ImageContent`, base64 plus a mime type — so
+a `render_map` tool that returns a PNG is genuinely possible. We decided against
+one. Three reasons, in order of how much they mattered:
+
+- **The model cannot use it.** A tool result is fed to the model, which then
+  reasons over it. A picture of thirty points is far worse for that than thirty
+  rows of coordinates, and costs thousands of tokens to carry.
+- **It breaks in most clients.** Claude can display an image from a tool result.
+  A terminal client cannot, and neither can
+  [`examples/local_model.py`](examples/local_model.py), which reads the text of
+  the first content block. A tool that only works in one client is not a tool,
+  it is a feature of that client.
+- **We already have it.** `arcgis_query` takes `include_location: true` and
+  returns latitude and longitude. An assistant can take those and draw the map
+  itself. The data is our job; the picture is the client's.
+
+**The version that would be fine** is a tool that returns a *link* rather than
+an image — `map_url(dataset_id, where)` handing back a URL to a pre-configured
+web map. It is plain text, so it works in every client including a local model,
+it costs nothing to carry, and the human gets something to click.
+
+So the rule is not "no maps". It is: **work out whether the model or the person
+is the consumer, and give each of them the shape they can actually use.**
+Most "wouldn't it be cool if the tool did X" ideas resolve themselves once you
+ask that, and the ones that survive are usually worth building.
 
 ---
 

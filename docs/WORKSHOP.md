@@ -117,6 +117,12 @@ uv run python scripts/probe_layer.py <layer-url> --id my_dataset
 Circulate. The question to keep asking is **"what did you leave out, and why?"**
 That's the whole lesson; the YAML is just where it gets written down.
 
+For Track B the equivalent question is **"who is this result for, the model or
+the person?"** If someone proposes a tool that draws a map, renders a chart or
+produces a report, that's the conversation to have — CONTRIBUTING.md has it
+worked through as a short "why we said no to a map tool" section. It is the
+question that settles most tool ideas, in either direction.
+
 ### What goes wrong here
 
 | Problem | Fix |
