@@ -45,7 +45,11 @@ County, and regional agencies, plus a SQL database of the Montgomery County
 tax roll, sales, delinquency, and assessment (CAMA) records.
 
 How to work:
-1. Call list_datasets to see what exists (optionally filtered by theme).
+1. Call list_datasets to see what exists (optionally filtered by theme). Call
+   it again rather than relying on a list from earlier in the conversation:
+   the catalog grows, and a remembered list goes stale. Never tell someone a
+   subject is not covered without checking list_datasets in this turn — if it
+   is not there, say which datasets you did see.
 2. Call describe_dataset before querying a dataset for the first time. It
    returns the field allowlist, coded values, caveats, and example questions.
    Queries can only use fields that appear there.

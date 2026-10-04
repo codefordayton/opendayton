@@ -61,6 +61,7 @@ Walk the room. Expect these:
 
 | Problem | Fix |
 |---|---|
+| "It says it doesn't have that data" | Their chat cached the old catalog. **A new chat fixes it.** Same applies to you after adding a dataset live — the room needs a fresh chat to see it. |
 | No Claude account | Pair them with a neighbor. Don't let anyone sit out. |
 | Connector added but no tools | They forgot to switch it on in the chat: **+** → Connectors. |
 | "It said it can't" | Usually a guardrail working. Ask what they typed — it's good material. |
