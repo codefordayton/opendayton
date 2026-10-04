@@ -128,10 +128,16 @@ questions:
   - id: service_request_response
     question: How long does the City take to fill a pothole, and does it vary by neighborhood?
     datasets: [service_requests]
-    tool_path: arcgis_query / arcgis_stats over ADDDTTM and RESDTTM where PROBDESC = 'POTHOLE REPAIR'
+    tool_path: arcgis_query over ADDDTTM and RESDTTM where PROBDESC = 'POTHOLE REPAIR', computed per record
     checks:
-      - Excludes still-open requests (RESDTTM null) rather than counting them as instant.
+      - "Expect a median of about 1 day and a mean of about 1.4 — roughly 69% within a
+        day, 92% within three, longest 20. An answer in the tens of days means it
+        averaged a field instead of computing the difference."
+      - Compares calendar dates, not timestamps — RESDTTM is recorded at midnight, so
+        subtracting timestamps makes the 73 same-day closes negative.
+      - Excludes the 10 still-open requests and the 2 that close before they open.
       - Does not report the "No Data" neighborhood bucket as a place.
+      - Says most neighborhoods have too few reports to compare, rather than ranking noise.
 
   - id: onprem_count_stat
     question: What kinds of capital projects are currently active?

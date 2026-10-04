@@ -532,12 +532,13 @@ layers:
       NEIGH_COM: Neighborhood, UPPER CASE. Matches the neighborhoods dataset.
       ADDDTTM: When the request was opened.
       RESDTTM: When it was closed. Null while still open.
-      DaysSince: Days since the request was opened.
       RESCODE: How it ended (ITEMS PICKED UP, COMPLETED, TRANSFER TO CACE, ITEMS NOT OUT, …).
       RESFLAG: Closed, or "Not Resolution Entered" for requests still open.
     caveats:
       - "A rolling 90-day window, not a history: the oldest request is always about 90 days old, so year-over-year comparisons are impossible. Check the ADDDTTM range before describing any trend."
-      - "To measure how long something took, use RESDTTM minus ADDDTTM, and exclude the roughly 900 requests where RESDTTM is null because they are still open. Including them as zero would make the City look faster than it is."
+      - "There is no elapsed-time field, and no statistic will give you one. To measure how long something took you must compute RESDTTM minus ADDDTTM yourself, per record."
+      - "RESDTTM carries a date but no time of day — every close is recorded at midnight, while ADDDTTM has a real timestamp. So compare CALENDAR DATES, not timestamps: subtracting timestamps turns every same-day close into a negative duration. On pothole requests that is 73 of 240 closed records, which is enough to invert the answer."
+      - "Exclude requests where RESDTTM is null — they are still open, and counting them as zero would make the City look faster than it is. A handful genuinely record a close date before their open date; drop those too. On pothole requests that is 10 still open and 2 reversed."
       - "RESCODE = 'TRANSFER TO CACE' or 'TRANSFER TO ACCELA' means the request became a code enforcement case, not that the problem was fixed. Do not count those as resolved work."
       - About 900 requests have NEIGH_COM of "No Data". Report that as "no neighborhood recorded", never as a place.
       - "Street addresses and coordinates are not exposed. Waste requests carry the requester's own address, but housing inspection requests carry the address of a property somebody complained about, and a filtered list of those is a list of neighbours' grievances. Aggregate by neighborhood, or filter by proximity without returning locations."

@@ -104,3 +104,11 @@ def test_service_requests_honours_the_citys_own_public_flag(catalog):
     layer = catalog.get("service_requests")
     assert layer.base_where == "IsPublic = 'Y'"
     assert layer.allow_location is False
+
+
+def test_service_requests_hides_the_record_age_field(catalog):
+    """DaysSince is the record's age in the rolling 90-day window, not how long
+    anything took. An 8B model averaged it and reported that the City takes 55
+    days to fill a pothole; the real median is 1 day. A field whose name invites
+    that reading, and which adds nothing ADDDTTM cannot give you, stays out."""
+    assert catalog.get("service_requests").canonical_field("DaysSince") is None
