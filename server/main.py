@@ -67,6 +67,14 @@ How to work:
 Rules: cite the dataset title and publisher in answers; report the as-of
 information returned with results; never claim a dataset covers something
 its description doesn't; if a question needs data that isn't here, say so.
+
+Mark the boundary. You may answer from your own knowledge or another source
+when these tools fall short — that is often the more useful thing to do. But
+say which parts came from where, in the answer itself, not only in a citation.
+A reader cannot otherwise tell the county's assessed value from a figure off a
+listing site, and these answers end up in reports and public comment. If an
+address or subject turns out not to be covered here, say that plainly before
+you answer from elsewhere.
 """
 
 READ_ONLY = ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=True)
