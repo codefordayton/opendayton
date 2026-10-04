@@ -336,6 +336,74 @@ async def geocode(address: str | None = None, parcel_id: str | None = None, limi
         return _err("geocode_error", str(e))
 
 
+@server.tool(annotations=READ_ONLY)
+async def profile_address(address: str) -> dict[str, Any]:
+    """Everything the curated datasets know about one address, in a single call.
+
+    Geocodes the address, then gathers the things a resident actually asks
+    about it: trash pickup day, water service line material, the exterior
+    condition grade from the housing survey, and the county's record of the
+    parcel. Each lookup is independent — one failing does not lose the others.
+
+    Use this for "tell me about 275 Linden Ave". For a single specific
+    question, the individual tools are cheaper.
+    """
+    try:
+        found = await geocoder.geocode(address=address, limit=1)
+    except GeocodeError as e:
+        return _err("geocode_error", str(e))
+    if not found.get("results"):
+        return {"address": address, "found": False,
+                "hint": "No parcel matched. Try the house number and street name only, e.g. '275 LINDEN'."}
+
+    parcel = found["results"][0]
+    lat, lon = parcel["latitude"], parcel["longitude"]
+    out: dict[str, Any] = {"address": address, "found": True, "parcel": parcel, "about": {}, "unavailable": []}
+
+    async def section(name: str, coro):
+        """Record what each lookup found, or why it did not, without failing the rest."""
+        try:
+            result = await coro
+        except (ArcGISError, WhereError, CountySQLError, CatalogError) as e:
+            out["unavailable"].append({"section": name, "reason": str(e)[:160]})
+            return
+        rows = result.get("rows") or []
+        if rows:
+            out["about"][name] = rows[0] if len(rows) == 1 else rows
+        else:
+            out["unavailable"].append({"section": name, "reason": "no record for this parcel"})
+
+    await section("trash_pickup", arcgis.query(
+        catalog.get("trash_pickup"), out_fields=["Day", "NHBHD_NAME", "Cal_Link"],
+        near=(lat, lon, 5), limit=1))
+    await section("water_service_line", arcgis.query(
+        catalog.get("lead_service_lines"),
+        where=f"address = '{_sql_literal(parcel['address'])}'",
+        out_fields=["address", "bothsidesstatus", "utilstatus", "custstatus", "replacestatus"], limit=1))
+    await section("housing_condition", arcgis.query(
+        catalog.get("housing_condition_2025"),
+        where=f"PARCELID = '{_sql_literal(parcel['parcel_id'])}'",
+        out_fields=["PARCELID", "NEIGHBORHOOD", "GRADE_DESC", "STATUS_DESC", "GRADE_2023"], limit=1))
+    if county.available:
+        await section("county_parcel", _county_parcel(parcel["parcel_id"]))
+
+    out["note"] = ("Each section cites a different publisher — see describe_dataset or "
+                   "county_schema for the dataset behind each one.")
+    return out
+
+
+def _sql_literal(value: str) -> str:
+    """Escape a value for a quoted SQL/where literal."""
+    return str(value).replace("'", "''")
+
+
+async def _county_parcel(parcel_id: str) -> dict[str, Any]:
+    return county.query(
+        "SELECT parcel_location, class, year_built, appraised_total, owner_occupied, "
+        "rental_registered, net_delinquent, census_tract FROM taxroll "
+        f"WHERE parcel_id = '{_sql_literal(parcel_id)}'", limit=1)
+
+
 def _source(layer) -> dict[str, Any]:
     return {
         "dataset": layer.title,
