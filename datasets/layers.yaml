@@ -576,6 +576,40 @@ layers:
       - How many storm drains have been adopted?
       - Are there unadopted storm drains near 100 Salem Ave?
 
+  - id: litter_containers
+    title: Litter Containers
+    theme: infrastructure
+    publisher: City of Dayton Division of Waste Collection
+    public_via: City of Dayton Division of Waste Collection via ArcGIS
+    source_page: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/Litter_container/FeatureServer/0 # Placeholder cannot validate public source of dataset
+    url: https://services2.arcgis.com/3dDB2Kk6kuA2gIGw/arcgis/rest/services/Litter_container/FeatureServer/0
+    geometry: point
+    approx_records: 424
+    description: >
+      Locations and condition assessment of public litter bins in Dayton.
+      Each record has a street address and a completion status; inspection
+      fields (overall condition, rust, door, topper, painting) are populated
+      for roughly half the bins. The data is useful for advocacy and complaint-filing.
+    fields:
+      Address: Street address of the litter bin.
+      Condition: Overall condition assessment. Values Good, Fair, or Poor. Null = condition not recorded.
+      Rust: Rust condition assessment. Values include Yes or No. Null = not recorded.
+      Door: Door condition assessment. Values include Good or Bad. Null = not recorded.
+      Topper: Topper (lid) condition assessment. Values include Good or Bad. Null = not recorded.
+      Needs_Painting: Whether the bin needs painting. Values include Yes or No. Null = not recorded.
+      Completed: Whether litter bin inspection has been inspected and completed. Values include Yes or No.
+    caveats:
+      - This dataset is accessible via ArcGIS but does not appear on the Dayton Transparency Portal.
+      - Some fields have null values where the condition was not recorded. To report transparently, first get the total count, then get the group-by breakdown, and report the difference as "not recorded".
+      - There's no neighborhood field in the litter_containers layer, so location-based questions that require neighborhood filtering aren't directly answerable.
+      - There are no inspection dates, so you can't track whether conditions are improving or getting worse.
+    example_questions:
+      - How many litter bins are in Good, Fair, or Poor condition? 
+      - How many bins need painting? 
+      - How many bins have rust?
+      - How many bins have been inspected, and how many need painting?
+      - Which streets have the most litter bins?
+
   # ── Capital investment ───────────────────────────────────────────────────
 
   - id: cip_active
